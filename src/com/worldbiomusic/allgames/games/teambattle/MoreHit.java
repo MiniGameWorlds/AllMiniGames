@@ -1,4 +1,4 @@
-package com.worldbiomusic.allgames.games;
+package com.worldbiomusic.allgames.games.teambattle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.allgames.games.solobattle.PVP;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 

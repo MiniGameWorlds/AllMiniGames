@@ -1,4 +1,4 @@
-package com.worldbiomusic.allgames.games;
+package com.worldbiomusic.allgames.games.solobattle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class PVP extends SoloBattleMiniGame {
 
 				// if death
 				if (p.getHealth() <= e.getDamage()) {
-					
+
 					// check killer is playing the same minigame
 					if (e.getDamager() instanceof Player || this.containsPlayer((Player) e.getDamager())) {
 						// killer +1 score

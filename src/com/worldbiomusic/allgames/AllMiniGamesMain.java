@@ -2,18 +2,18 @@ package com.worldbiomusic.allgames;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.worldbiomusic.allgames.games.BreedMob;
-import com.worldbiomusic.allgames.games.FallingBlock;
-import com.worldbiomusic.allgames.games.FitTool;
-import com.worldbiomusic.allgames.games.HiddenArcher;
-import com.worldbiomusic.allgames.games.MoreHit;
-import com.worldbiomusic.allgames.games.PVP;
-import com.worldbiomusic.allgames.games.PassMob;
-import com.worldbiomusic.allgames.games.RandomScore;
-import com.worldbiomusic.allgames.games.RemoveBlock;
-import com.worldbiomusic.allgames.games.RockScissorPaper;
-import com.worldbiomusic.allgames.games.ScoreClimbing;
-import com.worldbiomusic.allgames.games.SuperMob;
+import com.worldbiomusic.allgames.games.solo.FitTool;
+import com.worldbiomusic.allgames.games.solobattle.FallingBlock;
+import com.worldbiomusic.allgames.games.solobattle.PVP;
+import com.worldbiomusic.allgames.games.solobattle.RandomScore;
+import com.worldbiomusic.allgames.games.solobattle.RockScissorPaper;
+import com.worldbiomusic.allgames.games.solobattle.ScoreClimbing;
+import com.worldbiomusic.allgames.games.solobattle.SuperMob;
+import com.worldbiomusic.allgames.games.team.BreedMob;
+import com.worldbiomusic.allgames.games.team.RemoveBlock;
+import com.worldbiomusic.allgames.games.teambattle.HiddenArcher;
+import com.worldbiomusic.allgames.games.teambattle.MoreHit;
+import com.worldbiomusic.allgames.games.teambattle.PassMob;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 
 public class AllMiniGamesMain extends JavaPlugin {

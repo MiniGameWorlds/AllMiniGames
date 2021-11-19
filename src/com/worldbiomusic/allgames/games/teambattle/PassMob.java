@@ -1,4 +1,4 @@
-package com.worldbiomusic.allgames.games;
+package com.worldbiomusic.allgames.games.teambattle;
 
 import java.util.ArrayList;
 import java.util.List;

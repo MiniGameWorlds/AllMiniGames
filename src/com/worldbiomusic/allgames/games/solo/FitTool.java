@@ -1,4 +1,4 @@
-package com.worldbiomusic.allgames.games;
+package com.worldbiomusic.allgames.games.solo;
 
 import java.util.ArrayList;
 import java.util.List;
