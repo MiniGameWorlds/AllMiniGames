@@ -23,18 +23,18 @@ public class AllMiniGamesMain extends JavaPlugin {
 		
 		// register minigame
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
-		mw.registerMiniGame(new FitTool());
-		mw.registerMiniGame(new RandomScore());
-		mw.registerMiniGame(new MoreHit());
-		mw.registerMiniGame(new ScoreClimbing());
-		mw.registerMiniGame(new RockScissorPaper());
-		mw.registerMiniGame(new PVP());
-		mw.registerMiniGame(new RemoveBlock());
-		mw.registerMiniGame(new HiddenArcher());
-		mw.registerMiniGame(new BreedMob());
-		mw.registerMiniGame(new SuperMob());
-		mw.registerMiniGame(new PassMob());
-		mw.registerMiniGame(new FallingBlock());
+//		mw.registerMiniGame(new FitTool());
+//		mw.registerMiniGame(new RandomScore());
+//		mw.registerMiniGame(new MoreHit());
+//		mw.registerMiniGame(new ScoreClimbing());
+//		mw.registerMiniGame(new RockScissorPaper());
+//		mw.registerMiniGame(new PVP());
+//		mw.registerMiniGame(new RemoveBlock());
+//		mw.registerMiniGame(new HiddenArcher());
+//		mw.registerMiniGame(new BreedMob());
+//		mw.registerMiniGame(new SuperMob());
+//		mw.registerMiniGame(new PassMob());
+//		mw.registerMiniGame(new FallingBlock());
 	}
 
 	@Override

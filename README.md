@@ -1,7 +1,8 @@
 # Rules
-- Manage all minigames of [MiniGameWorld](https://github.com/MiniGameWorlds/MiniGameWorld) in this project
+- Manage worldbiomusic's all minigames of [MiniGameWorld](https://github.com/MiniGameWorlds/MiniGameWorld) in this project
 - `Version` will never be changed
-- All minigames version will maintain `LATEST`
+- All minigames api version will maintain `LATEST`
+- Minigames not released in [Discussion](https://github.com/MiniGameWorlds/MiniGameWorld/discussions/categories/minigames) are not stable
 
 ## Base plugin.yml format
 ```yaml
@@ -14,5 +15,5 @@ depend: [MiniGameWorld]
 ```
 
 ## When Release
-- Change `name`, `version` in `plugin.yml` for each
-- Register only specific minigames in `AllMiniGamesMain.java`(Main)
+- Change `name`, `version` in `plugin.yml` for each minigames
+- Register only released minigames in `AllMiniGamesMain.java`

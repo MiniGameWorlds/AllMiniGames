@@ -30,22 +30,6 @@ public class FitTool extends SoloMiniGame {
 	}
 
 	@Override
-	public void loadCustomData() {
-		this.blocks = new ArrayList<>();
-		// blocks
-		@SuppressWarnings("unchecked")
-		List<String> blocksStr = (List<String>) this.getCustomData().get("blocks");
-
-		for (String block : blocksStr) {
-			this.blocks.add(Material.valueOf(block));
-		}
-
-		// blocks location
-		this.pos1 = (Location) this.getCustomData().get("pos1");
-		this.pos2 = (Location) this.getCustomData().get("pos2");
-	}
-
-	@Override
 	protected void initGameSettings() {
 		// fill blocks
 		BlockTool.fillBlockWithRandomMaterial(this.pos1, this.pos2, this.blocks);
@@ -79,6 +63,22 @@ public class FitTool extends SoloMiniGame {
 	private Material getRandomBlock() {
 		int r = (int) (Math.random() * this.blocks.size());
 		return this.blocks.get(r);
+	}
+
+	@Override
+	public void loadCustomData() {
+		this.blocks = new ArrayList<>();
+		// blocks
+		@SuppressWarnings("unchecked")
+		List<String> blocksStr = (List<String>) this.getCustomData().get("blocks");
+
+		for (String block : blocksStr) {
+			this.blocks.add(Material.valueOf(block));
+		}
+
+		// blocks location
+		this.pos1 = (Location) this.getCustomData().get("pos1");
+		this.pos2 = (Location) this.getCustomData().get("pos2");
 	}
 
 	@Override

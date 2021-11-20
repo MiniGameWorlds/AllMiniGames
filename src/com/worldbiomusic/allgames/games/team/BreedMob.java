@@ -3,50 +3,58 @@ package com.worldbiomusic.allgames.games.team;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class BreedMob extends TeamMiniGame {
 
-	enum BreedingMob {
-		ZOMBIE, SPIDER, SKELETON;
-
-		public static Entity spawnRandomMob(Location loc) {
-			List<EntityType> mobList = mobList();
-			Collections.shuffle(mobList);
-			return loc.getWorld().spawnEntity(loc, mobList.get(0));
-		}
-
-		public static List<EntityType> mobList() {
-			List<EntityType> list = new ArrayList<>();
-			for (BreedingMob mob : BreedingMob.values()) {
-				list.add(EntityType.valueOf(mob.name()));
-			}
-			return list;
-		}
-	}
-
-	private List<Entity> mobs;
+	private List<Mob> mobs;
+	private List<EntityType> mobList;
 
 	public BreedMob() {
-		super("BreedMob", 1, 4, 60 * 3, 10);
+		super("BreedMob", 1, 4, 60 * 2, 10);
+		this.mobList = new ArrayList<>();
+
+		// settings
 		this.getSetting().setIcon(Material.ZOMBIE_SPAWN_EGG);
 
 		// need when mob die by other reason (e.g. falling, killed by other mob)
 		this.getSetting().setPassUndetectableEvent(true);
+
+		this.getCustomOption().set(Option.COLOR, "RED");
+		
+		// register task
+		registerMobRetargetingTask();
+	}
+
+	void registerMobRetargetingTask() {
+		this.getTaskManager().registerTask("retarget", new Runnable() {
+
+			@Override
+			public void run() {
+				getPlayers().forEach(p -> p.sendMessage("retargeted"));
+				BreedMob.this.mobs.forEach(m -> {
+					// if has no target, retarget a random player
+					if (m.getTarget() == null || !getPlayers().contains(m.getTarget())) {
+						m.setTarget(randomPlayer());
+					}
+				});
+			}
+		});
 	}
 
 	@Override
@@ -59,19 +67,20 @@ public class BreedMob extends TeamMiniGame {
 		if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;
 
-			LivingEntity entity = e.getEntity();
+			if (!(e.getEntity() instanceof Mob)) {
+				return;
+			}
+
+			Mob entity = (Mob) e.getEntity();
 
 			// check mob
 			if (this.mobs.contains(entity)) {
-				Location deathLoc = entity.getLocation();
-
-				// spawn random 2 mobs
-				this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
-				this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
-
-				// plus score
-				this.plusTeamScore(1);
+				layTwoMobs(entity.getLocation());
 			}
+
+			// clear drops
+			e.getDrops().clear();
+
 		} else if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent e = (EntityDamageEvent) event;
 			if (e.getEntity() instanceof Player) {
@@ -80,8 +89,7 @@ public class BreedMob extends TeamMiniGame {
 				// if death
 				if (p.getHealth() <= e.getDamage()) {
 					e.setCancelled(true);
-					// set live: false, gamemode: spectator
-					p.setGameMode(GameMode.SPECTATOR);
+					// set live: false
 					this.setLive(p, false);
 
 					if (!this.isMinPlayersLive()) {
@@ -90,7 +98,61 @@ public class BreedMob extends TeamMiniGame {
 
 				}
 			}
+		} else if (event instanceof EntityExplodeEvent) {
+			// prevent block breaking by explosion of creeper
+			EntityExplodeEvent e = (EntityExplodeEvent) event;
+
+			if (!this.mobs.contains(e.getEntity())) {
+				return;
+			}
+
+			// prevent breaking
+			e.blockList().clear();
+			
+			// lay
+			layTwoMobs(e.getEntity().getLocation());
 		}
+	}
+
+	private void layTwoMobs(Location loc) {
+		Location deathLoc = loc;
+
+		// spawn random 2 mobs
+		spawnRandomMob(deathLoc);
+		spawnRandomMob(deathLoc);
+
+		// plus score
+		this.plusTeamScore(1);
+	}
+
+	@Override
+	protected void registerCustomData() {
+		super.registerCustomData();
+
+		Map<String, Object> data = this.getCustomData();
+
+		// mob list
+		List<String> randomMobList = new ArrayList<>();
+		randomMobList.add(EntityType.ZOMBIE.name());
+		randomMobList.add(EntityType.SKELETON.name());
+		randomMobList.add(EntityType.SPIDER.name());
+
+		data.put("mobs", randomMobList);
+	}
+
+	@Override
+	public void loadCustomData() {
+		super.loadCustomData();
+
+		Map<String, Object> data = this.getCustomData();
+
+		// mob list
+		@SuppressWarnings("unchecked")
+		List<String> mobsList = (List<String>) data.get("mobs");
+		mobsList.forEach(m -> {
+			this.mobList.add(EntityType.valueOf(m));
+			System.out.println(m);
+		});
 	}
 
 	@Override
@@ -98,8 +160,10 @@ public class BreedMob extends TeamMiniGame {
 		super.runTaskAfterStart();
 
 		// spawn random mob
-		Entity entity = BreedingMob.spawnRandomMob(getLocation());
-		this.mobs.add(entity);
+		spawnRandomMob(getLocation());
+
+		// start task
+		this.getTaskManager().runTaskTimer("retarget", 0, 20 * 5);
 
 		// give kits to players
 		List<ItemStack> items = new ArrayList<>();
@@ -137,6 +201,20 @@ public class BreedMob extends TeamMiniGame {
 		tutorial.add("Death: spectator");
 		tutorial.add("Mobs will lay two mobs when die");
 		return tutorial;
+	}
+
+	public Mob spawnRandomMob(Location loc) {
+		List<EntityType> randomMobList = this.mobList;
+		Collections.shuffle(randomMobList);
+		Mob randomMob = (Mob) loc.getWorld().spawnEntity(loc, randomMobList.get(0));
+
+		// add to list
+		this.mobs.add(randomMob);
+
+		// set target with a random player
+		randomMob.setTarget(this.randomPlayer());
+
+		return randomMob;
 	}
 
 }
