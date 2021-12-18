@@ -5,18 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.projectiles.ProjectileSource;
 
 import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
@@ -26,15 +28,28 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	 * shoot hiding players with bow
 	 */
 
+	private int reloadCoolDown;
+
 	public HiddenArcher() {
-		super("HiddenArcher", 2, 60 * 3, 10);
+		super("HiddenArcher", 2, 60 * 3, 20);
 		this.getSetting().setIcon(Material.BOW);
 		this.setGroupChat(false);
+
+		getSetting().setPassUndetectableEvent(true);
+	}
+
+	@Override
+	protected void registerCustomData() {
+		super.registerCustomData();
+
+		getCustomData().put("reloadCoolDown", 3);
 	}
 
 	@Override
 	protected void initGameSettings() {
 		super.initGameSettings();
+
+		this.reloadCoolDown = (int) getCustomData().get("reloadCoolDown");
 	}
 
 	@Override
@@ -58,7 +73,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	@Override
 	protected List<String> registerTutorial() {
 		List<String> tutorial = new ArrayList<>();
-		tutorial.add("After game start, everyone will be hide from others with bow and arrows");
+		tutorial.add("After game starts, everyone will hide from others with snowballs");
 		tutorial.add("Hit by other: die");
 		return tutorial;
 	}
@@ -75,15 +90,15 @@ public class HiddenArcher extends TeamBattleMiniGame {
 				// check
 				Entity damager = e.getDamager();
 				Entity victimEntity = e.getEntity();
-				if (!(damager instanceof Arrow && victimEntity instanceof Player)) {
+				if (!(damager instanceof Snowball && victimEntity instanceof Player)) {
 					return;
 				}
 
 				Player victim = (Player) victimEntity;
-				Arrow arrow = (Arrow) damager;
+				Snowball snowball = (Snowball) damager;
 
-				if (arrow.getShooter() instanceof Player) {
-					Player shooter = ((Player) arrow.getShooter());
+				if (snowball.getShooter() instanceof Player) {
+					Player shooter = ((Player) snowball.getShooter());
 					if (!this.isSameTeam(victim, shooter)) {
 						damageEvent.setCancelled(false);
 
@@ -94,10 +109,21 @@ public class HiddenArcher extends TeamBattleMiniGame {
 					}
 				}
 			}
-		} else if (event instanceof EntityShootBowEvent) {
-			EntityShootBowEvent e = (EntityShootBowEvent) event;
-			Player p = (Player) e.getEntity();
-			p.getInventory().addItem(new ItemStack(Material.ARROW));
+		} else if (event instanceof ProjectileLaunchEvent) {
+			ProjectileLaunchEvent e = (ProjectileLaunchEvent) event;
+			Projectile proj = e.getEntity();
+			ProjectileSource shooter = proj.getShooter();
+
+			if (proj.getType() == EntityType.SNOWBALL && shooter instanceof Player) {
+				Player p = (Player) shooter;
+				if (!containsPlayer(p)) {
+					return;
+				}
+
+				p.getInventory().addItem(new ItemStack(Material.SNOWBALL));
+				p.setCooldown(Material.SNOWBALL, 20 * this.reloadCoolDown);
+			}
+
 		}
 	}
 
@@ -108,7 +134,6 @@ public class HiddenArcher extends TeamBattleMiniGame {
 
 		// victim
 		this.sendTitle(victim, ChatColor.RED + "DIE", "");
-		victim.setGameMode(GameMode.SPECTATOR);
 		this.setLive(victim, false);
 
 		if (!this.isMinPlayersLive()) {
@@ -127,8 +152,8 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		}
 
 		// give tools
-		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.BOW));
-		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.ARROW, 5));
+		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.SNOWBALL, 10));
+		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.GOLDEN_APPLE));
 
 	}
 
