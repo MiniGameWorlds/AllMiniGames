@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -26,7 +27,7 @@ public class BreedMob extends TeamMiniGame {
 	private List<EntityType> mobList;
 
 	public BreedMob() {
-		super("BreedMob", 1, 4, 60 * 2, 10);
+		super("BreedMob", 1, 4, 60 * 2, 20);
 		this.mobList = new ArrayList<>();
 
 		// settings
@@ -35,7 +36,7 @@ public class BreedMob extends TeamMiniGame {
 		// need when mob die by other reason (e.g. falling, killed by other mob)
 		this.getSetting().setPassUndetectableEvent(true);
 
-		this.getCustomOption().set(Option.COLOR, "RED");
+		this.getCustomOption().set(Option.COLOR, ChatColor.RED);
 		
 		// register task
 		registerMobRetargetingTask();
@@ -46,7 +47,6 @@ public class BreedMob extends TeamMiniGame {
 
 			@Override
 			public void run() {
-				getPlayers().forEach(p -> p.sendMessage("retargeted"));
 				BreedMob.this.mobs.forEach(m -> {
 					// if has no target, retarget a random player
 					if (m.getTarget() == null || !getPlayers().contains(m.getTarget())) {
@@ -76,10 +76,11 @@ public class BreedMob extends TeamMiniGame {
 			// check mob
 			if (this.mobs.contains(entity)) {
 				layTwoMobs(entity.getLocation());
+
+				// clear drops
+				e.getDrops().clear();
 			}
 
-			// clear drops
-			e.getDrops().clear();
 
 		} else if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent e = (EntityDamageEvent) event;
@@ -151,7 +152,6 @@ public class BreedMob extends TeamMiniGame {
 		List<String> mobsList = (List<String>) data.get("mobs");
 		mobsList.forEach(m -> {
 			this.mobList.add(EntityType.valueOf(m));
-			System.out.println(m);
 		});
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+
 
 public class PVP extends SoloBattleMiniGame {
 	/*
@@ -28,9 +30,11 @@ public class PVP extends SoloBattleMiniGame {
 	private List<ItemStack> items;
 
 	public PVP() {
-		super("PVP", 2, 5, 60 * 3, 30);
+		super("PVP", 2, 5, 60 * 2, 30);
 		this.getSetting().setIcon(Material.STONE_SWORD);
 		this.getCustomOption().set(Option.PVP, true);
+
+		this.getCustomOption().set(Option.COLOR, ChatColor.RED);
 	}
 
 	@Override

@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 public class PassMob extends TeamBattleMiniGame {
@@ -76,11 +75,10 @@ public class PassMob extends TeamBattleMiniGame {
 	private int mobSpawnDelay;
 
 	public PassMob() {
-		super("PassMob", 2, 60 * 3, 10);
+		super("PassMob", 2, 60 * 2, 20);
 
 		// settings
 		this.getSetting().setPassUndetectableEvent(true);
-		this.getSetting().setRankOrder(RankOrder.ASCENDING);
 		this.setGroupChat(true);
 		this.getSetting().setIcon(Material.OAK_FENCE);
 
@@ -117,7 +115,7 @@ public class PassMob extends TeamBattleMiniGame {
 		this.getCustomData().put("redLocation", new Location(this.getLocation().getWorld(), 0, 0, 0));
 		this.getCustomData().put("blueLocation", new Location(this.getLocation().getWorld(), 0, 0, 0));
 
-		this.getCustomData().put("mobSpawnDelay", 10);
+		this.getCustomData().put("mobSpawnDelay", 15);
 	}
 
 	@Override
@@ -232,8 +230,9 @@ public class PassMob extends TeamBattleMiniGame {
 		int redMobCount = this.redArea.getMobs().size();
 		int blueMobCount = this.blueArea.getMobs().size();
 
-		this.redArea.team.plusTeamScore(redMobCount);
-		this.blueArea.team.plusTeamScore(blueMobCount);
+		// small is winner
+		this.redArea.team.plusTeamScore(blueMobCount);
+		this.blueArea.team.plusTeamScore(redMobCount);
 	}
 
 	@Override

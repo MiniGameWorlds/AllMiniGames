@@ -14,6 +14,6 @@ api-version: 1.14
 depend: [MiniGameWorld]
 ```
 
-## When Release
+## When Release each minigames
 - Change `name`, `version` in `plugin.yml` for each minigames
 - Register only released minigames in `AllMiniGamesMain.java`

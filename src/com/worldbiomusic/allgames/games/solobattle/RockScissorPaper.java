@@ -53,7 +53,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 	}
 
 	public RockScissorPaper() {
-		super("RSP", 2, 2, 15, 15);
+		super("RSP", 2, 2, 30, 15);
 		this.selections = new HashMap<Player, RockScissorPaper.Selection>();
 		this.getSetting().setIcon(Material.SHEARS);
 	}

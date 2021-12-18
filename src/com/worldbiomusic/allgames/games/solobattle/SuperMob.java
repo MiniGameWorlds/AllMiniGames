@@ -3,7 +3,6 @@ package com.worldbiomusic.allgames.games.solobattle;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -30,7 +29,7 @@ public class SuperMob extends SoloBattleMiniGame {
 	double skillChance;
 
 	public SuperMob() {
-		super("SuperMob", 1, 5, 60 * 2, 10);
+		super("SuperMob", 2, 5, 60 * 2, 30);
 		this.entities = new ArrayList<>();
 
 		// settings
@@ -116,6 +115,7 @@ public class SuperMob extends SoloBattleMiniGame {
 			if (this.entities.contains(e.getEntity())) {
 				if (e.getEntity().getKiller() != null) {
 					this.plusScore(e.getEntity().getKiller(), 1);
+					e.getDrops().clear();
 				}
 			}
 		} else if (event instanceof EntityDamageEvent) {
@@ -128,7 +128,6 @@ public class SuperMob extends SoloBattleMiniGame {
 					// cancel damage
 					e.setDamage(0);
 
-					p.setGameMode(GameMode.SPECTATOR);
 					this.setLive(p, false);
 
 					if (!this.isMinPlayersLive()) {

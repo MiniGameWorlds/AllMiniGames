@@ -12,7 +12,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.wbm.plugin.util.PlayerTool;
-import com.worldbiomusic.allgames.games.solobattle.PVP;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
@@ -22,7 +21,7 @@ public class MoreHit extends TeamBattleMiniGame {
 	 */
 
 	public MoreHit() {
-		super("MoreHit", 2, 20, 10);
+		super("MoreHit", 2, 60, 20);
 		this.setGroupChat(true);
 		this.setTeamRegisterMode(TeamRegisterMode.NONE);
 		this.getSetting().setIcon(Material.STICK);

@@ -3,6 +3,7 @@ package com.worldbiomusic.allgames;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.worldbiomusic.allgames.games.solo.FitTool;
+import com.worldbiomusic.allgames.games.solobattle.Bridge;
 import com.worldbiomusic.allgames.games.solobattle.FallingBlock;
 import com.worldbiomusic.allgames.games.solobattle.PVP;
 import com.worldbiomusic.allgames.games.solobattle.RandomScore;
@@ -23,18 +24,19 @@ public class AllMiniGamesMain extends JavaPlugin {
 		
 		// register minigame
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
-//		mw.registerMiniGame(new FitTool());
-//		mw.registerMiniGame(new RandomScore());
-//		mw.registerMiniGame(new MoreHit());
-//		mw.registerMiniGame(new ScoreClimbing());
-//		mw.registerMiniGame(new RockScissorPaper());
-//		mw.registerMiniGame(new PVP());
-//		mw.registerMiniGame(new RemoveBlock());
-//		mw.registerMiniGame(new HiddenArcher());
-//		mw.registerMiniGame(new BreedMob());
-//		mw.registerMiniGame(new SuperMob());
-//		mw.registerMiniGame(new PassMob());
-//		mw.registerMiniGame(new FallingBlock());
+		mw.registerMiniGame(new FitTool());
+		mw.registerMiniGame(new RandomScore());
+		mw.registerMiniGame(new MoreHit());
+		mw.registerMiniGame(new ScoreClimbing());
+		mw.registerMiniGame(new RockScissorPaper());
+		mw.registerMiniGame(new PVP());
+		mw.registerMiniGame(new RemoveBlock());
+		mw.registerMiniGame(new HiddenArcher());
+		mw.registerMiniGame(new BreedMob());
+		mw.registerMiniGame(new SuperMob());
+		mw.registerMiniGame(new PassMob());
+		mw.registerMiniGame(new FallingBlock());
+		mw.registerMiniGame(new Bridge());
 	}
 
 	@Override

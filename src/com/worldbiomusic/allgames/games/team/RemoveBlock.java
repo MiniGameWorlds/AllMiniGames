@@ -25,7 +25,7 @@ public class RemoveBlock extends TeamMiniGame {
 	private List<Material> blocks;
 
 	public RemoveBlock() {
-		super("RemoveBlock", 1, 4, 60 * 3, 10);
+		super("RemoveBlock", 1, 4, 60 * 3, 20);
 		this.blocks = new ArrayList<>();
 		this.registerTasks();
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
@@ -59,6 +59,8 @@ public class RemoveBlock extends TeamMiniGame {
 		blocksData.add(Material.COBBLESTONE.name());
 		// shovel
 		blocksData.add(Material.DIRT.name());
+		// hoe
+		blocksData.add(Material.HAY_BLOCK.name());
 
 		data.put("blocks", blocksData);
 	}
@@ -117,6 +119,7 @@ public class RemoveBlock extends TeamMiniGame {
 		items.add(new ItemStack(Material.IRON_PICKAXE));
 		items.add(new ItemStack(Material.IRON_SHOVEL));
 		items.add(new ItemStack(Material.IRON_SWORD));
+		items.add(new ItemStack(Material.IRON_HOE));
 		InventoryTool.addItemsToPlayers(this.getPlayers(), items);
 
 		// add default score
