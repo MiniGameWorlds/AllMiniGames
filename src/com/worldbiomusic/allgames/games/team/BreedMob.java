@@ -37,7 +37,7 @@ public class BreedMob extends TeamMiniGame {
 		this.getSetting().setPassUndetectableEvent(true);
 
 		this.getCustomOption().set(Option.COLOR, ChatColor.RED);
-		
+
 		// register task
 		registerMobRetargetingTask();
 	}
@@ -81,7 +81,6 @@ public class BreedMob extends TeamMiniGame {
 				e.getDrops().clear();
 			}
 
-
 		} else if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent e = (EntityDamageEvent) event;
 			if (e.getEntity() instanceof Player) {
@@ -109,7 +108,7 @@ public class BreedMob extends TeamMiniGame {
 
 			// prevent breaking
 			e.blockList().clear();
-			
+
 			// lay
 			layTwoMobs(e.getEntity().getLocation());
 		}

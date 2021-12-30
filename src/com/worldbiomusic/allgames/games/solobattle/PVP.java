@@ -16,7 +16,6 @@ import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
-
 public class PVP extends SoloBattleMiniGame {
 	/*
 	 * pvp game

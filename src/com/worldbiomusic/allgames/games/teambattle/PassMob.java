@@ -152,6 +152,9 @@ public class PassMob extends TeamBattleMiniGame {
 			if (this.isPassMobEntity(entity)) {
 				Area area = this.getMobArea(entity);
 				area.passMobToOtherArea(entity, this.otherArea(area));
+				
+				// remove drops
+				e.getDrops().clear();
 			}
 		} else if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent e = (EntityDamageEvent) event;
