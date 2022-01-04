@@ -121,10 +121,6 @@ public class FallingBlock extends SoloBattleMiniGame {
 
 	private void processFallenPlayer(Player p) {
 		this.setLive(p, false);
-
-		if (!this.isMinPlayersLive()) {
-			this.finishGame();
-		}
 	}
 
 	@Override

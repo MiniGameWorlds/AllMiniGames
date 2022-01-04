@@ -129,10 +129,6 @@ public class SuperMob extends SoloBattleMiniGame {
 					e.setDamage(0);
 
 					this.setLive(p, false);
-
-					if (!this.isMinPlayersLive()) {
-						this.finishGame();
-					}
 				}
 			} else if (event instanceof EntityDamageByEntityEvent) {
 				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;

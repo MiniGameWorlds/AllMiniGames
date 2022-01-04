@@ -135,10 +135,6 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		// victim
 		this.sendTitle(victim, ChatColor.RED + "DIE", "");
 		this.setLive(victim, false);
-
-		if (!this.isMinPlayersLive()) {
-			this.finishGame();
-		}
 	}
 
 	@Override
@@ -152,7 +148,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		}
 
 		// give tools
-		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.SNOWBALL, 10));
+		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.SNOWBALL));
 		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.GOLDEN_APPLE));
 
 	}

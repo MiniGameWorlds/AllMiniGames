@@ -91,11 +91,6 @@ public class BreedMob extends TeamMiniGame {
 					e.setCancelled(true);
 					// set live: false
 					this.setLive(p, false);
-
-					if (!this.isMinPlayersLive()) {
-						this.finishGame();
-					}
-
 				}
 			}
 		} else if (event instanceof EntityExplodeEvent) {

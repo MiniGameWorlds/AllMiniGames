@@ -41,12 +41,8 @@ public class Bridge extends SoloBattleMiniGame {
 				getPlayers().forEach(p -> {
 					if (p.getLocation().getY() <= getLocation().subtract(0, 0.5, 0).getY()) {
 						sendTitle(p, "DIE", "");
-						setLive(p, false);
 						minusScore(p, 1);
-
-						if (!isMinPlayersLive()) {
-							finishGame();
-						}
+						setLive(p, false);
 					}
 				});
 			}
