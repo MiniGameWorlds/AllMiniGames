@@ -127,9 +127,6 @@ public class FallingBlock extends SoloBattleMiniGame {
 	protected void runTaskAfterStart() {
 		super.runTaskAfterStart();
 
-		Location pos1 = (Location) this.getCustomData().get("pos1");
-		Location pos2 = (Location) this.getCustomData().get("pos2");
-
 		// fill blocks
 		BlockTool.fillBlockWithMaterial(pos1, pos2, this.removingBlock);
 

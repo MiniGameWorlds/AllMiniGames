@@ -17,3 +17,4 @@ depend: [MiniGameWorld]
 ## When Release each minigames
 - Change `name`, `version` in `plugin.yml` for each minigames
 - Register only released minigames in `AllMiniGamesMain.java`
+- Update resource in `Spigot`, `Paper` forum and `MiniGameWorld discussion`

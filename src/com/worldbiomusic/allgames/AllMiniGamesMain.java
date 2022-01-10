@@ -3,15 +3,20 @@ package com.worldbiomusic.allgames;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.worldbiomusic.allgames.games.solo.FitTool;
+import com.worldbiomusic.allgames.games.solo.HitMob;
+import com.worldbiomusic.allgames.games.solo.Tiny;
 import com.worldbiomusic.allgames.games.solobattle.Bridge;
 import com.worldbiomusic.allgames.games.solobattle.FallingBlock;
 import com.worldbiomusic.allgames.games.solobattle.PVP;
 import com.worldbiomusic.allgames.games.solobattle.RandomScore;
 import com.worldbiomusic.allgames.games.solobattle.RockScissorPaper;
 import com.worldbiomusic.allgames.games.solobattle.ScoreClimbing;
+import com.worldbiomusic.allgames.games.solobattle.Spleef;
 import com.worldbiomusic.allgames.games.solobattle.SuperMob;
+import com.worldbiomusic.allgames.games.solobattle.mnk.MNK;
 import com.worldbiomusic.allgames.games.team.BreedMob;
 import com.worldbiomusic.allgames.games.team.RemoveBlock;
+import com.worldbiomusic.allgames.games.team.TeamTiny;
 import com.worldbiomusic.allgames.games.teambattle.HiddenArcher;
 import com.worldbiomusic.allgames.games.teambattle.MoreHit;
 import com.worldbiomusic.allgames.games.teambattle.PassMob;
@@ -21,7 +26,7 @@ public class AllMiniGamesMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		super.onEnable();
-		
+
 		// register minigame
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
 		mw.registerMiniGame(new FitTool());
@@ -37,6 +42,11 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new PassMob());
 		mw.registerMiniGame(new FallingBlock());
 		mw.registerMiniGame(new Bridge());
+		mw.registerMiniGame(new Spleef());
+		mw.registerMiniGame(new Tiny());
+		mw.registerMiniGame(new HitMob());
+		mw.registerMiniGame(new TeamTiny());
+		mw.registerMiniGame(new MNK());
 	}
 
 	@Override
