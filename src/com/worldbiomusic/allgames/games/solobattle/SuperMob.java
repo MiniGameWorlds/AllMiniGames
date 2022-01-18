@@ -33,14 +33,14 @@ public class SuperMob extends SoloBattleMiniGame {
 		this.entities = new ArrayList<>();
 
 		// settings
-		this.getSetting().setIcon(Material.ZOMBIE_HEAD);
-		this.getSetting().setPassUndetectableEvent(true);
+		getSetting().setIcon(Material.ZOMBIE_HEAD);
+		getSetting().addCustomDetectableEvent(EntityDeathEvent.class);
 
 		// options
-		this.getCustomOption().set(Option.INVENTORY_SAVE, true);
+		getCustomOption().set(Option.INVENTORY_SAVE, true);
 
 		// random targeting task
-		this.getTaskManager().registerTask("changeTarget", new Runnable() {
+		getTaskManager().registerTask("changeTarget", new Runnable() {
 
 			@Override
 			public void run() {
@@ -48,6 +48,7 @@ public class SuperMob extends SoloBattleMiniGame {
 				superMob.setTarget(getPlayers().get(r));
 			}
 		});
+
 	}
 
 	@Override
@@ -110,13 +111,23 @@ public class SuperMob extends SoloBattleMiniGame {
 
 	@Override
 	protected void processEvent(Event event) {
+		// custom detectable event
 		if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;
 			if (this.entities.contains(e.getEntity())) {
-				if (e.getEntity().getKiller() != null) {
-					this.plusScore(e.getEntity().getKiller(), 1);
-					e.getDrops().clear();
+				Entity killer = e.getEntity().getKiller();
+				if (killer == null) {
+					return;
 				}
+
+				Player killerPlayer = null;
+				if (!(killer instanceof Player)) {
+					return;
+				}
+
+				killerPlayer = (Player) killer;
+				this.plusScore(killerPlayer, 5);
+				e.getDrops().clear();
 			}
 		} else if (event instanceof EntityDamageEvent) {
 			if (((EntityDamageEvent) event).getEntity() instanceof Player) {

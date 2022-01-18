@@ -1,5 +1,5 @@
 # Rules
-- Manage worldbiomusic's all minigames of [MiniGameWorld](https://github.com/MiniGameWorlds/MiniGameWorld) in this project
+- Manage example minigames of [MiniGameWorld](https://github.com/MiniGameWorlds/MiniGameWorld) in this project
 - `Version` will never be changed
 - All minigames api version will maintain `LATEST`
 - Minigames not released in [Discussion](https://github.com/MiniGameWorlds/MiniGameWorld/discussions/categories/minigames) are not stable

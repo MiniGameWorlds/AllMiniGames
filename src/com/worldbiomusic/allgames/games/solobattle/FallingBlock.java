@@ -9,7 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.wbm.plugin.util.BlockTool;
@@ -83,6 +82,15 @@ public class FallingBlock extends SoloBattleMiniGame {
 				}
 			}
 		});
+
+		getTaskManager().registerTask("checkFallen", new Runnable() {
+
+			@Override
+			public void run() {
+				// only check live players
+				getLivePlayers().stream().filter(p -> hasFallen(p)).forEach(p -> processFallenPlayer(p));
+			}
+		});
 	}
 
 	private boolean hasFallen(Player p) {
@@ -132,6 +140,8 @@ public class FallingBlock extends SoloBattleMiniGame {
 
 		// start remove block task
 		this.getTaskManager().runTaskTimer("removeBelowBlock", 0, 2);
+
+		getTaskManager().runTaskTimer("checkFallen", 0, 5);
 	}
 
 	@Override
@@ -144,16 +154,6 @@ public class FallingBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
-		if (event instanceof PlayerMoveEvent) {
-			PlayerMoveEvent e = (PlayerMoveEvent) event;
-			Player p = e.getPlayer();
-
-			// check has fallen
-			if (hasFallen(p)) {
-				processFallenPlayer(p);
-			}
-		}
+	protected void processEvent(Event arg0) {
 	}
-
 }

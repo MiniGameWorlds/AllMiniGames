@@ -7,6 +7,7 @@ import com.worldbiomusic.allgames.games.solo.HitMob;
 import com.worldbiomusic.allgames.games.solo.Tiny;
 import com.worldbiomusic.allgames.games.solobattle.Bridge;
 import com.worldbiomusic.allgames.games.solobattle.FallingBlock;
+import com.worldbiomusic.allgames.games.solobattle.OnePunch;
 import com.worldbiomusic.allgames.games.solobattle.PVP;
 import com.worldbiomusic.allgames.games.solobattle.RandomScore;
 import com.worldbiomusic.allgames.games.solobattle.RockScissorPaper;
@@ -23,9 +24,18 @@ import com.worldbiomusic.allgames.games.teambattle.PassMob;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 
 public class AllMiniGamesMain extends JavaPlugin {
+
+	private static JavaPlugin instance;
+
+	public static JavaPlugin getInstance() {
+		return instance;
+	}
+
 	@Override
 	public void onEnable() {
 		super.onEnable();
+
+		instance = this;
 
 		// register minigame
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
@@ -47,6 +57,7 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new HitMob());
 		mw.registerMiniGame(new TeamTiny());
 		mw.registerMiniGame(new MNK());
+		mw.registerMiniGame(new OnePunch());
 	}
 
 	@Override

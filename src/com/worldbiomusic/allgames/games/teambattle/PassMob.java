@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
@@ -78,20 +79,16 @@ public class PassMob extends TeamBattleMiniGame {
 		super("PassMob", 2, 60 * 2, 20);
 
 		// settings
-		this.getSetting().setPassUndetectableEvent(true);
-		this.setGroupChat(true);
-		this.getSetting().setIcon(Material.OAK_FENCE);
+		getSetting().setIcon(Material.OAK_FENCE);
+		getSetting().addCustomDetectableEvent(EntityExplodeEvent.class);
 
 		// options
+		this.setGroupChat(true);
 		this.getCustomOption().set(Option.MINIGAME_RESPAWN, false);
 
 		// areas
 		this.redArea = new Area("red");
 		this.blueArea = new Area("blue");
-
-		// set area with team
-		this.redArea.setTeam(this.getTeam("red"));
-		this.blueArea.setTeam(this.getTeam("blue"));
 
 		// task
 		this.registerTask();
@@ -152,7 +149,7 @@ public class PassMob extends TeamBattleMiniGame {
 			if (this.isPassMobEntity(entity)) {
 				Area area = this.getMobArea(entity);
 				area.passMobToOtherArea(entity, this.otherArea(area));
-				
+
 				// remove drops
 				e.getDrops().clear();
 			}
@@ -190,6 +187,9 @@ public class PassMob extends TeamBattleMiniGame {
 	protected void initGameSettings() {
 		super.initGameSettings();
 
+		// set area with team
+		this.redArea.setTeam(this.getTeam("red"));
+		this.blueArea.setTeam(this.getTeam("blue"));
 	}
 
 	@Override

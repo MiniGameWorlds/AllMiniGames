@@ -34,7 +34,9 @@ public class BreedMob extends TeamMiniGame {
 		this.getSetting().setIcon(Material.ZOMBIE_SPAWN_EGG);
 
 		// need when mob die by other reason (e.g. falling, killed by other mob)
-		this.getSetting().setPassUndetectableEvent(true);
+		getSetting().addCustomDetectableEvent(EntityExplodeEvent.class);
+		getSetting().addCustomDetectableEvent(EntityDeathEvent.class);
+		
 
 		this.getCustomOption().set(Option.COLOR, ChatColor.RED);
 

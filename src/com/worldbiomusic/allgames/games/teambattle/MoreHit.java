@@ -50,7 +50,7 @@ public class MoreHit extends TeamBattleMiniGame {
 			this.sendMessage(e.getPlayer(), "respawn!");
 		}
 	}
-
+	
 	@Override
 	protected void createTeams() {
 		// create teams

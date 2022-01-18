@@ -34,8 +34,6 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		super("HiddenArcher", 2, 60 * 3, 20);
 		this.getSetting().setIcon(Material.BOW);
 		this.setGroupChat(false);
-
-		getSetting().setPassUndetectableEvent(true);
 	}
 
 	@Override
@@ -80,6 +78,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 
 	@Override
 	protected void processEvent(Event event) {
+		super.processEvent(event);
 		if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
 			damageEvent.setCancelled(true);
@@ -114,11 +113,8 @@ public class HiddenArcher extends TeamBattleMiniGame {
 			Projectile proj = e.getEntity();
 			ProjectileSource shooter = proj.getShooter();
 
-			if (proj.getType() == EntityType.SNOWBALL && shooter instanceof Player) {
+			if (proj.getType() == EntityType.SNOWBALL) {
 				Player p = (Player) shooter;
-				if (!containsPlayer(p)) {
-					return;
-				}
 
 				p.getInventory().addItem(new ItemStack(Material.SNOWBALL));
 				p.setCooldown(Material.SNOWBALL, 20 * this.reloadCoolDown);
