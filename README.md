@@ -1,20 +1,36 @@
-# Rules
-- Manage example minigames of [MiniGameWorld](https://github.com/MiniGameWorlds/MiniGameWorld) in this project
-- `Version` will never be changed
-- All minigames api version will maintain `LATEST`
-- Minigames not released in [Discussion](https://github.com/MiniGameWorlds/MiniGameWorld/discussions/categories/minigames) are not stable
+# AllMiniGames
+- Demo minigames of `MiniGameWorld`
 
-## Base plugin.yml format
-```yaml
-name: AllMiniGames
-main: com.worldbiomusic.allgames.AllMiniGamesMain
-version: 1.0
-author: worldbiomusic
-api-version: 1.14
-depend: [MiniGameWorld]
-```
+# Download
+- [Release](https://github.com/MiniGameWorlds/AllMiniGames/releases)
 
-## When Release each minigames
-- Change `name`, `version` in `plugin.yml` for each minigames
-- Register only released minigames in `AllMiniGamesMain.java`
-- Update resource in `Spigot`, `Paper` forum and `MiniGameWorld discussion`
+---
+
+# MiniGames Wiki
+## Solo
+- [FitTool](wiki/FitTool.md)
+- [HitMob](wiki/HitMob.md)
+- [Tiny](wiki/Tiny.md)
+
+## Solo Battle
+- [MKN](wiki/MKN.md)
+- [Bridge](wiki/Bridge.md)
+- [FallingBlock](wiki/FallingBlock.md)
+- [OnePunch](wiki/OnePunch.md)
+- [PVP](wiki/PVP.md)
+- [RandomScore](wiki/RandomScore.md)
+- [RockScissorPaper](wiki/RockScissorPaper.md)
+- [ScoreClimbing](wiki/ScoreClimbing.md)
+- [Spleef](wiki/Spleef.md)
+- [SuperMob](wiki/SuperMob.md)
+
+## Team
+- [BreedMob](wiki/BreedMob.md)
+- [RemoveBlock](wiki/RemoveBlock.md)
+- [TeamTiny](wiki/TeamTiny.md)
+
+
+## Team Battle
+- [HiddenArcher](wiki/HiddenArcher.md)
+- [MoreHit](wiki/MoreHit.md)
+- [PassMob](wiki/PassMob.md)
