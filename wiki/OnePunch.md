@@ -10,7 +10,7 @@
 - Hit by other player: die
 
 # Play Video
-- <video url>
+- [Youtube](https://www.youtube.com/watch?v=iKNFxQwEWAw)
 
 # Config
 ```yaml

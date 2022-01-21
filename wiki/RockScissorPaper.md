@@ -9,7 +9,7 @@
 - Enter chat: `R` or `S` or `P`
 
 # Play Video
-- <video url>
+- [Youtube](https://www.youtube.com/watch?v=-Gf2OqfEDps)
 
 # Config
 ```yaml

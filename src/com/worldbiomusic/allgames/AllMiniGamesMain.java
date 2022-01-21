@@ -2,6 +2,7 @@ package com.worldbiomusic.allgames;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.worldbiomusic.allgames.games.custom.Tutorial;
 import com.worldbiomusic.allgames.games.solo.FitTool;
 import com.worldbiomusic.allgames.games.solo.HitMob;
 import com.worldbiomusic.allgames.games.solo.Tiny;
@@ -58,6 +59,7 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new TeamTiny());
 		mw.registerMiniGame(new MNK());
 		mw.registerMiniGame(new OnePunch());
+		mw.registerMiniGame(new Tutorial());
 	}
 
 	@Override

@@ -2,7 +2,8 @@
 - Demo minigames of `MiniGameWorld`
 
 # Download
-- [Release](https://github.com/MiniGameWorlds/AllMiniGames/releases)
+- [Each minigames](download)
+- [All minigames package](https://github.com/MiniGameWorlds/AllMiniGames/releases)
 
 ---
 
@@ -11,6 +12,7 @@
 - [FitTool](wiki/FitTool.md)
 - [HitMob](wiki/HitMob.md)
 - [Tiny](wiki/Tiny.md)
+
 
 ## Solo Battle
 - [MKN](wiki/MKN.md)
@@ -24,6 +26,7 @@
 - [Spleef](wiki/Spleef.md)
 - [SuperMob](wiki/SuperMob.md)
 
+
 ## Team
 - [BreedMob](wiki/BreedMob.md)
 - [RemoveBlock](wiki/RemoveBlock.md)
@@ -34,3 +37,7 @@
 - [HiddenArcher](wiki/HiddenArcher.md)
 - [MoreHit](wiki/MoreHit.md)
 - [PassMob](wiki/PassMob.md)
+
+
+## Custom
+- [Tutorial](wiki/Tutorial.md)

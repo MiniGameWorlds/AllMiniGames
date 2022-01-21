@@ -1,26 +1,26 @@
-# RandomScore
-- Literally random score minigame
+# Tutorial
+- Tutorial minigame for your server
 - Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
-- Type: `SoloBattle`
+- Type: `Custom`
 - API Version: `LATEST`
 - Minecraft Version: `1.14+`
 
 # How to play
-- Sneak to get random score
+- Use for server tutorial
 
 # Play Video
-- [Youtube](https://www.youtube.com/watch?v=-MyotSzdGs8)
+- [Youtube](https://www.youtube.com/watch?v=Nstng0YEiBg)
 
 # Config
 ```yaml
-RandomScore:
-  title: RandomScore
-  min-player-count: 2
-  max-player-count: 4
-  waiting-time: 10
-  time-limit: 20
+Tutorial:
+  title: Tutorial
+  min-player-count: 9999
+  max-player-count: 9999
+  waiting-time: 9999
+  time-limit: 1
   active: true
-  icon: DISPENSER
+  icon: BOOK
   view: true
   location:
     ==: org.bukkit.Location
@@ -31,28 +31,25 @@ RandomScore:
     pitch: 0.0
     yaw: 0.0
   tutorial:
-  - 'Sneak: get random score'
+  - Look around the tutorials of minigame system
+  - '§lWiki: §nhttps://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/Home.md'
   custom-data:
     chatting: true
     score-notifying: true
     block-break: false
     block-place: false
     pvp: false
-    pve: true
+    pve: false
     inventory-save: true
     minigame-respawn: true
     live-gamemode: SURVIVAL
     dead-gamemode: SPECTATOR
     color: RESET
-    food-level-change: true
-    player-hurt: true
+    food-level-change: false
+    player-hurt: false
 ```
 
 
 # Warning
-<!-- 
-- <e.g. - Avoid building with Brick_Block>
-- <e.g. - Make sure PVP on>
-- <e.g. - Player can die while playing> 
--->
-- Nothing
+- Game will **NEVER** starts
+- No event will process in this minigame

@@ -8,7 +8,7 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
@@ -78,8 +78,8 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 
 	@Override
 	protected void processEvent(Event event) {
-		if (event instanceof AsyncPlayerChatEvent) {
-			AsyncPlayerChatEvent e = (AsyncPlayerChatEvent) event;
+		if (event instanceof PlayerChatEvent) {
+			PlayerChatEvent e = (PlayerChatEvent) event;
 			Player p = e.getPlayer();
 			int leftChance = this.chance.get(p);
 			if (leftChance > 0) {

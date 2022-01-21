@@ -10,7 +10,7 @@
 - `Sneak`: stop Game and check score
 
 # Play Video
-- <video url>
+- [Youtube](https://www.youtube.com/watch?v=vRAdgDn6u2Q)
 
 # Config
 ```yaml
