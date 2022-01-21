@@ -2,8 +2,8 @@
 - Demo minigames of `MiniGameWorld`
 
 # Download
-- [Each minigames](download)
-- [All minigames package](https://github.com/MiniGameWorlds/AllMiniGames/releases)
+- [Download](download)
+- If you want to donwload all minigames, download `AllMiniGames-x.x.jar` file in [Download](download)
 
 ---
 
