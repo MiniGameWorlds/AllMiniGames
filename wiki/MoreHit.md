@@ -1,9 +1,9 @@
 # MoreHit
 - Just hit!
 - Type: `TeamBattle`
-- Available Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
 - API Version: `LATEST`
-- Available Minecraft Versions: `1.14+`
+- Minecraft Versions: `1.14+`
 
 # How to play
 - Hit other team player to get score

@@ -1,13 +1,16 @@
 # FitTool
 - Break blocks with fit tools
-- Available Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
 - Type: `Solo`
-- Version: `LATEST`
-- Available Minecraft Versions: `1.14+`
+- API Version: `LATEST`
+- Minecraft Versions: `1.14+`
 
 # How to play
 - Break blocks with given tools
 - Get `1` score per block
+
+# Play Video
+- [Youtube](https://www.youtube.com/watch?v=EdUYjP8Mmfo)
 
 # Config
 ```yaml
@@ -60,9 +63,12 @@ FitTool:
     inventory-save: true
     minigame-respawn: true
 ```
+- `pos1`: Block board first position
+- `pos2`: Block board second position
 - `blocks`: random block list (upper case of block name)
-- Random blocks will be filled between `pos1` and `pos2`
+
 
 
 # Warning
 - Setup `custom-data.pos1` and `custom-data.pos2` before playing
+- Random blocks will be filled between `pos1` and `pos2`

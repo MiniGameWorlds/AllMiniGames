@@ -1,9 +1,9 @@
 # FallingBlock
 - Floor will sink
-- Available Bukkit: `Spigot` 
+- Bukkit: `Spigot` 
 - Type: `SoloBattle`
 - API Version: `LATEST`
-- Available Minecraft Versions: `1.14+`
+- Minecraft Versions: `1.14+`
 
 # How to play
 - If player steps on the floor, the block will sink

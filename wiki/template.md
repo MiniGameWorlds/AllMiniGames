@@ -5,17 +5,25 @@
 - API Version: `<version>`
 - Minecraft Version: `<version>`
 
+
+
 # How to play
 - <way to play>
 
+
+
 # Play Video
 - <video url>
+
+
 
 # Config
 ```yaml
 Config
 ```
 - <Config descriptions>
+
+
 
 # Warning
 <!-- 

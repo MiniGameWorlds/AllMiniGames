@@ -25,6 +25,8 @@
 - [ScoreClimbing](wiki/ScoreClimbing.md)
 - [Spleef](wiki/Spleef.md)
 - [SuperMob](wiki/SuperMob.md)
+- [TimingPVP](wiki/TimingPVP.md)
+- [Parkour](wiki/Parkour.md)
 
 
 ## Team

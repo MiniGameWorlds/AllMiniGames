@@ -1,9 +1,9 @@
 # BreedMob
 - Try to breed mobs!
-- Available Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
 - Type: `Team`
 - API Version: `LATEST`
-- Available Minecraft Versions: `1.14+`
+- Minecraft Versions: `1.14+`
 
 # How to play
 - Kill mobs to get scores, but mobs will breed twice when dying

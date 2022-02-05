@@ -16,6 +16,8 @@ import com.worldbiomusic.allgames.games.solobattle.ScoreClimbing;
 import com.worldbiomusic.allgames.games.solobattle.Spleef;
 import com.worldbiomusic.allgames.games.solobattle.SuperMob;
 import com.worldbiomusic.allgames.games.solobattle.mnk.MNK;
+import com.worldbiomusic.allgames.games.solobattle.parkour.Parkour;
+import com.worldbiomusic.allgames.games.solobattle.timingpvp.TimingPVP;
 import com.worldbiomusic.allgames.games.team.BreedMob;
 import com.worldbiomusic.allgames.games.team.RemoveBlock;
 import com.worldbiomusic.allgames.games.team.TeamTiny;
@@ -60,6 +62,8 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new MNK());
 		mw.registerMiniGame(new OnePunch());
 		mw.registerMiniGame(new Tutorial());
+		mw.registerMiniGame(new TimingPVP());
+		mw.registerMiniGame(new Parkour());
 	}
 
 	@Override

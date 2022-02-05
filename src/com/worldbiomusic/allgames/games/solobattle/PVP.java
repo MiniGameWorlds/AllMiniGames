@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
+import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
@@ -69,7 +70,6 @@ public class PVP extends SoloBattleMiniGame {
 		this.getPlayers().forEach(p -> initKitsAndHealth(p));
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void processEvent(Event event) {
 		if (event instanceof PlayerRespawnEvent) {
@@ -90,11 +90,12 @@ public class PVP extends SoloBattleMiniGame {
 						Player killer = (Player) e.getDamager();
 						this.plusScore(killer, 1);
 
-						// heal health, food level
 						e.setDamage(0);
 						this.sendTitle(p, "Die", "");
-						p.setHealth(p.getMaxHealth());
-						p.setFoodLevel(20);
+						sendMessageToAllPlayers(ChatColor.BOLD + p.getName() + ChatColor.RED + " Died");
+						
+						// heal
+						PlayerTool.makePureState(p);
 					}
 
 				}
