@@ -29,7 +29,7 @@ public class Tutorial extends MiniGame {
 
 	@Override
 	protected void initGameSettings() {
-		// remove system tasks (_waitingTimer, _finishTimer)
+		// remove system tasks (_waiting-timer, _finish-timer)
 		// game will not finish until the player leave the game
 		getTaskManager().runTaskLater("cancelAllTask", 20);
 		getTaskManager().runTaskTimer("cancelAllTask", 0, 20 * 5);
@@ -49,4 +49,8 @@ public class Tutorial extends MiniGame {
 		return tutoroial;
 	}
 
+	@Override
+	public String getFrameType() {
+		return "Custom";
+	}
 }

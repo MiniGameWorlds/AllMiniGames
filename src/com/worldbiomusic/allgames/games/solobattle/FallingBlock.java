@@ -139,9 +139,9 @@ public class FallingBlock extends SoloBattleMiniGame {
 		BlockTool.fillBlockWithMaterial(pos1, pos2, this.removingBlock);
 
 		// start remove block task
-		this.getTaskManager().runTaskTimer("removeBelowBlock", 0, 2);
+		this.getTaskManager().runTaskTimer("removeBelowBlock", 0, 3);
 
-		getTaskManager().runTaskTimer("checkFallen", 0, 5);
+		getTaskManager().runTaskTimer("checkFallen", 0, 10);
 	}
 
 	@Override

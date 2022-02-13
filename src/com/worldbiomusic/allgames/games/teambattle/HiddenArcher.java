@@ -31,7 +31,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	private int reloadCoolDown;
 
 	public HiddenArcher() {
-		super("HiddenArcher", 2, 60 * 3, 20);
+		super("HiddenArcher", 2, 10, 60 * 3, 20);
 		this.getSetting().setIcon(Material.BOW);
 		this.setGroupChat(false);
 	}
@@ -39,33 +39,13 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	@Override
 	protected void registerCustomData() {
 		super.registerCustomData();
-
 		getCustomData().put("reloadCoolDown", 3);
 	}
 
 	@Override
-	protected void initGameSettings() {
-		super.initGameSettings();
-
+	public void loadCustomData() {
+		super.loadCustomData();
 		this.reloadCoolDown = (int) getCustomData().get("reloadCoolDown");
-	}
-
-	@Override
-	protected void createTeams() {
-		Team r = new Team("r", 2);
-		Team b = new Team("b", 2);
-		Team g = new Team("g", 2);
-		Team y = new Team("y", 2);
-
-		r.setColor(ChatColor.RED);
-		b.setColor(ChatColor.BLUE);
-		g.setColor(ChatColor.GREEN);
-		y.setColor(ChatColor.YELLOW);
-
-		this.createTeam(r);
-		this.createTeam(b);
-		this.createTeam(g);
-		this.createTeam(y);
 	}
 
 	@Override

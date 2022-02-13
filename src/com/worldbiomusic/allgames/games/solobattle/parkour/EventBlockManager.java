@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
 import com.wbm.plugin.util.PlayerTool;
@@ -59,8 +58,7 @@ public class EventBlockManager {
 		return null;
 	}
 
-	public void processEventBlockEvent(PlayerMoveEvent e) {
-		Player p = e.getPlayer();
+	public void processPlayerMove(Player p) {
 		Block block = p.getLocation().subtract(0, 1, 0).getBlock();
 
 		String eventBlockName = getEventBlockName(block);
@@ -71,28 +69,28 @@ public class EventBlockManager {
 		// process event block event
 		switch (eventBlockName) {
 		case FINISH:
-			finish(e);
+			finish(p);
 			break;
 		case RESPAWN:
-			respawn(e);
+			respawn(p);
 			break;
 		case UP_TELEPORT:
-			upTeleport(e);
+			upTeleport(p);
 			break;
 		case DOWN_TELEPORT:
-			downTeleport(e);
+			downTeleport(p);
 			break;
 		case FLICKER:
-			flicker(e);
+			flicker(p);
 			break;
 		case HEAL:
-			heal(e);
+			heal(p);
 			break;
 		case JUMP:
-			jump(e);
+			jump(p);
 			break;
 		case DEBUFF:
-			debuff(e);
+			debuff(p);
 			break;
 		}
 
@@ -100,35 +98,35 @@ public class EventBlockManager {
 		this.parkour.sendTitle(p, ChatColor.BOLD + eventBlockName, "");
 	}
 
-	private void finish(PlayerMoveEvent e) {
-		Player p = e.getPlayer();
+	private void finish(Player p) {
+
 		// score +1
 		this.parkour.plusScore(p, 1);
 
 		if (this.endless) {
-			respawn(e);
+			respawn(p);
 		} else {
 			this.parkour.finishGame();
 		}
 	}
 
-	private void respawn(PlayerMoveEvent e) {
-		Player p = e.getPlayer();
+	private void respawn(Player p) {
+
 		p.teleport(this.parkour.getLocation());
 	}
 
-	private void upTeleport(PlayerMoveEvent e) {
-		Player p = e.getPlayer();
+	private void upTeleport(Player p) {
+
 		p.teleport(p.getLocation().add(0, 3, 0));
 	}
 
-	private void downTeleport(PlayerMoveEvent e) {
-		Player p = e.getPlayer();
+	private void downTeleport(Player p) {
+
 		p.teleport(p.getLocation().subtract(0, 3, 0));
 	}
 
-	private void flicker(PlayerMoveEvent e) {
-		Player p = e.getPlayer();
+	private void flicker(Player p) {
+
 		Block block = p.getLocation().subtract(0, 1, 0).getBlock();
 		Material mat = block.getType();
 
@@ -143,15 +141,13 @@ public class EventBlockManager {
 		}, 20 * 6);
 	}
 
-	private void heal(PlayerMoveEvent e) {
-		Player p = e.getPlayer();
+	private void heal(Player p) {
 
 		// heal health, hunger and remove all potion effects
 		PlayerTool.makePureState(p);
 	}
 
-	private void jump(PlayerMoveEvent e) {
-		Player p = e.getPlayer();
+	private void jump(Player p) {
 
 		Location pLoc = p.getLocation().clone();
 
@@ -162,13 +158,12 @@ public class EventBlockManager {
 		p.setVelocity(new Vector(dirX, 0.65, dirZ));
 	}
 
-	private void debuff(PlayerMoveEvent e) {
-		Player p = e.getPlayer();
+	private void debuff(Player p) {
 
 		if (!p.getActivePotionEffects().isEmpty()) {
 			return;
 		}
-		
+
 		// random debuff
 		p.addPotionEffect(PotionEffectTool.getRandomDebuffPotionEffect());
 	}

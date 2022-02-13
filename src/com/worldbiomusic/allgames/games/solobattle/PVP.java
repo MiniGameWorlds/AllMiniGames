@@ -85,7 +85,7 @@ public class PVP extends SoloBattleMiniGame {
 				if (p.getHealth() <= e.getDamage()) {
 
 					// check killer is playing the same minigame
-					if (e.getDamager() instanceof Player || this.containsPlayer((Player) e.getDamager())) {
+					if (e.getDamager() instanceof Player && this.containsPlayer((Player) e.getDamager())) {
 						// killer +1 score
 						Player killer = (Player) e.getDamager();
 						this.plusScore(killer, 1);

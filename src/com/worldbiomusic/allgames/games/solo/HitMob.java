@@ -150,9 +150,8 @@ public class HitMob extends SoloMiniGame implements Listener {
 	@Override
 	protected List<String> registerTutorial() {
 		List<String> tutorial = new ArrayList<String>();
-
-		tutorial.add("");
-		tutorial.add("");
+		tutorial.add("Hit mob: " + ChatColor.GREEN + "+1");
+		tutorial.add("Die: finish");
 
 		return tutorial;
 	}

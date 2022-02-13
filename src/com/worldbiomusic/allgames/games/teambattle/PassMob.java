@@ -3,7 +3,6 @@ package com.worldbiomusic.allgames.games.teambattle;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -76,15 +75,16 @@ public class PassMob extends TeamBattleMiniGame {
 	private int mobSpawnDelay;
 
 	public PassMob() {
-		super("PassMob", 2, 60 * 2, 20);
+		super("PassMob", 2, 10, 60 * 2, 20);
 
 		// settings
 		getSetting().setIcon(Material.OAK_FENCE);
 		getSetting().addCustomDetectableEvent(EntityExplodeEvent.class);
 
 		// options
-		this.setGroupChat(true);
-		this.getCustomOption().set(Option.MINIGAME_RESPAWN, false);
+		setGroupChat(true);
+		getCustomOption().set(Option.MINIGAME_RESPAWN, false);
+		setTeamSize(getMaxPlayerCount() / 2);
 
 		// areas
 		this.redArea = new Area("red");
@@ -125,17 +125,6 @@ public class PassMob extends TeamBattleMiniGame {
 
 		// mob spawn delay
 		this.mobSpawnDelay = (int) this.getCustomData().get("mobSpawnDelay");
-	}
-
-	@Override
-	protected void createTeams() {
-		Team red = new Team("red", 4);
-		red.setColor(ChatColor.RED);
-		this.createTeam(red);
-
-		Team blue = new Team("blue", 4);
-		blue.setColor(ChatColor.BLUE);
-		this.createTeam(blue);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -188,8 +177,8 @@ public class PassMob extends TeamBattleMiniGame {
 		super.initGameSettings();
 
 		// set area with team
-		this.redArea.setTeam(this.getTeam("red"));
-		this.blueArea.setTeam(this.getTeam("blue"));
+		this.redArea.setTeam(this.getTeamList().get(0));
+		this.blueArea.setTeam(this.getTeamList().get(1));
 	}
 
 	@Override

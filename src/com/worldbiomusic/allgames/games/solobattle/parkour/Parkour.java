@@ -9,9 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
@@ -48,7 +46,14 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 		this.eventBlockManager = new EventBlockManager(this);
 
 		getSetting().setIcon(Material.LILY_PAD);
-		getSetting().setUseEventDetector(false);
+
+		registerTask();
+	}
+
+	private void registerTask() {
+		getTaskManager().registerTask("check-move", () -> {
+			getPlayers().forEach(p -> eventBlockManager.processPlayerMove(p));
+		});
 	}
 
 	@Override
@@ -85,20 +90,12 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
-		if (event instanceof PlayerMoveEvent) {
-			this.eventBlockManager.processEventBlockEvent((PlayerMoveEvent) event);
-		}
-	}
+	protected void runTaskAfterStart() {
+		super.runTaskAfterStart();
 
-	@EventHandler
-	public void onPlayerMove(PlayerMoveEvent event) {
-		PlayerMoveEvent e = (PlayerMoveEvent) event;
-		
-		// check player is playing this minigame
-		if (containsPlayer(e.getPlayer())) {
-			passEvent(event);
-		}
+		getPlayers().forEach(p -> p.teleport(getLocation()));
+
+		getTaskManager().runTaskTimer("check-move", 0, 4);
 	}
 
 	@Override
@@ -114,6 +111,8 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 	public void plusScore(Player p, int amount) {
 		super.plusScore(p, amount);
 	}
+
+	@Override
+	protected void processEvent(Event arg0) {
+	}
 }
-
-
