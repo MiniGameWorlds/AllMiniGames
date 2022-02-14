@@ -27,7 +27,7 @@ public class BreedMob extends TeamMiniGame {
 	private List<EntityType> mobList;
 
 	public BreedMob() {
-		super("BreedMob", 1, 4, 60 * 2, 20);
+		super("BreedMob", 1, 10, 60 * 2, 20);
 		this.mobList = new ArrayList<>();
 
 		// settings

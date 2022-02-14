@@ -29,7 +29,7 @@ public class SuperMob extends SoloBattleMiniGame {
 	double skillChance;
 
 	public SuperMob() {
-		super("SuperMob", 2, 5, 60 * 2, 30);
+		super("SuperMob", 2, 10, 60 * 2, 30);
 		this.entities = new ArrayList<>();
 
 		// settings

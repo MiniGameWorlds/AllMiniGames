@@ -25,7 +25,7 @@ public class RemoveBlock extends TeamMiniGame {
 	private List<Material> blocks;
 
 	public RemoveBlock() {
-		super("RemoveBlock", 1, 4, 60 * 3, 20);
+		super("RemoveBlock", 1, 10, 60 * 3, 20);
 		this.blocks = new ArrayList<>();
 		this.registerTasks();
 		this.getSetting().setIcon(Material.STONE_PICKAXE);

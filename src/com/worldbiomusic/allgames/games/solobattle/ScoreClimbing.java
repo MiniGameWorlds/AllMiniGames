@@ -26,7 +26,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	Map<Player, Integer> chance;
 
 	public ScoreClimbing() {
-		super("ScoreClimbing", 2, 4, 60, 20);
+		super("ScoreClimbing", 2, 10, 60, 20);
 		this.chance = new HashMap<Player, Integer>();
 
 		this.getSetting().setIcon(Material.OAK_STAIRS);

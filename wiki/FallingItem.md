@@ -14,7 +14,7 @@
 
 
 # Play Video
-- [Youtube]()
+- [Youtube](https://youtu.be/dBM6Vz3NQ0c)
 
 
 
@@ -86,8 +86,6 @@ FallingItem:
 - `spawn-pos2`: Second position of items drop
 - `finish-score`: If a player reach `finish-score`, game will finish
 - `item-live-time`: Item will be remove after `item-live-item` seconds (sec)
-
-
 
 
 

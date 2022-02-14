@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 /**
  * - Before die, teleport to spawn<br>
@@ -46,6 +47,8 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 		this.eventBlockManager = new EventBlockManager(this);
 
 		getSetting().setIcon(Material.LILY_PAD);
+		
+		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
 
 		registerTask();
 	}

@@ -22,7 +22,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 	private Material removingBlock;
 
 	public FallingBlock() {
-		super("FallingBlock", 2, 4, 120, 20);
+		super("FallingBlock", 2, 10, 120, 20);
 
 		// settings
 		this.getSetting().setIcon(Material.SAND);

@@ -30,7 +30,7 @@ public class PVP extends SoloBattleMiniGame {
 	private List<ItemStack> items;
 
 	public PVP() {
-		super("PVP", 2, 5, 60 * 2, 30);
+		super("PVP", 2, 10, 60 * 2, 30);
 		this.getSetting().setIcon(Material.STONE_SWORD);
 		this.getCustomOption().set(Option.PVP, true);
 

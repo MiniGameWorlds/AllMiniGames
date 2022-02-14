@@ -85,6 +85,7 @@ public class PassMob extends TeamBattleMiniGame {
 		setGroupChat(true);
 		getCustomOption().set(Option.MINIGAME_RESPAWN, false);
 		setTeamSize(getMaxPlayerCount() / 2);
+		setTeamRegisterMode(TeamRegisterMode.NONE);
 
 		// areas
 		this.redArea = new Area("red");

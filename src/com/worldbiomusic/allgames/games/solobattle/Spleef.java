@@ -37,7 +37,7 @@ public class Spleef extends SoloBattleMiniGame {
 	private Location pos1, pos2;
 
 	public Spleef() {
-		super("Spleef", 2, 20, 300, 20);
+		super("Spleef", 2, 10, 300, 20);
 
 		getSetting().setIcon(Material.STONE_SHOVEL);
 		getCustomOption().set(Option.COLOR, ChatColor.WHITE);

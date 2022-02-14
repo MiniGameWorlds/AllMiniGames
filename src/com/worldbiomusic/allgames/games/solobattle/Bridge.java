@@ -25,7 +25,7 @@ public class Bridge extends SoloBattleMiniGame {
 	private List<ItemStack> items;
 
 	public Bridge() {
-		super("Bridge", 2, 4, 180, 20);
+		super("Bridge", 2, 10, 180, 20);
 
 		getSetting().setIcon(Material.REPEATER);
 
