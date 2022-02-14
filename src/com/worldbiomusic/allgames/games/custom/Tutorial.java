@@ -14,7 +14,7 @@ import net.md_5.bungee.api.ChatColor;
 public class Tutorial extends MiniGame {
 
 	public Tutorial() {
-		super("Tutorial", 9999, 9999, 1, 9999);
+		super("Tutorial", 99, 99, 1, 99);
 
 		getSetting().setIcon(Material.BOOK);
 
