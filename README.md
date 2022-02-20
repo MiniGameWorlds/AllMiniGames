@@ -28,6 +28,9 @@
 - [TimingPVP](wiki/TimingPVP.md)
 - [Parkour](wiki/Parkour.md)
 - [FallingItem](wiki/FallingItem.md)
+- [Center](wiki/Center.md)
+- [ItsMine](wiki/ItsMine.md)
+- [LavaUp](wiki/LavaUp.md)
 
 
 ## Team

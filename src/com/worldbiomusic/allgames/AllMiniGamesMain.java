@@ -7,8 +7,11 @@ import com.worldbiomusic.allgames.games.solo.FitTool;
 import com.worldbiomusic.allgames.games.solo.HitMob;
 import com.worldbiomusic.allgames.games.solo.Tiny;
 import com.worldbiomusic.allgames.games.solobattle.Bridge;
+import com.worldbiomusic.allgames.games.solobattle.Center;
 import com.worldbiomusic.allgames.games.solobattle.FallingBlock;
 import com.worldbiomusic.allgames.games.solobattle.FallingItem;
+import com.worldbiomusic.allgames.games.solobattle.ItsMine;
+import com.worldbiomusic.allgames.games.solobattle.LavaUp;
 import com.worldbiomusic.allgames.games.solobattle.OnePunch;
 import com.worldbiomusic.allgames.games.solobattle.PVP;
 import com.worldbiomusic.allgames.games.solobattle.RandomScore;
@@ -66,6 +69,9 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new TimingPVP());
 		mw.registerMiniGame(new Parkour());
 		mw.registerMiniGame(new FallingItem());
+		mw.registerMiniGame(new Center());
+		mw.registerMiniGame(new ItsMine());
+		mw.registerMiniGame(new LavaUp());
 	}
 
 	@Override
