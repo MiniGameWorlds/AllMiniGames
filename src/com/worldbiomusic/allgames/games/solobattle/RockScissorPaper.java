@@ -11,7 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class RockScissorPaper extends SoloBattleMiniGame {
 	/*
@@ -54,6 +56,10 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 
 	public RockScissorPaper() {
 		super("RSP", 2, 2, 30, 15);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14391);
+
 		this.selections = new HashMap<Player, RockScissorPaper.Selection>();
 		this.getSetting().setIcon(Material.SHEARS);
 	}

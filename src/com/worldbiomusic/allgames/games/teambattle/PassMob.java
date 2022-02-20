@@ -16,8 +16,10 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 public class PassMob extends TeamBattleMiniGame {
@@ -76,6 +78,10 @@ public class PassMob extends TeamBattleMiniGame {
 
 	public PassMob() {
 		super("PassMob", 2, 10, 60 * 2, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14397);
+
 
 		// settings
 		getSetting().setIcon(Material.OAK_FENCE);

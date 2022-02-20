@@ -17,8 +17,10 @@ import org.bukkit.util.Vector;
 
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.ItemStackTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class Bridge extends SoloBattleMiniGame {
 
@@ -26,6 +28,10 @@ public class Bridge extends SoloBattleMiniGame {
 
 	public Bridge() {
 		super("Bridge", 2, 10, 180, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14399);
+
 
 		getSetting().setIcon(Material.REPEATER);
 

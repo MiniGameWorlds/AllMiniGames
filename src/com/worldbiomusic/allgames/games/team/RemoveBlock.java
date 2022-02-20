@@ -14,7 +14,9 @@ import org.bukkit.inventory.ItemStack;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.LocationTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class RemoveBlock extends TeamMiniGame {
 
@@ -26,6 +28,10 @@ public class RemoveBlock extends TeamMiniGame {
 
 	public RemoveBlock() {
 		super("RemoveBlock", 1, 10, 60 * 3, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14393);
+
 		this.blocks = new ArrayList<>();
 		this.registerTasks();
 		this.getSetting().setIcon(Material.STONE_PICKAXE);

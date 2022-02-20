@@ -16,8 +16,10 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * [Rules]<br>
@@ -43,6 +45,10 @@ public class LavaUp extends SoloBattleMiniGame {
 
 	public LavaUp() {
 		super("LavaUp", 2, 10, 120, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14415);
+
 
 		getSetting().setIcon(Material.LAVA);
 

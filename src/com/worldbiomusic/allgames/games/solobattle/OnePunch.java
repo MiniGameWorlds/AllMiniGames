@@ -9,8 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * - All players can be dead with just one punch<br>
@@ -23,6 +25,10 @@ public class OnePunch extends SoloBattleMiniGame {
 	
 	public OnePunch() {
 		super("OnePunch", 2, 10, 60, 10);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14405);
+
 		
 		getSetting().setIcon(Material.GRASS);
 		

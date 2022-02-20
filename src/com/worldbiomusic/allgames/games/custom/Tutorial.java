@@ -6,8 +6,10 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -15,6 +17,10 @@ public class Tutorial extends MiniGame {
 
 	public Tutorial() {
 		super("Tutorial", 99, 99, 1, 99);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14411);
+
 
 		getSetting().setIcon(Material.BOOK);
 

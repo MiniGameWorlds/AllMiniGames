@@ -11,8 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * [Rules]<br>
@@ -24,6 +26,10 @@ public class Center extends SoloBattleMiniGame {
 
 	public Center() {
 		super("Center", 2, 5, 60 * 2, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14413);
+
 
 		getSetting().setIcon(Material.END_ROD);
 

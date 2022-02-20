@@ -13,9 +13,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class FallingBlock extends SoloBattleMiniGame {
 	private Location pos1, pos2;
@@ -23,6 +25,10 @@ public class FallingBlock extends SoloBattleMiniGame {
 
 	public FallingBlock() {
 		super("FallingBlock", 2, 10, 120, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14398);
+
 
 		// settings
 		this.getSetting().setIcon(Material.SAND);

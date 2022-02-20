@@ -8,7 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class MNK extends SoloBattleMiniGame {
 
@@ -16,6 +18,10 @@ public class MNK extends SoloBattleMiniGame {
 
 	public MNK() {
 		super("MNK", 2, 2, 60 * 10, 10);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14404);
+
 
 		getSetting().setIcon(Material.CRAFTING_TABLE);
 

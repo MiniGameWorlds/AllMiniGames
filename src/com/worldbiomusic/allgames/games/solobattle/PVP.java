@@ -14,8 +14,10 @@ import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class PVP extends SoloBattleMiniGame {
 	/*
@@ -31,6 +33,10 @@ public class PVP extends SoloBattleMiniGame {
 
 	public PVP() {
 		super("PVP", 2, 10, 60 * 2, 30);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14409);
+
 		this.getSetting().setIcon(Material.STONE_SWORD);
 		this.getCustomOption().set(Option.PVP, true);
 
@@ -93,7 +99,7 @@ public class PVP extends SoloBattleMiniGame {
 						e.setDamage(0);
 						this.sendTitle(p, "Die", "");
 						sendMessageToAllPlayers(ChatColor.BOLD + p.getName() + ChatColor.RED + " Died");
-						
+
 						// heal
 						PlayerTool.makePureState(p);
 					}

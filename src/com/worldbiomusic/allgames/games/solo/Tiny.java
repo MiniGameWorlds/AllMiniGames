@@ -17,8 +17,10 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * - Summon bat when game start <br>
@@ -32,6 +34,10 @@ public class Tiny extends SoloMiniGame {
 
 	public Tiny() {
 		super("Tiny", 60, 5);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14401);
+
 
 		getSetting().setIcon(Material.OAK_BUTTON);
 

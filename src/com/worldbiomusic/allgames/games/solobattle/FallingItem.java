@@ -26,6 +26,7 @@ import com.wbm.plugin.util.instance.Counter;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * Pickup items falling from the sky<br>
@@ -59,6 +60,10 @@ public class FallingItem extends SoloBattleMiniGame {
 
 	public FallingItem() {
 		super("FallingItem", 2, 10, 120, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14412);
+
 
 		getSetting().setIcon(Material.FEATHER);
 

@@ -15,8 +15,10 @@ import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * Spleef <br>
@@ -38,6 +40,10 @@ public class Spleef extends SoloBattleMiniGame {
 
 	public Spleef() {
 		super("Spleef", 2, 10, 300, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14410);
+
 
 		getSetting().setIcon(Material.STONE_SHOVEL);
 		getCustomOption().set(Option.COLOR, ChatColor.WHITE);

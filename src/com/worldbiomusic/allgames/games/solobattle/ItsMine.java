@@ -22,10 +22,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * [Rules]<br>
@@ -52,6 +54,10 @@ public class ItsMine extends SoloBattleMiniGame {
 
 	public ItsMine() {
 		super("ItsMine", 2, 10, 60 * 2, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14414);
+
 
 		getSetting().setIcon(Material.DIAMOND);
 

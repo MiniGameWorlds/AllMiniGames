@@ -19,8 +19,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.wbm.plugin.util.InventoryTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class SuperMob extends SoloBattleMiniGame {
 
@@ -30,6 +32,10 @@ public class SuperMob extends SoloBattleMiniGame {
 
 	public SuperMob() {
 		super("SuperMob", 2, 10, 60 * 2, 30);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14396);
+
 		this.entities = new ArrayList<>();
 
 		// settings

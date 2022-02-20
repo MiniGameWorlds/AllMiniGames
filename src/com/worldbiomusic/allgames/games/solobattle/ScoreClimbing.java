@@ -11,8 +11,10 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -27,6 +29,10 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 
 	public ScoreClimbing() {
 		super("ScoreClimbing", 2, 10, 60, 20);
+		
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14390);
+
 		this.chance = new HashMap<Player, Integer>();
 
 		this.getSetting().setIcon(Material.OAK_STAIRS);

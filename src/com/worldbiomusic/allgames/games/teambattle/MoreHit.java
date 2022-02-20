@@ -10,8 +10,10 @@ import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class MoreHit extends TeamBattleMiniGame {
 	/*
@@ -20,6 +22,10 @@ public class MoreHit extends TeamBattleMiniGame {
 
 	public MoreHit() {
 		super("MoreHit", 2, 10, 60, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14389);
+
 		this.setGroupChat(true);
 		this.getSetting().setIcon(Material.STICK);
 		this.getCustomOption().set(Option.PVP, true);

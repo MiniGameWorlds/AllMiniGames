@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * - Player will get score equal to damage dealt to mob<br>
@@ -41,6 +42,10 @@ public class HitMob extends SoloMiniGame implements Listener {
 
 	public HitMob() {
 		super("HitMob", 60, 5);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14402);
+
 
 		getSetting().setIcon(Material.WOODEN_SWORD);
 

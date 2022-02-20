@@ -29,6 +29,7 @@ import com.worldbiomusic.allgames.games.teambattle.HiddenArcher;
 import com.worldbiomusic.allgames.games.teambattle.MoreHit;
 import com.worldbiomusic.allgames.games.teambattle.PassMob;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class AllMiniGamesMain extends JavaPlugin {
 
@@ -44,34 +45,37 @@ public class AllMiniGamesMain extends JavaPlugin {
 
 		instance = this;
 
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14386);
+
 		// register minigame
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
-		mw.registerMiniGame(new FitTool());
-		mw.registerMiniGame(new RandomScore());
-		mw.registerMiniGame(new MoreHit());
-		mw.registerMiniGame(new ScoreClimbing());
-		mw.registerMiniGame(new RockScissorPaper());
-		mw.registerMiniGame(new PVP());
-		mw.registerMiniGame(new RemoveBlock());
-		mw.registerMiniGame(new HiddenArcher());
-		mw.registerMiniGame(new BreedMob());
-		mw.registerMiniGame(new SuperMob());
-		mw.registerMiniGame(new PassMob());
-		mw.registerMiniGame(new FallingBlock());
-		mw.registerMiniGame(new Bridge());
-		mw.registerMiniGame(new Spleef());
-		mw.registerMiniGame(new Tiny());
-		mw.registerMiniGame(new HitMob());
-		mw.registerMiniGame(new TeamTiny());
-		mw.registerMiniGame(new MNK());
-		mw.registerMiniGame(new OnePunch());
-		mw.registerMiniGame(new Tutorial());
-		mw.registerMiniGame(new TimingPVP());
-		mw.registerMiniGame(new Parkour());
-		mw.registerMiniGame(new FallingItem());
-		mw.registerMiniGame(new Center());
-		mw.registerMiniGame(new ItsMine());
-		mw.registerMiniGame(new LavaUp());
+		mw.registerMiniGame(new FitTool()); // 14387
+		mw.registerMiniGame(new RandomScore()); // 14388
+		mw.registerMiniGame(new MoreHit()); // 14389
+		mw.registerMiniGame(new ScoreClimbing()); // 14390
+		mw.registerMiniGame(new RockScissorPaper()); // 14391
+		mw.registerMiniGame(new PVP()); // 14409
+		mw.registerMiniGame(new RemoveBlock()); // 14393
+		mw.registerMiniGame(new HiddenArcher()); // 14394
+		mw.registerMiniGame(new BreedMob()); // 14395
+		mw.registerMiniGame(new SuperMob()); // 14396
+		mw.registerMiniGame(new PassMob()); // 14397
+		mw.registerMiniGame(new FallingBlock()); // 14398
+		mw.registerMiniGame(new Bridge()); // 14399
+		mw.registerMiniGame(new Spleef()); // 14410
+		mw.registerMiniGame(new Tiny()); // 14401
+		mw.registerMiniGame(new HitMob()); // 14402
+		mw.registerMiniGame(new TeamTiny()); // 14403
+		mw.registerMiniGame(new MNK()); // 14404
+		mw.registerMiniGame(new OnePunch()); // 14405
+		mw.registerMiniGame(new Tutorial()); // 14411
+		mw.registerMiniGame(new TimingPVP()); // 14407
+		mw.registerMiniGame(new Parkour()); // 14408
+		mw.registerMiniGame(new FallingItem()); // 14412
+		mw.registerMiniGame(new Center()); // 14413
+		mw.registerMiniGame(new ItsMine()); // 14414
+		mw.registerMiniGame(new LavaUp()); // 14415
 	}
 
 	@Override

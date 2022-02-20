@@ -8,7 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class RandomScore extends SoloBattleMiniGame {
 	/*
@@ -19,6 +21,10 @@ public class RandomScore extends SoloBattleMiniGame {
 
 	public RandomScore() {
 		super("RandomScore", 2, 10, 20, 10);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14388);
+
 		this.randomScores = new ArrayList<Integer>();
 		this.getSetting().setSettingFixed(true);
 		this.getSetting().setIcon(Material.DISPENSER);

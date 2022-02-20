@@ -18,9 +18,11 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.allgames.games.solo.Tiny;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * - Similar to {@link Tiny} <br>
@@ -36,6 +38,10 @@ public class TeamTiny extends TeamMiniGame {
 
 	public TeamTiny() {
 		super("TeamTiny", 1, 10, 60, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14403);
+
 
 		getSetting().setIcon(Material.STONE_BUTTON);
 

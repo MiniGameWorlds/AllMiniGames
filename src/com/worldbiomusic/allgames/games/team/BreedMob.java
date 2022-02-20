@@ -18,8 +18,10 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class BreedMob extends TeamMiniGame {
 
@@ -28,6 +30,10 @@ public class BreedMob extends TeamMiniGame {
 
 	public BreedMob() {
 		super("BreedMob", 1, 10, 60 * 2, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14395);
+
 		this.mobList = new ArrayList<>();
 
 		// settings
@@ -36,7 +42,6 @@ public class BreedMob extends TeamMiniGame {
 		// need when mob die by other reason (e.g. falling, killed by other mob)
 		getSetting().addCustomDetectableEvent(EntityExplodeEvent.class);
 		getSetting().addCustomDetectableEvent(EntityDeathEvent.class);
-		
 
 		this.getCustomOption().set(Option.COLOR, ChatColor.RED);
 

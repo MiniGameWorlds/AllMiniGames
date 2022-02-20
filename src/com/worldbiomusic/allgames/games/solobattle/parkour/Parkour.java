@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * - Before die, teleport to spawn<br>
@@ -41,6 +42,10 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 
 	public Parkour() {
 		super("Parkour", 2, 10, 60 * 5, 15);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14408);
+
 
 		Bukkit.getServer().getPluginManager().registerEvents(this, AllMiniGamesMain.getInstance());
 

@@ -14,7 +14,9 @@ import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class FitTool extends SoloMiniGame {
 	/*
@@ -26,7 +28,10 @@ public class FitTool extends SoloMiniGame {
 
 	public FitTool() {
 		super("FitTool", 30, 10);
-		
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14387);
+
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
 	}
 

@@ -12,8 +12,10 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 /**
  * - All players get random armor and weapons<br>
@@ -32,6 +34,10 @@ public class TimingPVP extends SoloBattleMiniGame {
 
 	public TimingPVP() {
 		super("TimingPVP", 2, 10, 90, 15);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14407);
+
 
 		this.randomGiver = new RandomItemGiver();
 		getSetting().setIcon(Material.CHORUS_FRUIT);

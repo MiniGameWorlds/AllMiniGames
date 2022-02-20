@@ -21,7 +21,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
 import com.wbm.plugin.util.InventoryTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
+import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class HiddenArcher extends TeamBattleMiniGame {
 	/*
@@ -32,6 +34,10 @@ public class HiddenArcher extends TeamBattleMiniGame {
 
 	public HiddenArcher() {
 		super("HiddenArcher", 2, 10, 60 * 3, 20);
+
+		// bstats
+		new Metrics(AllMiniGamesMain.getInstance(), 14394);
+
 		this.getSetting().setIcon(Material.BOW);
 		this.setGroupChat(false);
 	}
