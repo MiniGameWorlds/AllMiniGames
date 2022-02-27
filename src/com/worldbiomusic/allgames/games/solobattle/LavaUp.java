@@ -50,7 +50,7 @@ public class LavaUp extends SoloBattleMiniGame {
 		new Metrics(AllMiniGamesMain.getInstance(), 14415);
 
 
-		getSetting().setIcon(Material.LAVA);
+		getSetting().setIcon(Material.LAVA_BUCKET);
 
 		getCustomOption().set(Option.COLOR, ChatColor.RED);
 		getCustomOption().set(Option.PVP, true);
