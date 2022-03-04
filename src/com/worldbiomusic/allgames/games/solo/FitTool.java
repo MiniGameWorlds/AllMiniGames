@@ -16,7 +16,7 @@ import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 
 public class FitTool extends SoloMiniGame {
 	/*

@@ -17,7 +17,7 @@ import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 
 public class PVP extends SoloBattleMiniGame {
 	/*

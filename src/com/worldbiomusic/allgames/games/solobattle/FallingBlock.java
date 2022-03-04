@@ -17,7 +17,7 @@ import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 
 public class FallingBlock extends SoloBattleMiniGame {
 	private Location pos1, pos2;

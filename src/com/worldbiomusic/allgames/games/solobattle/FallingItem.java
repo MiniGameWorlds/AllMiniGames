@@ -26,7 +26,7 @@ import com.wbm.plugin.util.instance.Counter;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 
 /**
  * Pickup items falling from the sky<br>

@@ -9,7 +9,7 @@ import org.bukkit.event.Event;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 
 import net.md_5.bungee.api.ChatColor;
 

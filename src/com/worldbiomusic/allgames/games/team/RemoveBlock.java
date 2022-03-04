@@ -16,7 +16,7 @@ import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.LocationTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 
 public class RemoveBlock extends TeamMiniGame {
 

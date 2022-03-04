@@ -2,6 +2,7 @@ package com.worldbiomusic.allgames;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.games.custom.Tutorial;
 import com.worldbiomusic.allgames.games.solo.FitTool;
 import com.worldbiomusic.allgames.games.solo.HitMob;
@@ -30,7 +31,6 @@ import com.worldbiomusic.allgames.games.teambattle.HiddenArcher;
 import com.worldbiomusic.allgames.games.teambattle.MoreHit;
 import com.worldbiomusic.allgames.games.teambattle.PassMob;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
-import com.worldbiomusic.minigameworld.util.Metrics;
 
 public class AllMiniGamesMain extends JavaPlugin {
 

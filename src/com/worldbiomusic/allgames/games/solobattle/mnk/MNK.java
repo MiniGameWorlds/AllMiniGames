@@ -10,7 +10,7 @@ import org.bukkit.event.Event;
 
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 
 public class MNK extends SoloBattleMiniGame {
 

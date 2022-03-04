@@ -22,7 +22,7 @@ import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.allgames.games.solo.Tiny;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 
 /**
  * - Similar to {@link Tiny} <br>

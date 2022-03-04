@@ -19,7 +19,7 @@ import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 public class PassMob extends TeamBattleMiniGame {

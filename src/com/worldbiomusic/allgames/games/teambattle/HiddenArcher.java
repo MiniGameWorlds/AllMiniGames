@@ -23,7 +23,7 @@ import org.bukkit.projectiles.ProjectileSource;
 import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
-import com.worldbiomusic.minigameworld.util.Metrics;
+import com.wbm.plugin.util.Metrics;
 
 public class HiddenArcher extends TeamBattleMiniGame {
 	/*
