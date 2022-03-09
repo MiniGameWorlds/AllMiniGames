@@ -32,6 +32,7 @@
 - [ItsMine](wiki/ItsMine.md)
 - [LavaUp](wiki/LavaUp.md)
 - [Dropper](wiki/Dropper.md)
+- [StandOnBlock](wiki/StandOnBlock.md)
 
 
 ## Team

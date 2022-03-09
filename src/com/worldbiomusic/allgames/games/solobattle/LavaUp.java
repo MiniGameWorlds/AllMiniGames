@@ -49,7 +49,6 @@ public class LavaUp extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14415);
 
-
 		getSetting().setIcon(Material.LAVA_BUCKET);
 
 		getCustomOption().set(Option.COLOR, ChatColor.RED);
@@ -98,11 +97,6 @@ public class LavaUp extends SoloBattleMiniGame {
 	protected void initGameSettings() {
 		// init lave height
 		this.height = (int) pos1.getY();
-
-		// remove all lava
-		if (BlockTool.containsBlock(pos1, pos2, Material.LAVA)) {
-			BlockTool.replaceBlocks(this.pos1, this.pos2, Material.LAVA, Material.AIR);
-		}
 	}
 
 	@Override
@@ -199,6 +193,16 @@ public class LavaUp extends SoloBattleMiniGame {
 		tutorial.add("Run away from the " + ChatColor.RED + ChatColor.BOLD + "LAVA");
 
 		return tutorial;
+	}
+
+	@Override
+	protected void runTaskAfterFinish() {
+		super.runTaskAfterFinish();
+
+		// remove all lava
+		if (BlockTool.containsBlock(pos1, pos2, Material.LAVA)) {
+			BlockTool.replaceBlocks(this.pos1, this.pos2, Material.LAVA, Material.AIR);
+		}
 	}
 
 }

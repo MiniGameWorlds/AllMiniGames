@@ -20,6 +20,7 @@ import com.worldbiomusic.allgames.games.solobattle.RandomScore;
 import com.worldbiomusic.allgames.games.solobattle.RockScissorPaper;
 import com.worldbiomusic.allgames.games.solobattle.ScoreClimbing;
 import com.worldbiomusic.allgames.games.solobattle.Spleef;
+import com.worldbiomusic.allgames.games.solobattle.StandOnBlock;
 import com.worldbiomusic.allgames.games.solobattle.SuperMob;
 import com.worldbiomusic.allgames.games.solobattle.mnk.MNK;
 import com.worldbiomusic.allgames.games.solobattle.parkour.Parkour;
@@ -78,6 +79,7 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new ItsMine()); // 14414
 		mw.registerMiniGame(new LavaUp()); // 14415
 		mw.registerMiniGame(new Dropper()); // 14478
+		mw.registerMiniGame(new StandOnBlock()); // 14573
 	}
 
 	@Override
