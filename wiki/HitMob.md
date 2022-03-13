@@ -20,7 +20,7 @@ HitMob:
   min-player-count: 1
   max-player-count: 1
   waiting-time: 5
-  time-limit: 60
+  play-time: 60
   active: true
   icon: WOODEN_SWORD
   view: true

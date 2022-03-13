@@ -19,7 +19,7 @@ OnePunch:
   min-player-count: 2
   max-player-count: 10
   waiting-time: 10
-  time-limit: 60
+  play-time: 60
   active: true
   icon: GRASS
   view: true

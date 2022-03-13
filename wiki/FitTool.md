@@ -19,7 +19,7 @@ FitTool:
   min-player-count: 1
   max-player-count: 1
   waiting-time: 10
-  time-limit: 30
+  play-time: 30
   active: true
   icon: STONE_PICKAXE
   location:

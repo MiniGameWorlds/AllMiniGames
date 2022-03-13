@@ -18,7 +18,7 @@ RockScissorPaper:
   min-player-count: 2
   max-player-count: 2
   waiting-time: 15
-  time-limit: 30
+  play-time: 30
   active: true
   icon: SHEARS
   view: true

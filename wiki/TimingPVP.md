@@ -19,7 +19,7 @@ TimingPVP:
   min-player-count: 2
   max-player-count: 10
   waiting-time: 15
-  time-limit: 90
+  play-time: 90
   active: true
   icon: CHORUS_FRUIT
   view: true

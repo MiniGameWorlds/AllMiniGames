@@ -18,7 +18,7 @@ PVP:
   min-player-count: 2
   max-player-count: 5
   waiting-time: 30
-  time-limit: 180
+  play-time: 180
   active: true
   icon: STONE_SWORD
   location:

@@ -27,7 +27,7 @@ StandOnBlock:
   min-player-count: 2
   max-player-count: 10
   waiting-time: 20
-  time-limit: 120
+  play-time: 120
   active: true
   icon: ARMOR_STAND
   view: true

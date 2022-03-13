@@ -19,7 +19,7 @@ FallingBlock:
   min-player-count: 2
   max-player-count: 4
   waiting-time: 10
-  time-limit: 120
+  play-time: 120
   active: true
   icon: SAND
   location:

@@ -18,7 +18,7 @@ RemoveBlock:
   min-player-count: 1
   max-player-count: 4
   waiting-time: 20
-  time-limit: 180
+  play-time: 180
   active: true
   icon: STONE_PICKAXE
   view: true

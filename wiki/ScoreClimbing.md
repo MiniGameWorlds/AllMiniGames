@@ -19,7 +19,7 @@ ScoreClimbing:
   min-player-count: 2
   max-player-count: 4
   waiting-time: 20
-  time-limit: 60
+  play-time: 60
   active: true
   icon: OAK_STAIRS
   view: true

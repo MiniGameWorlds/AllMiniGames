@@ -19,7 +19,7 @@ SuperMob:
   min-player-count: 1
   max-player-count: 5
   waiting-time: 10
-  time-limit: 120
+  play-time: 120
   active: true
   icon: ZOMBIE_HEAD
   location:

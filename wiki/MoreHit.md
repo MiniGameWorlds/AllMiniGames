@@ -18,7 +18,7 @@ MoreHit:
   min-player-count: 2
   max-player-count: 6
   waiting-time: 10
-  time-limit: 20
+  play-time: 20
   active: true
   icon: STICK
   location:

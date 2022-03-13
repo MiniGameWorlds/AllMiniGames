@@ -18,7 +18,7 @@ Tutorial:
   min-player-count: 9999
   max-player-count: 9999
   waiting-time: 9999
-  time-limit: 1
+  play-time: 1
   active: true
   icon: BOOK
   view: true

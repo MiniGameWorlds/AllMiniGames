@@ -129,7 +129,7 @@ public class RemoveBlock extends TeamMiniGame {
 		InventoryTool.addItemsToPlayers(this.getPlayers(), items);
 
 		// add default score
-		this.plusEveryoneScore(this.getTimeLimit());
+		this.plusEveryoneScore(this.getPlayTime());
 
 		// start minus score timer every 5 sec
 		this.getTaskManager().runTaskTimer("every5", 0, 20 * 5);
@@ -141,7 +141,7 @@ public class RemoveBlock extends TeamMiniGame {
 	@Override
 	protected List<String> registerTutorial() {
 		List<String> tutorial = new ArrayList<>();
-		tutorial.add("Game Start: +" + this.getTimeLimit());
+		tutorial.add("Game Start: +" + this.getPlayTime());
 		tutorial.add("every 5 second: -1");
 		tutorial.add("Remove ALL Blocks: Game End");
 		return tutorial;

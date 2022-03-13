@@ -19,7 +19,7 @@ Spleef:
   min-player-count: 2
   max-player-count: 20
   waiting-time: 20
-  time-limit: 300
+  play-time: 300
   active: true
   icon: STONE_SHOVEL
   location:

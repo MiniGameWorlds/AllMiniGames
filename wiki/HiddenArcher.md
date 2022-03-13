@@ -18,7 +18,7 @@ HiddenArcher:
   min-player-count: 2
   max-player-count: 8
   waiting-time: 10
-  time-limit: 180
+  play-time: 180
   active: true
   icon: BOW
   location:

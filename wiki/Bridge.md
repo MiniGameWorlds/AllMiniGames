@@ -22,7 +22,7 @@ Bridge:
   min-player-count: 2
   max-player-count: 4
   waiting-time: 20
-  time-limit: 180
+  play-time: 180
   active: true
   icon: REPEATER
   view: true

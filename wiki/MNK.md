@@ -19,7 +19,7 @@ MNK:
   min-player-count: 2
   max-player-count: 2
   waiting-time: 10
-  time-limit: 600
+  play-time: 600
   active: true
   icon: CRAFTING_TABLE
   location:
@@ -75,7 +75,7 @@ MNK:
 - `board-block`: Board base block(Material)
 - `white-play-block`: White play block (Material)
 - `black-play-block`: Black play block (Material)
-- `turn-time`: Turn time limit (second)
+- `turn-time`: Turn time (second)
 - `fly`: Players fly (true / false)
 - `length`: block length for win (`k`)
 - `finish_delay`: delay after finish (second)

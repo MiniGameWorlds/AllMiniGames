@@ -18,7 +18,7 @@ TeamTiny:
   min-player-count: 1
   max-player-count: 10
   waiting-time: 20
-  time-limit: 60
+  play-time: 60
   active: true
   icon: STONE_BUTTON
   view: true
