@@ -1,8 +1,10 @@
 package com.worldbiomusic.allgames;
 
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.Utils;
 import com.worldbiomusic.allgames.games.custom.Tutorial;
 import com.worldbiomusic.allgames.games.solo.FitTool;
 import com.worldbiomusic.allgames.games.solo.HitMob;
@@ -31,6 +33,7 @@ import com.worldbiomusic.allgames.games.team.TeamTiny;
 import com.worldbiomusic.allgames.games.teambattle.HiddenArcher;
 import com.worldbiomusic.allgames.games.teambattle.MoreHit;
 import com.worldbiomusic.allgames.games.teambattle.PassMob;
+import com.worldbiomusic.allgames.utils.UpdateChecker;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 
 public class AllMiniGamesMain extends JavaPlugin {
@@ -46,6 +49,10 @@ public class AllMiniGamesMain extends JavaPlugin {
 		super.onEnable();
 
 		instance = this;
+
+		printPluginName();
+		
+		UpdateChecker.check();
 
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14386);
@@ -80,6 +87,13 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new LavaUp()); // 14415
 		mw.registerMiniGame(new Dropper()); // 14478
 		mw.registerMiniGame(new StandOnBlock()); // 14573
+	}
+
+	private void printPluginName() {
+		String pluginName = AllMiniGamesMain.getInstance().getDescription().getName();
+		Utils.info(ChatColor.GREEN + "=============================================");
+		Utils.info(ChatColor.RESET + "                  " + pluginName + "               ");
+		Utils.info(ChatColor.GREEN + "=============================================");
 	}
 
 	@Override
