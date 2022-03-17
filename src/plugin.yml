@@ -1,6 +1,6 @@
 name: AllMiniGames
 main: com.worldbiomusic.allgames.AllMiniGamesMain
-version: 1.7
+version: 1.8
 author: worldbiomusic
 api-version: 1.14
 depend: [MiniGameWorld]
