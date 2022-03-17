@@ -7,28 +7,32 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
+import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 public class FallingBlock extends SoloBattleMiniGame {
 	private Location pos1, pos2;
 	private Material removingBlock;
 
+	private List<Entity> landedFallenBlocks;
+
 	public FallingBlock() {
 		super("FallingBlock", 2, 10, 120, 20);
+		this.landedFallenBlocks = new ArrayList<>();
 
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14398);
-
 
 		// settings
 		this.getSetting().setIcon(Material.SAND);
@@ -38,6 +42,9 @@ public class FallingBlock extends SoloBattleMiniGame {
 
 		// task
 		this.removeBelowBlockTask();
+
+		// custom event
+		getSetting().addCustomDetectableEvent(EntityChangeBlockEvent.class);
 	}
 
 	private void removeBelowBlockTask() {
@@ -56,22 +63,23 @@ public class FallingBlock extends SoloBattleMiniGame {
 						return;
 					}
 
-					if (belowBlock.getType() == removingBlock) {
-						Bukkit.getScheduler().runTaskLater(MiniGameWorldMain.getInstance(), () -> {
-							plusScore(p, 1);
-							belowBlock.setType(Material.AIR);
-							@SuppressWarnings("deprecation")
-							org.bukkit.entity.FallingBlock fallingBlock = p.getWorld().spawnFallingBlock(
-									belowBlock.getLocation().add(0.5, 0, 0.5), removingBlock, (byte) 0);
-							new BukkitRunnable() {
-								@Override
-								public void run() {
-									fallingBlock.remove();
-									fallingBlock.setDropItem(false);
-								}
-							}.runTaskLater(MiniGameWorldMain.getInstance(), 20);
-						}, 5);
+					if (belowBlock.getType() != removingBlock) {
+						return;
 					}
+
+					Bukkit.getScheduler().runTaskLater(MiniGameWorldMain.getInstance(), () -> {
+						plusScore(p, 1);
+						belowBlock.setType(Material.AIR);
+						@SuppressWarnings("deprecation")
+						org.bukkit.entity.FallingBlock fallingBlock = p.getWorld()
+								.spawnFallingBlock(belowBlock.getLocation().add(0.5, 0, 0.5), removingBlock, (byte) 0);
+
+						// add fallingBlock to list
+						landedFallenBlocks.add(fallingBlock);
+
+						// remove fallen block
+						removeFallenBlock(fallingBlock);
+					}, 5);
 				}
 			}
 		});
@@ -84,6 +92,20 @@ public class FallingBlock extends SoloBattleMiniGame {
 				getLivePlayers().stream().filter(p -> hasFallen(p)).forEach(p -> processFallenPlayer(p));
 			}
 		});
+	}
+
+	private void removeFallenBlock(org.bukkit.entity.FallingBlock fallingBlock) {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				// remove falling block from the list
+				landedFallenBlocks.remove(fallingBlock);
+
+				// remove
+				fallingBlock.remove();
+				fallingBlock.setDropItem(false);
+			}
+		}.runTaskLater(MiniGameWorldMain.getInstance(), 20);
 	}
 
 	private boolean hasFallen(Player p) {
@@ -118,6 +140,8 @@ public class FallingBlock extends SoloBattleMiniGame {
 	protected void initGameSettings() {
 		// fill blocks
 		BlockTool.fillBlockWithMaterial(pos1, pos2, this.removingBlock);
+
+		this.landedFallenBlocks.clear();
 	}
 
 	private void processFallenPlayer(Player p) {
@@ -147,6 +171,41 @@ public class FallingBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event arg0) {
+	protected void processEvent(Event event) {
+		if (event instanceof EntityChangeBlockEvent) {
+			removeFallenBlock((EntityChangeBlockEvent) event);
+		}
+	}
+
+	private void removeFallenBlock(EntityChangeBlockEvent e) {
+		Entity entity = e.getEntity();
+		if (this.landedFallenBlocks.contains(entity)) {
+			// cancel event
+			e.setCancelled(true);
+
+			// remove entity
+			entity.remove();
+		}
 	}
 }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//

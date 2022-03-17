@@ -226,11 +226,6 @@ public class ItsMine extends SoloBattleMiniGame {
 	protected void handleGameException(MiniGameExceptionEvent exception) {
 		super.handleGameException(exception);
 
-		// check game is started
-		if (!isStarted()) {
-			return;
-		}
-		
 		// set a new tagger if tagger left the game
 		if (exception instanceof MiniGamePlayerExceptionEvent) {
 			MiniGamePlayerExceptionEvent e = (MiniGamePlayerExceptionEvent) exception;
