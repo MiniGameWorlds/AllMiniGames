@@ -17,10 +17,10 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 /**
  * - Summon bat when game start <br>
@@ -42,6 +42,8 @@ public class Tiny extends SoloMiniGame {
 		getSetting().setIcon(Material.OAK_BUTTON);
 
 		getCustomOption().set(Option.COLOR, ChatColor.YELLOW);
+		
+		getSetting().addCustomDetectableEvent(ProjectileHitEvent.class);
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class Tiny extends SoloMiniGame {
 		if (event instanceof ProjectileHitEvent) {
 			ProjectileHitEvent e = (ProjectileHitEvent) event;
 			Entity hitEntity = e.getHitEntity();
-
+			
 			if (hitEntity != null && hitEntity.equals(this.bat)) {
 				// event detector can detect shooter from ProjectileHitEvent
 				plusScore(1);
