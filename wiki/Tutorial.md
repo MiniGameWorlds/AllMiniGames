@@ -1,6 +1,6 @@
 # Tutorial
 - Tutorial minigame for your server
-- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` 
 - Type: `Custom`
 - API Version: `LATEST`
 - Minecraft Version: `1.14+`

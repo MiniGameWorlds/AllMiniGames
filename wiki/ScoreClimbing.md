@@ -1,6 +1,6 @@
 # ScoreClimbing
 - The Score will climb, but can fall down from random spot
-- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` 
 - Type: `SoloBattle`
 - API Version: `LATEST`
 - Minecraft Version: `1.14+`
@@ -53,9 +53,5 @@ ScoreClimbing:
 ```
 
 # Warning
-<!-- 
-- <e.g. - Avoid building with Brick_Block>
-- <e.g. - Make sure PVP on>
-- <e.g. - Player can die while playing> 
--->
+
 - Nothing

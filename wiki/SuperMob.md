@@ -1,7 +1,7 @@
 # SuperMob
 - Baby boss monster can use several skills!
 - Type: `SoloBattle`
-- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` 
 - API Version: `LATEST`
 - Minecraft Versions: `1.14+`
 

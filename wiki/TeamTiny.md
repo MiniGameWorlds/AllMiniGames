@@ -1,6 +1,6 @@
 # TeamTiny
 - Hit the mob with members!
-- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` 
 - Type: `Team`
 - API Version: `LATEST`
 - Minecraft Version: `1.14+`
@@ -52,9 +52,5 @@ TeamTiny:
 - `custom-data.mob`: Mob type to hit for score
 
 # Warning
-<!-- 
-- <e.g. - Avoid building with Brick_Block>
-- <e.g. - Make sure PVP on>
-- <e.g. - Player can die while playing> 
--->
+
 - Build minigame map to keep mob from running away

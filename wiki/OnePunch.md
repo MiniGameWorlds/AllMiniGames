@@ -51,9 +51,5 @@ OnePunch:
 ```
 
 # Warning
-<!-- 
-- <e.g. - Avoid building with Brick_Block>
-- <e.g. - Make sure PVP on>
-- <e.g. - Player can die while playing> 
--->
+
 - Nothing

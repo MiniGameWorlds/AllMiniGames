@@ -1,6 +1,6 @@
 # RemoveBlock
 - Let's remove all blocks!
-- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` 
 - Type: `Team`
 - API Version: `LATEST`
 - Minecraft Version: `1.14+`
@@ -76,9 +76,5 @@ RemoveBlock:
 - `custom-data.blocks`: Block types to fill the area
 
 # Warning
-<!-- 
-- <e.g. - Avoid building with Brick_Block>
-- <e.g. - Make sure PVP on>
-- <e.g. - Player can die while playing> 
--->
+
 - Before play, setup `custom-data.pos1` and `custom-data.pos2`

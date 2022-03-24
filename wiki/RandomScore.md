@@ -1,6 +1,6 @@
 # RandomScore
 - Literally random score minigame
-- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` 
 - Type: `SoloBattle`
 - API Version: `LATEST`
 - Minecraft Version: `1.14+`
@@ -50,9 +50,5 @@ RandomScore:
 
 
 # Warning
-<!-- 
-- <e.g. - Avoid building with Brick_Block>
-- <e.g. - Make sure PVP on>
-- <e.g. - Player can die while playing> 
--->
+
 - Nothing

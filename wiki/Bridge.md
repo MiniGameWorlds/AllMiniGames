@@ -1,6 +1,6 @@
 # Bridge
 - Drop other player from the bridge
-- Bukkit: `Spigot` <!--  Write bukkit, If event of minigame is only available in specific bukkit-->
+- Bukkit: `Spigot` 
 - Type: `SoloBattle`
 - API Version: `LATEST`
 - Minecraft Version: `1.14+`

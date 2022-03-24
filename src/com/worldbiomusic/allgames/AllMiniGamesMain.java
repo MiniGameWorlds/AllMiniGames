@@ -11,6 +11,7 @@ import com.worldbiomusic.allgames.games.solo.HitMob;
 import com.worldbiomusic.allgames.games.solo.Tiny;
 import com.worldbiomusic.allgames.games.solobattle.Bridge;
 import com.worldbiomusic.allgames.games.solobattle.Center;
+import com.worldbiomusic.allgames.games.solobattle.DodgeBlock;
 import com.worldbiomusic.allgames.games.solobattle.Dropper;
 import com.worldbiomusic.allgames.games.solobattle.FallingBlock;
 import com.worldbiomusic.allgames.games.solobattle.FallingItem;
@@ -87,6 +88,7 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new LavaUp()); // 14415
 		mw.registerMiniGame(new Dropper()); // 14478
 		mw.registerMiniGame(new StandOnBlock()); // 14573
+		mw.registerMiniGame(new DodgeBlock()); // 14723
 	}
 
 	private void printPluginName() {
