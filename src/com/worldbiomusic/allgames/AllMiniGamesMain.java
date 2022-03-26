@@ -36,6 +36,7 @@ import com.worldbiomusic.allgames.games.teambattle.MoreHit;
 import com.worldbiomusic.allgames.games.teambattle.PassMob;
 import com.worldbiomusic.allgames.utils.UpdateChecker;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
+import com.worldbiomusic.minigameworld.util.Setting;
 
 public class AllMiniGamesMain extends JavaPlugin {
 
@@ -52,8 +53,11 @@ public class AllMiniGamesMain extends JavaPlugin {
 		instance = this;
 
 		printPluginName();
-		
-		UpdateChecker.check();
+
+		// check update
+		if (Setting.CHECK_UPDATE) {
+			UpdateChecker.check();
+		}
 
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14386);

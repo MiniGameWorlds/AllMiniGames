@@ -5,6 +5,9 @@
 - [Download](download)
 - If you want to donwload all minigames, download `AllMiniGames-x.x.jar` file in [Download](download)
 
+# Update Check
+- Minigames version will be checked if `check-update` option of `plugins/MiniGameWorld/settings.yml` is true
+
 ---
 
 # MiniGames Wiki
