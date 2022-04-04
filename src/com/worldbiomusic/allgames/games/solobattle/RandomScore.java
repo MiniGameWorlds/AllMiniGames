@@ -26,7 +26,6 @@ public class RandomScore extends SoloBattleMiniGame {
 		new Metrics(AllMiniGamesMain.getInstance(), 14388);
 
 		this.randomScores = new ArrayList<Integer>();
-		this.getSetting().setSettingFixed(true);
 		this.getSetting().setIcon(Material.DISPENSER);
 	}
 
