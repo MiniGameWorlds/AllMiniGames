@@ -37,9 +37,9 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 
 	public DodgeBlock() {
 		super("DodgeBlock", 2, 10, 60 * 2, 20);
-		
+
 		// bstats
-				new Metrics(AllMiniGamesMain.getInstance(), 14723);
+		new Metrics(AllMiniGamesMain.getInstance(), 14723);
 
 		// register as a event listener
 		// Reason: last falling block can not be removed by in minigame

@@ -37,6 +37,7 @@
 - [Dropper](wiki/Dropper.md)
 - [StandOnBlock](wiki/StandOnBlock.md)
 - [DodgeBlock](wiki/DodgeBlock.md)
+- [Clock](wiki/Clock.md)
 
 
 ## Team
