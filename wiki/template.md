@@ -3,7 +3,7 @@
 - Bukkit: `Spigot`
 - Type: <`Solo` | `SoloBattle` | `Team` | `TeamBattle` | `Custom`>
 - API Version: `<version>`
-- Minecraft Version: `<version>`
+- Minecraft Version: `1.14+`
 
 
 
@@ -13,7 +13,7 @@
 
 
 # Play Video
-- <video url>
+- [Youtube]()
 
 
 

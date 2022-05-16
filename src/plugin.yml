@@ -1,6 +1,6 @@
-name: Clock
+name: AllMiniGames
 main: com.worldbiomusic.allgames.AllMiniGamesMain
-version: 1.0
+version: 1.14
 author: worldbiomusic
 api-version: 1.14
 depend: [MiniGameWorld]

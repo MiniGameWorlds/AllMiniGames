@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
+import com.wbm.plugin.util.ParticleTool;
+
 public class ClockMachine {
 	public static final int TICK_RATE = 1;
 
@@ -72,7 +74,7 @@ public class ClockMachine {
 
 	public void drawHand() {
 		int distance = (int) getFingertipLocation().distance(this.center);
-		spawnParticleLine(center, getFingertipLocation(), particle, distance * 4, 1);
+		ParticleTool.line(center, getFingertipLocation(), particle, distance * 4, 1);
 	}
 
 	public void updateWithEmptySpace() {
@@ -136,16 +138,4 @@ public class ClockMachine {
 		this.clock.sendTitleToAllPlayers(color + this.direction.name(), "");
 	}
 
-	public void spawnParticleLine(Location start, Location end, Particle particle, int pointsPerLine,
-			int particleCount) {
-		double d = start.distance(end) / pointsPerLine;
-		for (int i = 0; i < pointsPerLine; i++) {
-			Location loc = start.clone();
-			Vector direction = end.toVector().subtract(start.toVector()).normalize();
-			Vector v = direction.multiply(i * d);
-			loc.add(v.getX(), v.getY(), v.getZ());
-			// extra = particle speed
-			start.getWorld().spawnParticle(particle, loc, particleCount, 0, 0, 0, 0);
-		}
-	}
 }

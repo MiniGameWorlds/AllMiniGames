@@ -38,6 +38,7 @@
 - [StandOnBlock](wiki/StandOnBlock.md)
 - [DodgeBlock](wiki/DodgeBlock.md)
 - [Clock](wiki/Clock.md)
+- [Rebound](wiki/Rebound.md)
 
 
 ## Team

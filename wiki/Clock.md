@@ -68,14 +68,15 @@ Clock:
     food-level-change: false
     player-hurt: false
 ```
-- clock-center: clock center (Location)
-- hand-length: clock hand length per block (decimal) 
-- hand-speed: round per second (decimal) (e.g. 0.5 = 0.5 round per second)
-- hand-speed-increment: `clock-speed` increment per second (decimal)
-- clockwise: true = clockwise, false = anticlockwise (true / false)
-- random-direction-mode: true = hand direction changes randomly (true / false)
-- particle: particle ([Particle](https://minecraft.fandom.com/wiki/Particles) must be **upper case**)
+- `center`: clock center (Location)
+- `hand-length`: clock hand length per block (decimal) 
+- `hand-speed`: round per second (decimal) (e.g. 0.5 = 0.5 round per second)
+- `hand-speed-increment`: `clock-speed` increment per second (decimal)
+- `clockwise`: true = clockwise, false = anticlockwise (true / false)
+- `random-direction-mode`: true = hand direction changes randomly (true / false)
+- `particle`: particle ([Particle](https://minecraft.fandom.com/wiki/Particles) must be **upper case**)
 
 
 # Warning
-- Nothing
+- Turn on `Particles` in video settings
+- Pillar in the center can prevent that challengers only move around the clock center

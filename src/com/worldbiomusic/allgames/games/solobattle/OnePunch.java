@@ -68,8 +68,8 @@ public class OnePunch extends SoloBattleMiniGame {
 
 			// notify
 			String victimStr = ChatColor.GRAY + victim.getName() + ChatColor.RESET;
-			String damagerStr = ChatColor.RED + victim.getName() + ChatColor.RESET;
-			sendMessageToAllPlayers(victimStr + "이(가) " + damagerStr + "에게 탈락 당했습니다");
+			String damagerStr = ChatColor.RED + damager.getName() + ChatColor.RESET;
+			sendMessageToAllPlayers(victimStr + " punched "+ damagerStr);
 
 			sendTitle(victim, ChatColor.RED + "DIE", "");
 			sendTitle(damager, ChatColor.GREEN + "+1", "");
