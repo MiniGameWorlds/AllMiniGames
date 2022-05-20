@@ -76,7 +76,7 @@ public class Rebound extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityShootBowEvent) {
 			onPlayerShootBow((EntityShootBowEvent) event);
 		} else if (event instanceof ProjectileHitEvent) {
@@ -176,8 +176,8 @@ public class Rebound extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		getPlayers().forEach(p -> {
 			// remove gravity
@@ -201,8 +201,8 @@ public class Rebound extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskBeforeFinish() {
-		super.runTaskBeforeFinish();
+	protected void onFinish() {
+		super.onFinish();
 
 		// remove all arrows
 		this.arrows.stream().filter(a -> a != null).forEach(Entity::remove);

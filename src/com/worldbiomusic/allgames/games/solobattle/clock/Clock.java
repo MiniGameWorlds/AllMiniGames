@@ -64,7 +64,7 @@ public class Clock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 	}
 
 	@Override
@@ -73,8 +73,8 @@ public class Clock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		this.machine.init();
 		getTaskManager().runTaskTimer("update-hand", 0, ClockMachine.TICK_RATE);

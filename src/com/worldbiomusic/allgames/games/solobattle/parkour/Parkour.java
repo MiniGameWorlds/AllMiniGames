@@ -98,8 +98,8 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		getPlayers().forEach(p -> p.teleport(getLocation()));
 
@@ -121,6 +121,6 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void processEvent(Event arg0) {
+	protected void onEvent(Event arg0) {
 	}
 }

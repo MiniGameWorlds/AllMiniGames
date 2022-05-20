@@ -42,7 +42,7 @@ public class Tutorial extends MiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 	}
 
 	@Override

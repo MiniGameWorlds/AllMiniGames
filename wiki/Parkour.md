@@ -31,8 +31,8 @@
 ```yaml
 Parkour:
   title: Parkour
-  min-player-count: 2
-  max-player-count: 10
+  min-players: 2
+  max-players: 10
   waiting-time: 15
   play-time: 300
   active: true

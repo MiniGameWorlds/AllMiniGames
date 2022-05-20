@@ -45,7 +45,7 @@ public class OnePunch extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 			Entity victimEntity = e.getEntity();

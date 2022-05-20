@@ -88,7 +88,7 @@ public class FitTool extends SoloMiniGame {
 	}
 
 	@Override
-	public void processEvent(Event event) {
+	public void onEvent(Event event) {
 		if (event instanceof BlockBreakEvent) {
 			BlockBreakEvent e = (BlockBreakEvent) event;
 			Player p = e.getPlayer();
@@ -107,7 +107,7 @@ public class FitTool extends SoloMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
+	protected void onStart() {
 		// give tools
 		for (Player p : this.getPlayers()) {
 			p.getInventory().addItem(new ItemStack(Material.IRON_SWORD));

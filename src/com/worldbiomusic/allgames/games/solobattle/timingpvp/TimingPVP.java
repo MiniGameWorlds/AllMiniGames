@@ -54,7 +54,7 @@ public class TimingPVP extends SoloBattleMiniGame {
 		});
 	}
 
-	protected void runTaskAfterStart() {
+	protected void onStart() {
 		// start random item task
 		getTaskManager().runTaskTimer("randomItems", 0, 20 * this.timingDelay);
 
@@ -106,7 +106,7 @@ public class TimingPVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof PlayerDropItemEvent) {
 			((PlayerDropItemEvent) event).setCancelled(true);
 		} else if (event instanceof EntityDamageEvent) {

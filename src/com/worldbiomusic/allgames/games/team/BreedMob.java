@@ -70,7 +70,7 @@ public class BreedMob extends TeamMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;
 
@@ -157,8 +157,8 @@ public class BreedMob extends TeamMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// spawn random mob
 		spawnRandomMob(getLocation());
@@ -188,8 +188,8 @@ public class BreedMob extends TeamMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-		super.runTaskAfterFinish();
+	protected void onFinish() {
+		super.onFinish();
 
 		// remove mobs
 		this.mobs.forEach(e -> e.remove());

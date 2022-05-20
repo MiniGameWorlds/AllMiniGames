@@ -15,8 +15,8 @@
 ```yaml
 Tutorial:
   title: Tutorial
-  min-player-count: 9999
-  max-player-count: 9999
+  min-players: 9999
+  max-players: 9999
   waiting-time: 9999
   play-time: 1
   active: true

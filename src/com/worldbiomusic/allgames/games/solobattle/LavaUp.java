@@ -100,7 +100,7 @@ public class LavaUp extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
 			checkPlayerIsDead(damageEvent);
@@ -179,8 +179,8 @@ public class LavaUp extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// tasks
 		getTaskManager().runTaskTimer("plus-score", 0, 20);
@@ -196,8 +196,8 @@ public class LavaUp extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-		super.runTaskAfterFinish();
+	protected void onFinish() {
+		super.onFinish();
 
 		// remove all lava
 		if (BlockTool.containsBlock(pos1, pos2, Material.LAVA)) {

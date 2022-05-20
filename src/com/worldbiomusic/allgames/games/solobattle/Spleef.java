@@ -80,8 +80,8 @@ public class Spleef extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		getTaskManager().runTaskTimer("checkFallen", 0, 10);
 
@@ -110,7 +110,7 @@ public class Spleef extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof BlockBreakEvent) {
 			BlockBreakEvent e = (BlockBreakEvent) event;
 

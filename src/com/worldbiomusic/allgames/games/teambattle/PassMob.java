@@ -82,7 +82,6 @@ public class PassMob extends TeamBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14397);
 
-
 		// settings
 		getSetting().setIcon(Material.OAK_FENCE);
 		getSetting().addCustomDetectableEvent(EntityExplodeEvent.class);
@@ -90,7 +89,7 @@ public class PassMob extends TeamBattleMiniGame {
 		// options
 		setGroupChat(true);
 		getCustomOption().set(Option.MINIGAME_RESPAWN, false);
-		setTeamSize(getMaxPlayerCount() / 2);
+		setTeamSize(getMaxPlayers() / 2);
 		setTeamRegisterMode(TeamRegisterMode.NONE);
 
 		// areas
@@ -136,8 +135,8 @@ public class PassMob extends TeamBattleMiniGame {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	protected void processEvent(Event event) {
-		super.processEvent(event);
+	protected void onEvent(Event event) {
+		super.onEvent(event);
 
 		if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;
@@ -189,8 +188,8 @@ public class PassMob extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// give kits
 		for (Player p : this.getPlayers()) {
@@ -219,12 +218,6 @@ public class PassMob extends TeamBattleMiniGame {
 		this.getTaskManager().runTaskTimer("spawnMob", this.mobSpawnDelay * 20, this.mobSpawnDelay * 20);
 	}
 
-	@Override
-	protected void runTaskBeforeFinish() {
-		super.runTaskBeforeFinish();
-		this.processTeamScore();
-	}
-
 	public void processTeamScore() {
 		int redMobCount = this.redArea.getMobs().size();
 		int blueMobCount = this.blueArea.getMobs().size();
@@ -235,8 +228,11 @@ public class PassMob extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-		super.runTaskAfterFinish();
+	protected void onFinish() {
+		super.onFinish();
+
+		// process scores
+		this.processTeamScore();
 
 		// init areas
 		this.redArea.init();

@@ -15,8 +15,8 @@
 ```yaml
 PVP:
   title: PVP
-  min-player-count: 2
-  max-player-count: 5
+  min-players: 2
+  max-players: 5
   waiting-time: 30
   play-time: 180
   active: true

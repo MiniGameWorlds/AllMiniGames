@@ -83,8 +83,8 @@ public class MNK extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		this.board.init();
 		this.board.registerPlayers(getPlayers().get(0), getPlayers().get(1));
@@ -92,15 +92,8 @@ public class MNK extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-		super.runTaskAfterFinish();
-
-		getPlayers().forEach(p -> p.setAllowFlight(false));
-	}
-
-	@Override
-	protected void processEvent(Event event) {
-		this.board.processEvent(event);
+	protected void onEvent(Event event) {
+		this.board.onEvent(event);
 	}
 
 	@Override

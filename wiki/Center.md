@@ -24,8 +24,8 @@
 ```yaml
 Center:
   title: Center
-  min-player-count: 2
-  max-player-count: 5
+  min-players: 2
+  max-players: 5
   waiting-time: 20
   play-time: 120
   active: true

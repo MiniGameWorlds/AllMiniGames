@@ -56,8 +56,8 @@ public class Bridge extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// start fallen check task
 		getTaskManager().runTaskTimer("checkFallen", 0, 5);
@@ -94,7 +94,7 @@ public class Bridge extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent e = (EntityDamageEvent) event;
 			e.setDamage(0);

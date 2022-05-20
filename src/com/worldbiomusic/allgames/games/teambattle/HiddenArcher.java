@@ -63,8 +63,8 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
-		super.processEvent(event);
+	protected void onEvent(Event event) {
+		super.onEvent(event);
 		if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
 			damageEvent.setCancelled(true);
@@ -120,8 +120,8 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// hide player from other teams
 		for (Player p : this.getPlayers()) {

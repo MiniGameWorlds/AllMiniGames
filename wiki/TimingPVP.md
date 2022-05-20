@@ -16,8 +16,8 @@
 ```yaml
 TimingPVP:
   title: TimingPVP
-  min-player-count: 2
-  max-player-count: 10
+  min-players: 2
+  max-players: 10
   waiting-time: 15
   play-time: 90
   active: true

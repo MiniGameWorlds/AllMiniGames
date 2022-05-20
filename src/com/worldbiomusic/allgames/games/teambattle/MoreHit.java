@@ -32,8 +32,8 @@ public class MoreHit extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
-		super.processEvent(event);
+	protected void onEvent(Event event) {
+		super.onEvent(event);
 		if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 			Entity victimEntity = e.getEntity();

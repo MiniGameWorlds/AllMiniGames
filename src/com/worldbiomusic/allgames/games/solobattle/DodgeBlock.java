@@ -79,7 +79,7 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityDamageEvent) {
 			killPlayer((EntityDamageEvent) event);
 		}
@@ -179,8 +179,8 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		this.fallingBlocks.clear();
 
@@ -193,8 +193,8 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void runTaskBeforeFinish() {
-		super.runTaskBeforeFinish();
+	protected void onFinish() {
+		super.onFinish();
 
 		// remove falling blocks
 		this.fallingBlocks.stream().filter(b -> b != null).forEach(b -> b.remove());

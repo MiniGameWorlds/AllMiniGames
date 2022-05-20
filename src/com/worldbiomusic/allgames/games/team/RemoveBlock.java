@@ -90,7 +90,7 @@ public class RemoveBlock extends TeamMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof BlockBreakEvent) {
 			BlockBreakEvent e = (BlockBreakEvent) event;
 			Block block = e.getBlock();
@@ -116,8 +116,8 @@ public class RemoveBlock extends TeamMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// give tools
 		List<ItemStack> items = new ArrayList<>();

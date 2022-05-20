@@ -15,8 +15,8 @@
 ```yaml
 TeamTiny:
   title: TeamTiny
-  min-player-count: 1
-  max-player-count: 10
+  min-players: 1
+  max-players: 10
   waiting-time: 20
   play-time: 60
   active: true

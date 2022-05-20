@@ -38,7 +38,7 @@ public class RandomScore extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof PlayerToggleSneakEvent) {
 			PlayerToggleSneakEvent e = (PlayerToggleSneakEvent) event;
 			Player p = e.getPlayer();

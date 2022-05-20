@@ -143,7 +143,7 @@ public class FallingItem extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityPickupItemEvent) {
 			pickupItem((EntityPickupItemEvent) event);
 		} else if (event instanceof EntityDamageEvent) {
@@ -155,8 +155,8 @@ public class FallingItem extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// start to fall random items between pos1 and pos2
 		getTaskManager().runTaskTimer("spawn-item", 0, (long) (20 * this.spawnDelay));
@@ -176,8 +176,8 @@ public class FallingItem extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskBeforeFinish() {
-		super.runTaskBeforeFinish();
+	protected void onFinish() {
+		super.onFinish();
 
 		// remove remain items
 		this.spawnedEntities.stream().filter(e -> e != null).forEach(e -> {

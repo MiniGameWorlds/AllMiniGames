@@ -16,8 +16,8 @@
 ```yaml
 MNK:
   title: MNK
-  min-player-count: 2
-  max-player-count: 2
+  min-players: 2
+  max-players: 2
   waiting-time: 10
   play-time: 600
   active: true

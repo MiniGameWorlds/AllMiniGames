@@ -70,8 +70,8 @@ public class SuperMob extends SoloBattleMiniGame {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// give kits
 		for (Player p : this.getPlayers()) {
@@ -110,13 +110,13 @@ public class SuperMob extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-		super.runTaskAfterFinish();
+	protected void onFinish() {
+		super.onFinish();
 		this.killAllEntities();
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		// custom detectable event
 		if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;

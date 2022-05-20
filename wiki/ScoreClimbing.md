@@ -16,8 +16,8 @@
 ```yaml
 ScoreClimbing:
   title: ScoreClimbing
-  min-player-count: 2
-  max-player-count: 4
+  min-players: 2
+  max-players: 4
   waiting-time: 20
   play-time: 60
   active: true

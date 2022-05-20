@@ -15,8 +15,8 @@
 ```yaml
 MoreHit:
   title: MoreHit
-  min-player-count: 2
-  max-player-count: 6
+  min-players: 2
+  max-players: 6
   waiting-time: 10
   play-time: 20
   active: true

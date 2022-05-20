@@ -15,8 +15,8 @@
 ```yaml
 HiddenArcher:
   title: HiddenArcher
-  min-player-count: 2
-  max-player-count: 8
+  min-players: 2
+  max-players: 8
   waiting-time: 10
   play-time: 180
   active: true

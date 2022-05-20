@@ -149,7 +149,7 @@ public class StandOnBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof PlayerDropItemEvent) {
 			((PlayerDropItemEvent) event).setCancelled(true);
 		}
@@ -218,8 +218,8 @@ public class StandOnBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		fillRandomBlocks();
 
@@ -228,8 +228,8 @@ public class StandOnBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-		super.runTaskAfterFinish();
+	protected void onFinish() {
+		super.onFinish();
 
 		fillRandomBlocks();
 	}

@@ -24,7 +24,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOpti
 
 /**
  * - Summon bat when game start <br>
- * - Mob will be removed when game finished (runTaskAfterFinish()) <br>
+ * - Mob will be removed when game finished (onFinish()) <br>
  * - Hit bat with snowball to get score <br>
  * - Snowball has cooldown
  */
@@ -52,8 +52,8 @@ public class Tiny extends SoloMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		summonBat();
 		getSoloPlayer().getInventory().addItem(new ItemStack(Material.SNOWBALL));
@@ -64,14 +64,14 @@ public class Tiny extends SoloMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-		super.runTaskAfterFinish();
+	protected void onFinish() {
+		super.onFinish();
 
 		this.bat.remove();
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof ProjectileHitEvent) {
 			ProjectileHitEvent e = (ProjectileHitEvent) event;
 			Entity hitEntity = e.getHitEntity();

@@ -70,14 +70,14 @@ public class PVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 		// set health scale, give kit items
 		this.getPlayers().forEach(p -> initKitsAndHealth(p));
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof PlayerRespawnEvent) {
 			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
 			e.setRespawnLocation(this.getLocation());

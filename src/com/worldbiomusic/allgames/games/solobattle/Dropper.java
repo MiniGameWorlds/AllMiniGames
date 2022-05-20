@@ -106,7 +106,7 @@ public class Dropper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent e = (EntityDamageEvent) event;
 
@@ -176,8 +176,8 @@ public class Dropper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// scores
 		sendMessageToAllPlayers(ChatColor.BOLD + "\n===[ Scores ]===");

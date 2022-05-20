@@ -15,8 +15,8 @@
 ```yaml
 Tiny:
   title: Tiny
-  min-player-count: 1
-  max-player-count: 1
+  min-players: 1
+  max-players: 1
   waiting-time: 5
   play-time: 60
   active: true

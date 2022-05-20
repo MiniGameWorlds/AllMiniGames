@@ -15,8 +15,8 @@
 ```yaml
 RemoveBlock:
   title: RemoveBlock
-  min-player-count: 1
-  max-player-count: 4
+  min-players: 1
+  max-players: 4
   waiting-time: 20
   play-time: 180
   active: true

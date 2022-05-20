@@ -67,8 +67,8 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// 3 chances
 		this.chance.clear();
@@ -83,7 +83,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof PlayerChatEvent) {
 			PlayerChatEvent e = (PlayerChatEvent) event;
 			Player p = e.getPlayer();

@@ -15,8 +15,8 @@
 ```yaml
 RockScissorPaper:
   title: RSP
-  min-player-count: 2
-  max-player-count: 2
+  min-players: 2
+  max-players: 2
   waiting-time: 15
   play-time: 30
   active: true
@@ -52,4 +52,4 @@ RockScissorPaper:
 
 # Warning
 
-- `min-player-count` and `max-player-count` must be 2
+- `min-players` and `max-players` must be 2

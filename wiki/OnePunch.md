@@ -16,8 +16,8 @@
 ```yaml
 OnePunch:
   title: OnePunch
-  min-player-count: 2
-  max-player-count: 10
+  min-players: 2
+  max-players: 10
   waiting-time: 10
   play-time: 60
   active: true

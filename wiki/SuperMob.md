@@ -16,8 +16,8 @@
 ```yaml
 SuperMob:
   title: SuperMob
-  min-player-count: 1
-  max-player-count: 5
+  min-players: 1
+  max-players: 5
   waiting-time: 10
   play-time: 120
   active: true

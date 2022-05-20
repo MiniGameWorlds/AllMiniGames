@@ -82,8 +82,8 @@ public class HitMob extends SoloMiniGame implements Listener {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// give tools
 		this.tools.forEach(getSoloPlayer().getInventory()::addItem);
@@ -94,8 +94,8 @@ public class HitMob extends SoloMiniGame implements Listener {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-		super.runTaskAfterFinish();
+	protected void onFinish() {
+		super.onFinish();
 
 		// remove mob
 		if (this.mob != null) {
@@ -108,7 +108,7 @@ public class HitMob extends SoloMiniGame implements Listener {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
 			Entity entity = damageEvent.getEntity();

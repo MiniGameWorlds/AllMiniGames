@@ -149,8 +149,8 @@ public class FallingBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// fill blocks
 		BlockTool.fillBlockWithMaterial(pos1, pos2, this.removingBlock);
@@ -171,7 +171,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityChangeBlockEvent) {
 			removeFallenBlock((EntityChangeBlockEvent) event);
 		}

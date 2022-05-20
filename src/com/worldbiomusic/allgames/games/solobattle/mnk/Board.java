@@ -61,7 +61,7 @@ public class Board {
 		this.playPos2 = this.boardPos2.clone().add(0, 1, 0);
 	}
 
-	public void processEvent(Event event) {
+	public void onEvent(Event event) {
 		if (event instanceof BlockPlaceEvent) {
 			playBlockPlaced((BlockPlaceEvent) event);
 		} else if (event instanceof PlayerDropItemEvent) {

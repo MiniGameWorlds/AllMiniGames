@@ -16,8 +16,8 @@
 ```yaml
 FitTool:
   title: FitTool
-  min-player-count: 1
-  max-player-count: 1
+  min-players: 1
+  max-players: 1
   waiting-time: 10
   play-time: 30
   active: true

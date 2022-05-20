@@ -21,8 +21,8 @@
 ```yaml
 Rebound:
   title: Rebound
-  min-player-count: 2
-  max-player-count: 20
+  min-players: 2
+  max-players: 20
   waiting-time: 20
   play-time: 180
   active: true

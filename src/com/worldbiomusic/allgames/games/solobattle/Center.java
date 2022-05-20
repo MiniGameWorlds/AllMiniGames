@@ -83,8 +83,8 @@ public class Center extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 		getTaskManager().runTaskTimer("check-sneaking-and-fallen", 0, 5);
 	}
 
@@ -93,7 +93,7 @@ public class Center extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 	}
 
 	@Override

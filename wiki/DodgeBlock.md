@@ -23,8 +23,8 @@
 ```yaml
 DodgeBlock:
   title: DodgeBlock
-  min-player-count: 2
-  max-player-count: 10
+  min-players: 2
+  max-players: 10
   waiting-time: 20
   play-time: 120
   active: true

@@ -15,8 +15,8 @@
 ```yaml
 BreedMob:
   title: BreedMob
-  min-player-count: 1
-  max-player-count: 4
+  min-players: 1
+  max-players: 4
   waiting-time: 10
   play-time: 120
   active: true

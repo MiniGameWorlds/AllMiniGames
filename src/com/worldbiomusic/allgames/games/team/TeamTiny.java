@@ -69,8 +69,8 @@ public class TeamTiny extends TeamMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		// summon entity
 		summonEntity();
@@ -80,8 +80,8 @@ public class TeamTiny extends TeamMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-		super.runTaskAfterFinish();
+	protected void onFinish() {
+		super.onFinish();
 
 		if (this.entity != null) {
 			this.entity.remove();
@@ -93,7 +93,7 @@ public class TeamTiny extends TeamMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof ProjectileHitEvent) {
 			ProjectileHitEvent e = (ProjectileHitEvent) event;
 			Entity hitEntity = e.getHitEntity();

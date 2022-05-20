@@ -125,7 +125,7 @@ public class ItsMine extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityPickupItemEvent) {
 			((EntityPickupItemEvent) event).setCancelled(true);
 		} else if (event instanceof PlayerDropItemEvent) {
@@ -201,8 +201,8 @@ public class ItsMine extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 
 		setNewTagger(randomPlayer());
 

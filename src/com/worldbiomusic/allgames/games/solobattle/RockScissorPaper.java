@@ -70,8 +70,8 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+	protected void onStart() {
+		super.onStart();
 		// input random selection
 		for (Player p : this.getPlayers()) {
 			this.selections.put(p, Selection.random());
@@ -79,7 +79,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof AsyncPlayerChatEvent) {
 			AsyncPlayerChatEvent e = (AsyncPlayerChatEvent) event;
 			Player p = e.getPlayer();
@@ -122,7 +122,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskBeforeFinish() {
+	protected void onFinish() {
 		if (!(this.getPlayerCount() == 2)) {
 			return;
 		}
