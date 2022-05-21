@@ -19,10 +19,10 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 /**
  * - Player will get score equal to damage dealt to mob<br>
@@ -46,7 +46,6 @@ public class HitMob extends SoloMiniGame implements Listener {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14402);
 
-
 		getSetting().setIcon(Material.WOODEN_SWORD);
 
 		getCustomOption().set(Option.COLOR, ChatColor.RED);
@@ -56,8 +55,8 @@ public class HitMob extends SoloMiniGame implements Listener {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = getCustomData();
 
@@ -90,7 +89,6 @@ public class HitMob extends SoloMiniGame implements Listener {
 
 		// spawn mob
 		spawnMob();
-
 	}
 
 	@Override
@@ -104,7 +102,7 @@ public class HitMob extends SoloMiniGame implements Listener {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -130,6 +128,9 @@ public class HitMob extends SoloMiniGame implements Listener {
 					// event detector can detect EntityDamageByEntityEvent if damager is a player or
 					// a shooter of projectile
 					plusScore(damage);
+
+					// title
+					sendTitles("" + ChatColor.GREEN + damage, "damage");
 				}
 
 				// cancel damage dealt to the mob
@@ -153,7 +154,7 @@ public class HitMob extends SoloMiniGame implements Listener {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<String>();
 		tutorial.add("Hit mob: " + ChatColor.GREEN + "+1");
 		tutorial.add("Die: finish");

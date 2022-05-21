@@ -51,5 +51,4 @@ RockScissorPaper:
 ```
 
 # Warning
-
 - `min-players` and `max-players` must be 2

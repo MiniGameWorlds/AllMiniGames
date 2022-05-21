@@ -27,6 +27,7 @@ import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
 
 /**
  * Pickup items falling from the sky<br>
@@ -81,8 +82,8 @@ public class FallingItem extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = getCustomData();
 
@@ -138,7 +139,7 @@ public class FallingItem extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		this.spawnedEntities = new ArrayList<>();
 	}
 
@@ -163,16 +164,16 @@ public class FallingItem extends SoloBattleMiniGame {
 
 		// nofity information
 		// scores of items
-		sendMessageToAllPlayers("=====Score List=====");
+		sendMessages("=====Score List=====");
 		this.items.forEach((k, v) -> {
-			sendMessageToAllPlayers(k.name() + ": " + v);
+			sendMessages(k.name() + ": " + v);
 		});
 
 		// finish score
-		sendMessageToAllPlayers("\nFinish score: " + this.finishScore);
+		sendMessages("\nFinish score: " + this.finishScore);
 
 		// item live time
-		sendMessageToAllPlayers("\nItem will be disappeared in " + this.itemLiveTime + " seconds");
+		sendMessages("\nItem will be disappeared in " + this.itemLiveTime + " seconds");
 	}
 
 	@Override
@@ -186,7 +187,7 @@ public class FallingItem extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<String>();
 		tutorial.add("Pick up items fallen from the sky!");
 
@@ -256,7 +257,7 @@ public class FallingItem extends SoloBattleMiniGame {
 		Bukkit.getScheduler().runTaskLater(AllMiniGamesMain.getInstance(), () -> {
 			if (item != null) {
 				item.remove();
-				item.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, item.getLocation(), 5);
+				ParticleTool.spawn(item.getLocation(), Particle.EXPLOSION_NORMAL, 5, 0);
 			}
 		}, 20 * this.itemLiveTime);
 	}

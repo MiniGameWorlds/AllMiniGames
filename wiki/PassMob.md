@@ -34,7 +34,7 @@ PassMob:
   tutorial:
   - At the game end, winner is the team that has less mobs
   custom-data:
-    redLocation:
+    red-location:
       ==: org.bukkit.Location
       world: world
       x: 0.0
@@ -42,7 +42,7 @@ PassMob:
       z: 0.0
       pitch: 0.0
       yaw: 0.0
-    blueLocation:
+    blue-location:
       ==: org.bukkit.Location
       world: world
       x: 0.0
@@ -50,7 +50,7 @@ PassMob:
       z: 0.0
       pitch: 0.0
       yaw: 0.0
-    mobSpawnDelay: 15
+    mob-spawn-delay: 15
     chatting: true
     score-notifying: true
     block-break: false
@@ -66,10 +66,10 @@ PassMob:
     teamPvp: true
     teamRegisterMode: FAIR_FILL
 ```
-- `redLocation`: red team location
-- `blueLocation`: blue team location
-- `mobSpawnDelay`: random mob spawn delay per second at each team area
+- `red-location`: red team location
+- `blue-location`: blue team location
+- `mob-spawn-delay`: random mob spawn delay per second at each team area
 
 # Warning
-- Before playing, must setup `redLocation`, `blueLocation`
+- Before playing, must setup `red-location`, `blue-location`
 - Never set difficulty to `peaceful`

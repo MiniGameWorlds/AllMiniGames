@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -12,6 +13,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.PlayerTool;
+import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
@@ -38,7 +40,6 @@ public class TimingPVP extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14407);
 
-
 		this.randomGiver = new RandomItemGiver();
 		getSetting().setIcon(Material.CHORUS_FRUIT);
 
@@ -48,26 +49,32 @@ public class TimingPVP extends SoloBattleMiniGame {
 	}
 
 	private void registerTask() {
-		getTaskManager().registerTask("randomItems", () -> {
+		getTaskManager().registerTask("random-items", () -> {
 			getPlayers().forEach(p -> p.getInventory().clear());
 			randomGiver.giveRandomItemsToPlayers(getPlayers());
+
+			// title
+			sendTitles(ChatColor.GREEN + "Reset", "items");
+
+			// sound
+			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_BELL);
 		});
 	}
 
 	protected void onStart() {
 		// start random item task
-		getTaskManager().runTaskTimer("randomItems", 0, 20 * this.timingDelay);
+		getTaskManager().runTaskTimer("random-items", 0, 20 * this.timingDelay);
 
 		// give 100 scores
 		plusEveryoneScore(100);
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		// timinig delay
-		getCustomData().put("timingDelay", 10);
+		getCustomData().put("timing-delay", 10);
 
 		// random items
 		List<ItemStack> randomItems = new ArrayList<ItemStack>();
@@ -87,7 +94,7 @@ public class TimingPVP extends SoloBattleMiniGame {
 		randomItems.add(new ItemStack(Material.CROSSBOW));
 
 		randomItems.add(new ItemStack(Material.TRIDENT));
-		getCustomData().put("randomItems", randomItems);
+		getCustomData().put("random-items", randomItems);
 
 	}
 
@@ -96,13 +103,12 @@ public class TimingPVP extends SoloBattleMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		this.timingDelay = (int) getCustomData().get("timingDelay");
-
-		this.randomGiver.setRandomItemList((List<ItemStack>) getCustomData().get("randomItems"));
+		this.timingDelay = (int) getCustomData().get("timing-delay");
+		this.randomGiver.setRandomItemList((List<ItemStack>) getCustomData().get("random-items"));
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -110,11 +116,11 @@ public class TimingPVP extends SoloBattleMiniGame {
 		if (event instanceof PlayerDropItemEvent) {
 			((PlayerDropItemEvent) event).setCancelled(true);
 		} else if (event instanceof EntityDamageEvent) {
-			processPlayerDeath((EntityDamageEvent) event);
+			onPlayerDeath((EntityDamageEvent) event);
 		}
 	}
 
-	private void processPlayerDeath(EntityDamageEvent e) {
+	private void onPlayerDeath(EntityDamageEvent e) {
 		if (!(e.getEntity() instanceof Player)) {
 			return;
 		}
@@ -126,8 +132,10 @@ public class TimingPVP extends SoloBattleMiniGame {
 			return;
 		}
 
+		// title, msg, sound
 		sendTitle(victim, ChatColor.RED + "Die", "");
-		sendMessageToAllPlayers(ChatColor.BOLD + victim.getName() + ChatColor.RED + " Died");
+		sendMessages(ChatColor.BOLD + victim.getName() + ChatColor.RED + " died");
+		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
 		// minus score
 		minusScore(victim, 1);
@@ -140,15 +148,13 @@ public class TimingPVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<String>();
 
 		tutorial.add("All players' armor and weapons will be changed regularly");
-		tutorial.add("All players' armor and weapons  will be changed regularly");
 		tutorial.add("Die: " + ChatColor.RED + "-1");
 
 		return tutorial;
 	}
 
 }
-

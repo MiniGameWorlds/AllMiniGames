@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -17,6 +18,7 @@ import com.wbm.plugin.util.LocationTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.SoundTool;
 
 public class RemoveBlock extends TeamMiniGame {
 
@@ -32,7 +34,6 @@ public class RemoveBlock extends TeamMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14393);
 
-		this.blocks = new ArrayList<>();
 		this.registerTasks();
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
 	}
@@ -47,7 +48,7 @@ public class RemoveBlock extends TeamMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
+	protected void initCustomData() {
 		Map<String, Object> data = this.getCustomData();
 
 		// block positions
@@ -80,13 +81,14 @@ public class RemoveBlock extends TeamMiniGame {
 		@SuppressWarnings("unchecked")
 		List<String> blocksStr = (List<String>) this.getCustomData().get("blocks");
 
+		this.blocks = new ArrayList<>();
 		for (String block : blocksStr) {
 			this.blocks.add(Material.valueOf(block));
 		}
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -95,7 +97,12 @@ public class RemoveBlock extends TeamMiniGame {
 			BlockBreakEvent e = (BlockBreakEvent) event;
 			Block block = e.getBlock();
 			if (LocationTool.isIn(pos1, block.getLocation(), pos2) && this.isTargetBlock(block)) {
+				// remove block
 				e.getBlock().setType(Material.AIR);
+
+				// sound
+				SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+
 				if (this.checkAllBlocksRemoved()) {
 					this.finishGame();
 				}
@@ -139,7 +146,7 @@ public class RemoveBlock extends TeamMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Game Start: +" + this.getPlayTime());
 		tutorial.add("every 5 second: -1");

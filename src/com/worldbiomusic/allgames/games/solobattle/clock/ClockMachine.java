@@ -74,7 +74,7 @@ public class ClockMachine {
 
 	public void drawHand() {
 		int distance = (int) getFingertipLocation().distance(this.center);
-		ParticleTool.line(center, getFingertipLocation(), particle, distance * 4, 1);
+		ParticleTool.line(center, getFingertipLocation(), particle, distance * 4);
 	}
 
 	public void updateWithEmptySpace() {
@@ -135,7 +135,7 @@ public class ClockMachine {
 	public void changeDirection() {
 		this.direction = Direction.change(direction);
 		ChatColor color = (this.direction == Direction.CLOCK_WISE) ? ChatColor.GREEN : ChatColor.RED;
-		this.clock.sendTitleToAllPlayers(color + this.direction.name(), "");
+		this.clock.sendTitles(color + this.direction.name(), "");
 	}
 
 }

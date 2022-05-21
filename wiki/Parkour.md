@@ -19,7 +19,7 @@
 - `jump`: jump to the sky
 - `debuff`: give random debuff potion effect
 ## Endless
-- `custom-data.endless` option
+- `endless` option
 - > If true, player who reached the finish block will teleport to the spawn with +1 score
 - > If false, game will be finished when any player reached the finish block 
 
@@ -75,7 +75,7 @@ Parkour:
     food-level-change: true
     player-hurt: true
 ```
-- `custom-data.endless`: (true / false)
+- `endless`: (true / false)
 #### custom-data.event-blocks
 - `finish`: (Block Material)
 - `respawn`: (Block Material)

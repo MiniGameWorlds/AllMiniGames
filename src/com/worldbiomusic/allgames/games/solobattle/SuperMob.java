@@ -3,8 +3,11 @@ package com.worldbiomusic.allgames.games.solobattle;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -19,10 +22,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.wbm.plugin.util.InventoryTool;
+import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
+import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 public class SuperMob extends SoloBattleMiniGame {
 
@@ -44,7 +49,13 @@ public class SuperMob extends SoloBattleMiniGame {
 
 		// options
 		getCustomOption().set(Option.INVENTORY_SAVE, true);
+		getCustomOption().set(Option.PVP, false);
+		getCustomOption().set(Option.COLOR, ChatColor.RED);
 
+		registerTask();
+	}
+
+	private void registerTask() {
 		// random targeting task
 		getTaskManager().registerTask("changeTarget", new Runnable() {
 
@@ -54,11 +65,10 @@ public class SuperMob extends SoloBattleMiniGame {
 				superMob.setTarget(getPlayers().get(r));
 			}
 		});
-
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		this.killAllEntities();
 		this.skillChance = 0.1;
 	}
@@ -119,64 +129,76 @@ public class SuperMob extends SoloBattleMiniGame {
 	protected void onEvent(Event event) {
 		// custom detectable event
 		if (event instanceof EntityDeathEvent) {
-			EntityDeathEvent e = (EntityDeathEvent) event;
-			if (this.entities.contains(e.getEntity())) {
-				Entity killer = e.getEntity().getKiller();
-				if (killer == null) {
-					return;
-				}
-
-				Player killerPlayer = null;
-				if (!(killer instanceof Player)) {
-					return;
-				}
-
-				killerPlayer = (Player) killer;
-				this.plusScore(killerPlayer, 5);
-				e.getDrops().clear();
-			}
+			onMobDeath((EntityDeathEvent) event);
 		} else if (event instanceof EntityDamageEvent) {
 			if (((EntityDamageEvent) event).getEntity() instanceof Player) {
-				EntityDamageEvent e = (EntityDamageEvent) event;
-				Player p = (Player) e.getEntity();
-
-				// if death
-				if (p.getHealth() <= e.getDamage()) {
-					// cancel damage
-					e.setDamage(0);
-
-					this.setLive(p, false);
-				}
+				onPlayerDamaged((EntityDamageEvent) event);
 			} else if (event instanceof EntityDamageByEntityEvent) {
-				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-				if (!(e.getEntity() instanceof Zombie)) {
-					return;
-				}
-
-				Zombie zombie = (Zombie) e.getEntity();
-				if (!this.superMob.equals(zombie)) {
-					return;
-				}
-				// direct damage
-				if (e.getDamager() instanceof Player) {
-					this.whenSuperMobDamagedByPlayer(e, (Player) e.getDamager());
-				}
-				// projectile damage
-				else if (e.getDamager() instanceof Arrow) {
-					Arrow proj = (Arrow) e.getDamager();
-					if (!(proj.getShooter() instanceof Player)) {
-						return;
-					}
-
-					Player shooter = (Player) proj.getShooter();
-					if (!this.containsPlayer(shooter)) {
-						return;
-					}
-
-					this.whenSuperMobDamagedByPlayer(e, shooter);
-				}
-
+				onSuperMobDamaged((EntityDamageByEntityEvent) event);
 			}
+		}
+	}
+
+	private void onMobDeath(EntityDeathEvent e) {
+		if (this.entities.contains(e.getEntity())) {
+			Entity killer = e.getEntity().getKiller();
+			if (killer == null) {
+				return;
+			}
+
+			Player killerPlayer = null;
+			if (!(killer instanceof Player)) {
+				return;
+			}
+
+			killerPlayer = (Player) killer;
+			this.plusScore(killerPlayer, 5);
+			e.getDrops().clear();
+		}
+	}
+
+	private void onPlayerDamaged(EntityDamageEvent e) {
+		Player p = (Player) e.getEntity();
+
+		// if death
+		if (p.getHealth() <= e.getDamage()) {
+			// cancel damage
+			e.setDamage(0);
+
+			sendTitle(p, ChatColor.GREEN + "Respawn", "");
+			SoundTool.play(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL);
+			this.setLive(p, false);
+		}
+	}
+
+	private void onSuperMobDamaged(EntityDamageByEntityEvent e) {
+		if (!(e.getEntity() instanceof Zombie)) {
+			return;
+		}
+
+		Zombie zombie = (Zombie) e.getEntity();
+		if (!this.superMob.equals(zombie)) {
+			return;
+		}
+
+		// direct damage
+		if (e.getDamager() instanceof Player) {
+			this.whenSuperMobDamagedByPlayer(e, (Player) e.getDamager());
+		}
+
+		// projectile damage
+		else if (e.getDamager() instanceof Arrow) {
+			Arrow proj = (Arrow) e.getDamager();
+			if (!(proj.getShooter() instanceof Player)) {
+				return;
+			}
+
+			Player shooter = (Player) proj.getShooter();
+			if (!this.containsPlayer(shooter)) {
+				return;
+			}
+
+			this.whenSuperMobDamagedByPlayer(e, shooter);
 		}
 	}
 
@@ -222,6 +244,10 @@ public class SuperMob extends SoloBattleMiniGame {
 			this.useMode(Mode.random());
 			break;
 		}
+
+		// etc
+		SoundTool.play(getPlayers(), Sound.BLOCK_BELL_USE);
+		ParticleTool.spawn(this.superMob.getLocation(), Particle.FLAME, 50, 0.2);
 	}
 
 	private void spawnFriends() {
@@ -232,7 +258,8 @@ public class SuperMob extends SoloBattleMiniGame {
 			this.spawnMob(loc, EntityType.SKELETON);
 			this.spawnMob(loc, EntityType.SPIDER);
 		}
-		this.sendMessageToAllPlayers("SuperMob invites friends");
+
+		sendMessages(ChatColor.RED + "SuperMob invites friends");
 	}
 
 	private void spawnMob(Location loc, EntityType type) {
@@ -256,23 +283,24 @@ public class SuperMob extends SoloBattleMiniGame {
 
 	private void useAttackMode() {
 		this.superMob.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 10, 0));
-		this.sendMessageToAllPlayers("SuperMob uses attack mode");
+		this.sendMessages(ChatColor.RED + "SuperMob uses attack mode");
 	}
 
 	private void useDefenseMode() {
 		this.superMob.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 10, 0));
-		this.sendMessageToAllPlayers("SuperMob uses defense mode");
+		this.sendMessages(ChatColor.RED + "SuperMob uses defense mode");
 	}
 
 	private void useFastMode() {
 		this.superMob.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 10, 0));
-		this.sendMessageToAllPlayers("SuperMob uses fast mode");
+		this.sendMessages(ChatColor.RED + "SuperMob uses fast mode");
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Hit Super Mob: +(damage)");
+		tutorial.add("Super mob has some skills: ATTACK, DEFENSE, FAST, FRIENDSHIP");
 		return tutorial;
 	}
 

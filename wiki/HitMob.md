@@ -62,8 +62,8 @@ HitMob:
     food-level-change: true
     player-hurt: true
 ```
-- `custom-data.tools`: Can change player tools
-- `custom-data.mob`: Mob type which will spawn when the game starts
+- `tools`: Can change player tools
+- `mob`: Mob type which will spawn when the game starts
 
 # Warning
 - Mob doesn't get damage, do not set to creeper or other mobs which has exceptions

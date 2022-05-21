@@ -50,7 +50,7 @@ BreedMob:
     dead-gamemode: SPECTATOR
     color: RED
 ```
-- `custom-data.mobs`: breeding mob list (e.g. `CREEPER`, `IRON_GOLEM`)
+- `mobs`: breeding mob list (e.g. `CREEPER`, `IRON_GOLEM`)
 
 # Warning
 - Creeper can ruin games

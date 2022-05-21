@@ -51,7 +51,7 @@ FallingBlock:
       z: 0.0
       pitch: 0.0
       yaw: 0.0
-    removingBlock: STONE
+    removing-block: STONE
     chatting: true
     score-notifying: true
     block-break: false
@@ -65,9 +65,9 @@ FallingBlock:
     color: RESET
 ```
 - `pos1`, `pos2`: Stage block area
-- `removingBlock`: Sink block material
+- `removing-block`: Sink block material
 
 
 # Warning
-- Player will be die if falling down below the `y` coordinate of `custom-data.pos1.y`
+- Player will be die if falling down below the `y` coordinate of `pos1.y`
 - Stage blocks (between `pos1` and `pos2`) will be filled every game starts

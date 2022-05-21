@@ -63,8 +63,8 @@ public class Dropper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = getCustomData();
 
@@ -102,7 +102,7 @@ public class Dropper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -180,15 +180,15 @@ public class Dropper extends SoloBattleMiniGame {
 		super.onStart();
 
 		// scores
-		sendMessageToAllPlayers(ChatColor.BOLD + "\n===[ Scores ]===");
+		sendMessages(ChatColor.BOLD + "\n===[ Scores ]===");
 		this.scoreBlocks.forEach((k, v) -> {
 			ChatColor color = v > 0 ? ChatColor.GREEN : ChatColor.RED;
-			sendMessageToAllPlayers(k.name() + ": " + color + v);
+			sendMessages(k.name() + ": " + color + v);
 		});
 
 		// respawn block
-		sendMessageToAllPlayers(ChatColor.BOLD + "\n===[ Respawn block ]===");
-		sendMessageToAllPlayers(this.respawnBlock.name());
+		sendMessages(ChatColor.BOLD + "\n===[ Respawn block ]===");
+		sendMessages(this.respawnBlock.name());
 
 		// init players
 		getPlayers().forEach(p -> {
@@ -201,7 +201,7 @@ public class Dropper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<String>();
 		tutorial.add("Drop and get scores!");
 

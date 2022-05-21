@@ -45,8 +45,8 @@ public class MNK extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = getCustomData();
 		data.put("board-pos1", getLocation());
@@ -66,7 +66,7 @@ public class MNK extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		Map<String, Object> data = getCustomData();
 		Location boardPos1 = (Location) data.get("board-pos1");
 		Location boardPos2 = (Location) data.get("board-pos2");
@@ -97,7 +97,7 @@ public class MNK extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<String>();
 		tutorial.add("Board game in which two players task turns in placing a block of their color on `m by n` board");
 		tutorial.add("The winner being the player who first placed k blocks  of their own color in a row");

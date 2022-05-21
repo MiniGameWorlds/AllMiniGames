@@ -15,11 +15,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.wbm.plugin.util.BlockTool;
+import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
+import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 /**
  * [Rules]<br>
@@ -72,8 +73,8 @@ public class LavaUp extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = getCustomData();
 		data.put("pos1", getLocation());
@@ -94,7 +95,7 @@ public class LavaUp extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		// init lave height
 		this.height = (int) pos1.getY();
 	}
@@ -132,8 +133,11 @@ public class LavaUp extends SoloBattleMiniGame {
 			minusScore(p, 1);
 
 			// notify
-			sendTitleToAllPlayers("" + ChatColor.RED + p.getName(), "DIE");
+			sendTitles("" + ChatColor.RED + p.getName(), "DIE");
 			getPlayers().forEach(all -> PlayerTool.playSound(all, Sound.BLOCK_BELL_USE));
+
+			// sound
+			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_BELL);
 
 			setLive(p, false);
 		}
@@ -188,7 +192,7 @@ public class LavaUp extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Run away from the " + ChatColor.RED + ChatColor.BOLD + "LAVA");
 

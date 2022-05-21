@@ -182,12 +182,12 @@ public class Board {
 
 	private void finishGameWithDelay() {
 		// placed count
-		this.mnk.sendMessageToAllPlayers("\n================================");
-		this.mnk.sendMessageToAllPlayers("" + ChatColor.GOLD + ChatColor.BOLD + "[Placed Count]");
+		this.mnk.sendMessages("\n================================");
+		this.mnk.sendMessages("" + ChatColor.GOLD + ChatColor.BOLD + "[Placed Count]");
 		MNKPlayer p1 = getPlayers().get(0);
 		MNKPlayer p2 = getPlayers().get(1);
 
-		this.mnk.sendMessageToAllPlayers(String.format("%s(%d) : %s(%d)", p1.getPlayer().getName(), p1.getPlacedCount(),
+		this.mnk.sendMessages(String.format("%s(%d) : %s(%d)", p1.getPlayer().getName(), p1.getPlacedCount(),
 				p2.getPlayer().getName(), p2.getPlacedCount()));
 
 		// cancel flow turn time task

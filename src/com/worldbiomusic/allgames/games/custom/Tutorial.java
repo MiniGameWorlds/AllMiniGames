@@ -34,7 +34,7 @@ public class Tutorial extends MiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		// remove system tasks (_waiting-timer, _finish-timer)
 		// game will not finish until the player leave the game
 		getTaskManager().runTaskLater("cancelAllTask", 20);
@@ -46,7 +46,7 @@ public class Tutorial extends MiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutoroial = new ArrayList<>();
 		tutoroial.add("Look around the tutorials of minigame system");
 		tutoroial.add(ChatColor.BOLD + "Wiki: " + ChatColor.UNDERLINE

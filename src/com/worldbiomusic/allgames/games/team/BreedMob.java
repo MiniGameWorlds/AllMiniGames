@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -22,6 +23,7 @@ import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.SoundTool;
 
 public class BreedMob extends TeamMiniGame {
 
@@ -65,7 +67,7 @@ public class BreedMob extends TeamMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		this.mobs = new ArrayList<>();
 	}
 
@@ -96,6 +98,10 @@ public class BreedMob extends TeamMiniGame {
 				// if death
 				if (p.getHealth() <= e.getDamage()) {
 					e.setCancelled(true);
+
+					// title
+					sendTitle(p, ChatColor.RED + "DIE", "");
+
 					// set live: false
 					this.setLive(p, false);
 				}
@@ -113,12 +119,13 @@ public class BreedMob extends TeamMiniGame {
 
 			// lay
 			layTwoMobs(e.getEntity().getLocation());
+
+			// sound
+			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 		}
 	}
 
-	private void layTwoMobs(Location loc) {
-		Location deathLoc = loc;
-
+	private void layTwoMobs(Location deathLoc) {
 		// spawn random 2 mobs
 		spawnRandomMob(deathLoc);
 		spawnRandomMob(deathLoc);
@@ -128,8 +135,8 @@ public class BreedMob extends TeamMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = this.getCustomData();
 
@@ -196,7 +203,7 @@ public class BreedMob extends TeamMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Kill mob: +1");
 		tutorial.add("Death: spectator");

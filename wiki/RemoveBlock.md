@@ -71,10 +71,9 @@ RemoveBlock:
     food-level-change: true
     player-hurt: true
 ```
-- `custom-data.pos1`: Block area first position
-- `custom-data.pos2`: Block area second position
-- `custom-data.blocks`: Block types to fill the area
+- `pos1`: Block area first position
+- `pos2`: Block area second position
+- `blocks`: Block types to fill the area
 
 # Warning
-
-- Before play, setup `custom-data.pos1` and `custom-data.pos2`
+- Before play, setup `pos1` and `pos2`

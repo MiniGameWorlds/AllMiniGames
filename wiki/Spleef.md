@@ -66,11 +66,11 @@ Spleef:
     food-level-change: true
     player-hurt: true
 ```
-- `custom-data.pos1`: Spleef floor first position (Location) 
-- `custom-data.pos2`: Spleef floor second position (Location)
-- `custom-data.block`: Spleef floor block material (Material)
-- `custom-data.tool`: Tool which will give to players when game starts (Material)
+- `pos1`: Spleef floor first position (Location) 
+- `pos2`: Spleef floor second position (Location)
+- `block`: Spleef floor block material (Material)
+- `tool`: Tool which will give to players when game starts (Material)
 
 # Warning
-- Player will be processed fallen from the floor with `y` of `custom-data.pos2`
-- You have to setup `custom-data.pos1` and `custom-data.pos2` before play
+- Player will be processed fallen from the floor with `y` of `pos2`
+- You have to setup `pos1` and `pos2` before play

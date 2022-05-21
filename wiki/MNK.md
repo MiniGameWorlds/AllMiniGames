@@ -81,5 +81,5 @@ MNK:
 - `finish_delay`: delay after finish (second)
 
 # Warning
-- Board must bigger than `custom-data.length`(`k`)
+- Board must bigger than `length`(`k`)
 

@@ -48,50 +48,44 @@ public class FallingBlock extends SoloBattleMiniGame {
 	}
 
 	private void removeBelowBlockTask() {
-		this.getTaskManager().registerTask("remove-below-block", new Runnable() {
+		this.getTaskManager().registerTask("remove-below-block", () -> {
 
-			@Override
-			public void run() {
-				for (Player p : getLivePlayers()) {
-					Location pLoc = p.getLocation();
+			for (Player p : getLivePlayers()) {
+				Location pLoc = p.getLocation();
 
-					// check removingBlock
-					Block belowBlock = pLoc.subtract(0, 1, 0).getBlock();
+				// check removingBlock
+				Block belowBlock = pLoc.subtract(0, 1, 0).getBlock();
 
-					// check location
-					if (!LocationTool.isIn(pos1, belowBlock.getLocation(), pos2)) {
-						return;
-					}
-
-					if (belowBlock.getType() != removingBlock) {
-						return;
-					}
-
-					Bukkit.getScheduler().runTaskLater(MiniGameWorldMain.getInstance(), () -> {
-						plusScore(p, 1);
-						belowBlock.setType(Material.AIR);
-						@SuppressWarnings("deprecation")
-						org.bukkit.entity.FallingBlock fallingBlock = p.getWorld()
-								.spawnFallingBlock(belowBlock.getLocation().add(0.5, 0, 0.5), removingBlock, (byte) 0);
-
-						// add fallingBlock to list
-						landedFallenBlocks.add(fallingBlock);
-
-						// remove fallen block
-						removeFallenBlock(fallingBlock);
-					}, 5);
+				// check location
+				if (!LocationTool.isIn(pos1, belowBlock.getLocation(), pos2)) {
+					return;
 				}
+
+				if (belowBlock.getType() != removingBlock) {
+					return;
+				}
+
+				Bukkit.getScheduler().runTaskLater(MiniGameWorldMain.getInstance(), () -> {
+					plusScore(p, 1);
+					belowBlock.setType(Material.AIR);
+					@SuppressWarnings("deprecation")
+					org.bukkit.entity.FallingBlock fallingBlock = p.getWorld()
+							.spawnFallingBlock(belowBlock.getLocation().add(0.5, 0, 0.5), removingBlock, (byte) 0);
+
+					// add fallingBlock to list
+					landedFallenBlocks.add(fallingBlock);
+
+					// remove fallen block
+					removeFallenBlock(fallingBlock);
+				}, 5);
 			}
 		});
 
-		getTaskManager().registerTask("check-fallen", new Runnable() {
-
-			@Override
-			public void run() {
-				// only check live players
-				getLivePlayers().stream().filter(p -> hasFallen(p)).forEach(p -> processFallenPlayer(p));
-			}
+		getTaskManager().registerTask("check-fallen", () -> {
+			// only check live players
+			getLivePlayers().stream().filter(p -> isFallen(p)).forEach(p -> onPlayerFall(p));
 		});
+
 	}
 
 	private void removeFallenBlock(org.bukkit.entity.FallingBlock fallingBlock) {
@@ -108,7 +102,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 		}.runTaskLater(MiniGameWorldMain.getInstance(), 20);
 	}
 
-	private boolean hasFallen(Player p) {
+	private boolean isFallen(Player p) {
 		Location pLoc = p.getLocation();
 		if (pLoc.getY() < this.pos1.getY() - 0.5) {
 			return true;
@@ -117,13 +111,13 @@ public class FallingBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		this.getCustomData().put("pos1", this.getLocation());
 		this.getCustomData().put("pos2", this.getLocation());
 
-		this.getCustomData().put("removingBlock", Material.STONE.name());
+		this.getCustomData().put("removing-block", Material.STONE.name());
 	}
 
 	@Override
@@ -133,28 +127,24 @@ public class FallingBlock extends SoloBattleMiniGame {
 		this.pos1 = (Location) getCustomData().get("pos1");
 		this.pos2 = (Location) getCustomData().get("pos2");
 
-		this.removingBlock = Material.valueOf((String) this.getCustomData().get("removingBlock"));
+		this.removingBlock = Material.valueOf((String) this.getCustomData().get("removing-block"));
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		// fill blocks
 		BlockTool.fillBlockWithMaterial(pos1, pos2, this.removingBlock);
 
 		this.landedFallenBlocks.clear();
 	}
 
-	private void processFallenPlayer(Player p) {
+	private void onPlayerFall(Player p) {
 		this.setLive(p, false);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		// fill blocks
-		BlockTool.fillBlockWithMaterial(pos1, pos2, this.removingBlock);
-
 		// start remove block task
 		getTaskManager().runTaskTimer("remove-below-block", 0, 3);
 
@@ -162,7 +152,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("block will be disappeared after you stepped");
 		tutorial.add("remove block with step: +1");

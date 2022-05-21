@@ -5,19 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
+import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
+import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
-import net.md_5.bungee.api.ChatColor;
-
+@SuppressWarnings("deprecation")
 public class ScoreClimbing extends SoloBattleMiniGame {
 	/*
 	 * Random score graph
@@ -29,7 +33,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 
 	public ScoreClimbing() {
 		super("ScoreClimbing", 2, 10, 60, 20);
-		
+
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14390);
 
@@ -43,7 +47,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		// set score limit
 		this.randomTime = (int) (Math.random() * this.getPlayTime());
 	}
@@ -85,46 +89,68 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	@Override
 	protected void onEvent(Event event) {
 		if (event instanceof PlayerChatEvent) {
-			PlayerChatEvent e = (PlayerChatEvent) event;
-			Player p = e.getPlayer();
-			int leftChance = this.chance.get(p);
-			if (leftChance > 0) {
-				int score = this.getScore(p);
-				this.sendMessage(p, ChatColor.BOLD + "Current Score: " + ChatColor.GREEN + score);
-				// chance -1
-				this.chance.put(p, leftChance - 1);
-			} else if (leftChance == 0) {
-				this.sendMessage(p, "You has no more score checking chance");
-			} else if (hasStopped(p)) {
-				this.sendMessage(p, "You can't check score until game end");
-			}
+			checkScore((PlayerChatEvent) event);
 		} else if (event instanceof PlayerToggleSneakEvent) {
-			// sneak: stop my score
-			PlayerToggleSneakEvent e = (PlayerToggleSneakEvent) event;
-			Player p = e.getPlayer();
-
-			this.sendMessage(p, "Your score has been stopped");
-
-			// set chance to -1
-			this.chance.put(p, -1);
-
-			if (checkAllGetScore()) {
-				finishGame();
-			}
+			fixScore((PlayerToggleSneakEvent) event);
 		}
 	}
 
-	private boolean checkAllGetScore() {
+	private void checkScore(PlayerChatEvent e) {
+		Player p = e.getPlayer();
+		int leftChance = this.chance.get(p);
+		if (leftChance > 0) {
+			int score = this.getScore(p);
+			this.sendMessage(p, ChatColor.BOLD + "Current Score: " + ChatColor.GREEN + score);
+
+			// chance -1
+			this.chance.put(p, leftChance - 1);
+
+			// msg
+			sendMessage(p, "Left change: " + ChatColor.GREEN + this.chance.get(p));
+
+			// sound
+			SoundTool.play(p, Sound.BLOCK_NOTE_BLOCK_BELL);
+		} else if (leftChance == 0) {
+			this.sendMessage(p, "You has no more score checking chance");
+		} else if (hasStopped(p)) {
+			this.sendMessage(p, "You can't check score until game end");
+		}
+	}
+
+	private void fixScore(PlayerToggleSneakEvent e) {
+		// sneak: stop my score
+		Player p = e.getPlayer();
+
+		// set chance to -1
+		this.chance.put(p, -1);
+
+		// particle
+		ParticleTool.spawn(p.getLocation(), Particle.FLAME);
+
+		// sound
+		SoundTool.play(p, Sound.BLOCK_BELL_USE);
+
+		// msg
+		sendTitle(p, ChatColor.GREEN + "Fixed", "");
+		this.sendMessage(p, "Your score has been stopped");
+		sendMessages(ChatColor.GREEN + p.getName() + ChatColor.RESET + " fixed score!");
+
+		if (checkAllFixedScore()) {
+			finishGame();
+		}
+	}
+
+	private boolean checkAllFixedScore() {
 		return this.chance.values().stream().filter(v -> v == -1).toList().size() == this.chance.size();
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
-		tutorial.add(
-				"Every 1 sec: score get to plus until random timing and after then score get to minus until the game end");
-		tutorial.add("Chat: check current score(max: 3)");
-		tutorial.add("Sneak: stop Game and check score");
+		tutorial.add(ChatColor.GREEN
+				+ "Every 1 sec: score get to plus until random timing and after then score get to minus until the game end");
+		tutorial.add("Chat: check current score (chance: 3)");
+		tutorial.add("Sneak: Fix score");
 		return tutorial;
 	}
 

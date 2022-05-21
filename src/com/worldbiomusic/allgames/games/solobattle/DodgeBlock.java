@@ -75,7 +75,7 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -86,13 +86,13 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
-		return List.of("Dodge the falling block!");
+	protected List<String> tutorial() {
+		return List.of("Dodge the falling blocks!");
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = getCustomData();
 
@@ -166,9 +166,9 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 				getLivePlayers().stream().filter(all -> !all.equals(p)).forEach(all -> plusScore(all, 1));
 
 				// message, sound
-				sendMessageToAllPlayers(p.getName() + ChatColor.RED + " died");
+				sendMessages(p.getName() + ChatColor.RED + " died");
 				sendTitle(p, ChatColor.RED + "DIE", "");
-				getPlayers().forEach(all -> SoundTool.playSound(all, Sound.BLOCK_NOTE_BLOCK_CHIME));
+				SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
 				// live false
 				setLive(p, false);

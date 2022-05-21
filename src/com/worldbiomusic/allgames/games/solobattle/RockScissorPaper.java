@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -14,6 +16,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
+import com.wbm.plugin.util.SoundTool;
 
 public class RockScissorPaper extends SoloBattleMiniGame {
 	/*
@@ -65,7 +69,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		this.selections.clear();
 	}
 
@@ -90,8 +94,13 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 			if (selection != null) {
 				this.selections.put(p, selection);
 				e.setMessage(ChatColor.MAGIC + "*");
-				e.setCancelled(true);
 				this.sendMessage(p, "your choice: " + ChatColor.GREEN + selection.name());
+
+				// sound
+				SoundTool.play(p, Sound.BLOCK_NOTE_BLOCK_BELL);
+
+				// particle
+				ParticleTool.spawn(p.getLocation(), Particle.FLAME, 30, 0.1);
 			}
 		}
 	}
@@ -139,17 +148,20 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 		// print result
 		String p1Selection = "" + ChatColor.GREEN + ChatColor.BOLD + this.selections.get(p1).name() + ChatColor.WHITE;
 		String p2Selection = "" + ChatColor.GREEN + ChatColor.BOLD + this.selections.get(p2).name() + ChatColor.WHITE;
-		this.sendMessageToAllPlayers(
-				String.format("%s[%s] : [%s]%s", p1.getName(), p1Selection, p2Selection, p2.getName()));
+		this.sendMessages(String.format("%s[%s] : [%s]%s", p1.getName(), p1Selection, p2Selection, p2.getName()));
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
-		tutorial.add("enter chat: R or S or P");
+		tutorial.add("Enter chat: " + green("R") + " or " + green("S") + " or " + green("P"));
 		tutorial.add("Result will be appeared at the end");
-		tutorial.add("selection can be changed");
+		tutorial.add("Selection can be changed");
 		return tutorial;
+	}
+
+	private String green(String msg) {
+		return ChatColor.GREEN + msg + ChatColor.RESET;
 	}
 }
 //

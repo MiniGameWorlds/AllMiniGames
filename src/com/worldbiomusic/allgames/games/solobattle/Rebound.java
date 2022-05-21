@@ -23,6 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
@@ -52,8 +53,8 @@ public class Rebound extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 		Map<String, Object> data = getCustomData();
 		data.put("shoot-cooldown", 1.0);
 		data.put("shoot-power", 1.0);
@@ -72,7 +73,7 @@ public class Rebound extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -106,13 +107,13 @@ public class Rebound extends SoloBattleMiniGame {
 		glowHighestScorePlayer();
 
 		// msg
-		sendTitleToAllPlayers(ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " -> " + ChatColor.RED
+		sendTitles(ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " -> " + ChatColor.RED
 				+ victim.getName() + ChatColor.RESET, "");
-		sendMessageToAllPlayers(ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " -> " + ChatColor.RED
+		sendMessages(ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " -> " + ChatColor.RED
 				+ victim.getName() + ChatColor.RESET);
 
 		// sound
-		getPlayers().forEach(p -> SoundTool.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL));
+		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
 		// particle
 		spawnHitParticles(victim);
@@ -167,7 +168,7 @@ public class Rebound extends SoloBattleMiniGame {
 	}
 
 	private void spawnHitParticles(Player p) {
-		p.getLocation().getWorld().spawnParticle(Particle.FLAME, p.getLocation(), 50, 0, 0, 0, 0.2);
+		ParticleTool.spawn(p.getLocation(), Particle.FLAME, 50, 0.2);
 	}
 
 	private void reboundByProjectileHit(Player p, Entity proj) {
@@ -209,7 +210,7 @@ public class Rebound extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		return List.of("Shoot others in zero gravity", "Arrow gives recoil(rebound) to shooter and hit player",
 				"Player who has highest score will be glow");
 	}

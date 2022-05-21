@@ -36,8 +36,8 @@ TimingPVP:
   - All players' armor and weapons  will be changed regularly
   - 'Die: ยงc-1'
   custom-data:
-    timingDelay: 10
-    randomItems:
+    timing-delay: 10
+    random-items:
     - ==: org.bukkit.inventory.ItemStack
       v: 2865
       type: WOODEN_SWORD
@@ -91,8 +91,8 @@ TimingPVP:
     food-level-change: true
     player-hurt: true
 ```
-- `timingDelay`: player item reset delay
-- `randomItems`: random item list (except for armor, off hand)
+- `timing-delay`: player item reset delay
+- `random-items`: random item list (except for armor, off hand)
 
 # Warning
 - Nothing

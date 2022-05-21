@@ -53,5 +53,4 @@ ScoreClimbing:
 ```
 
 # Warning
-
 - Nothing

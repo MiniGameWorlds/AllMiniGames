@@ -40,7 +40,7 @@ public class OnePunch extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 
 	}
 
@@ -48,18 +48,17 @@ public class OnePunch extends SoloBattleMiniGame {
 	protected void onEvent(Event event) {
 		if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-			Entity victimEntity = e.getEntity();
 			Entity damagerEntity = e.getDamager();
 
-			if (!(victimEntity instanceof Player && damagerEntity instanceof Player)) {
+			if (!(damagerEntity instanceof Player)) {
 				return;
 			}
 
 			Player victim = (Player) e.getEntity();
 			Player damager = (Player) damagerEntity;
 
-			// check victim and damager is a player playing this minigame
-			if (!(containsPlayer(victim) && containsPlayer(damager))) {
+			// check damager is playing this minigame
+			if (!containsPlayer(damager)) {
 				return;
 			}
 
@@ -69,7 +68,7 @@ public class OnePunch extends SoloBattleMiniGame {
 			// notify
 			String victimStr = ChatColor.GRAY + victim.getName() + ChatColor.RESET;
 			String damagerStr = ChatColor.RED + damager.getName() + ChatColor.RESET;
-			sendMessageToAllPlayers(victimStr + " punched "+ damagerStr);
+			sendMessages(victimStr + " punched " + damagerStr);
 
 			sendTitle(victim, ChatColor.RED + "DIE", "");
 			sendTitle(damager, ChatColor.GREEN + "+1", "");
@@ -83,7 +82,7 @@ public class OnePunch extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Hit other player: +1");
 		tutorial.add("Hit by other player: die");

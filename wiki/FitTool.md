@@ -70,5 +70,5 @@ FitTool:
 
 
 # Warning
-- Setup `custom-data.pos1` and `custom-data.pos2` before playing
+- Setup `pos1` and `pos2` before playing
 - Random blocks will be filled between `pos1` and `pos2`

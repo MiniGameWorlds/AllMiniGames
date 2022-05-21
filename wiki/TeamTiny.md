@@ -49,7 +49,7 @@ TeamTiny:
     food-level-change: true
     player-hurt: true
 ```
-- `custom-data.mob`: Mob type to hit for score
+- `mob`: Mob type to hit for score
 
 # Warning
 

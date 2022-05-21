@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
@@ -16,11 +17,15 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
+import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.PlayerTool;
+import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.minigameworld.util.Utils;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class PassMob extends TeamBattleMiniGame {
 	public class Area {
@@ -61,6 +66,12 @@ public class PassMob extends TeamBattleMiniGame {
 		public void passMobToOtherArea(Entity mob, Area area) {
 			this.mobs.remove(mob);
 			area.spawnMob(mob.getType());
+
+			// title
+			this.team.getMembers().forEach(m -> m.sendTitle(ChatColor.GREEN + "Mob passed", "", 4, 12, 4));
+
+			// sound
+			SoundTool.play(area.team.getMembers(), Sound.BLOCK_NOTE_BLOCK_BELL);
 		}
 
 		public List<Entity> getMobs() {
@@ -101,24 +112,20 @@ public class PassMob extends TeamBattleMiniGame {
 	}
 
 	private void registerTask() {
-		this.getTaskManager().registerTask("spawnMob", new Runnable() {
-
-			@Override
-			public void run() {
-				// spawn random mob
-				redArea.spawnRandomMob();
-				blueArea.spawnRandomMob();
-			}
+		this.getTaskManager().registerTask("spawnMob", () -> {
+			// spawn random mob
+			redArea.spawnRandomMob();
+			blueArea.spawnRandomMob();
 		});
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
-		this.getCustomData().put("redLocation", new Location(this.getLocation().getWorld(), 0, 0, 0));
-		this.getCustomData().put("blueLocation", new Location(this.getLocation().getWorld(), 0, 0, 0));
+	protected void initCustomData() {
+		super.initCustomData();
+		this.getCustomData().put("red-location", new Location(this.getLocation().getWorld(), 0, 0, 0));
+		this.getCustomData().put("blue-location", new Location(this.getLocation().getWorld(), 0, 0, 0));
 
-		this.getCustomData().put("mobSpawnDelay", 15);
+		this.getCustomData().put("mob-spawn-delay", 15);
 	}
 
 	@Override
@@ -126,14 +133,13 @@ public class PassMob extends TeamBattleMiniGame {
 		super.loadCustomData();
 
 		// create areas
-		this.redArea.loc = (Location) this.getCustomData().get("redLocation");
-		this.blueArea.loc = (Location) this.getCustomData().get("blueLocation");
+		this.redArea.loc = (Location) this.getCustomData().get("red-location");
+		this.blueArea.loc = (Location) this.getCustomData().get("blue-location");
 
 		// mob spawn delay
-		this.mobSpawnDelay = (int) this.getCustomData().get("mobSpawnDelay");
+		this.mobSpawnDelay = (int) this.getCustomData().get("mob-spawn-delay");
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onEvent(Event event) {
 		super.onEvent(event);
@@ -158,9 +164,11 @@ public class PassMob extends TeamBattleMiniGame {
 					// cancel damage
 					e.setDamage(0);
 
+					// msg
+					sendTitle(p, ChatColor.RED + "DIE", "");
+
 					// heal player
-					p.setHealth(p.getMaxHealth());
-					p.setFoodLevel(20);
+					PlayerTool.heal(p);
 
 					Team team = this.getTeam(p);
 					Area area = this.getTeamArea(team);
@@ -179,8 +187,8 @@ public class PassMob extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
-		super.initGameSettings();
+	protected void initGame() {
+		super.initGame();
 
 		// set area with team
 		this.redArea.setTeam(this.getTeamList().get(0));
@@ -240,9 +248,10 @@ public class PassMob extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
-		tutorial.add("At the game end, winner is the team that has less mobs");
+		tutorial.add("Kill monsters to pass them to the other's area");
+		tutorial.add("The team with " + ChatColor.GREEN + "fewer" + ChatColor.RESET + " monster is the winner");
 		return tutorial;
 	}
 

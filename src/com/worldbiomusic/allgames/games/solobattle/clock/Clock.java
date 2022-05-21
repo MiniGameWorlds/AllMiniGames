@@ -48,7 +48,7 @@ public class Clock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
+	protected void initCustomData() {
 		Map<String, Object> data = getCustomData();
 		data.put("center", getLocation());
 		data.put("hand-length", 5.0);
@@ -60,7 +60,7 @@ public class Clock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class Clock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		return List.of("Jump over the clock hand!");
 	}
 
@@ -89,8 +89,10 @@ public class Clock extends SoloBattleMiniGame {
 			}
 
 			sendTitle(player, ChatColor.RED + "DIE", "");
-			sendMessageToAllPlayers(ChatColor.RED + player.getName() + ChatColor.RESET + " died");
-			getPlayers().forEach(p -> SoundTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_BELL));
+			sendMessages(ChatColor.RED + player.getName() + ChatColor.RESET + " died");
+			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+			
+
 
 			setLive(player, false);
 		}

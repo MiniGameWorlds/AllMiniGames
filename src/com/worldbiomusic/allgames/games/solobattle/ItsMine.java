@@ -1,15 +1,14 @@
 package com.worldbiomusic.allgames.games.solobattle;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Builder;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.FireworkEffect.Builder;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -21,13 +20,13 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 /**
  * [Rules]<br>
@@ -58,7 +57,6 @@ public class ItsMine extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14414);
 
-
 		getSetting().setIcon(Material.DIAMOND);
 
 		getCustomOption().set(Option.PVP, true);
@@ -87,7 +85,7 @@ public class ItsMine extends SoloBattleMiniGame {
 	private void checkGlowTime() {
 		// notify
 		if (Math.abs(getLeftFinishTime() - this.glowTime) < 1) {
-			sendTitleToAllPlayers(ChatColor.GOLD + "Glow Time", "");
+			sendTitles(ChatColor.GOLD + "Glow Time", "");
 			getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_BELL_USE));
 		}
 
@@ -101,8 +99,8 @@ public class ItsMine extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = getCustomData();
 		data.put("item", Material.DIAMOND.name());
@@ -121,7 +119,7 @@ public class ItsMine extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -190,8 +188,8 @@ public class ItsMine extends SoloBattleMiniGame {
 		tagger.getInventory().setItemInMainHand(new ItemStack(this.item));
 
 		// notify
-		sendMessageToAllPlayers("Find " + ChatColor.RED + ChatColor.BOLD + tagger.getName());
-		sendTitleToAllPlayers(ChatColor.RED + tagger.getName(), "");
+		sendMessages("Find " + ChatColor.RED + ChatColor.BOLD + tagger.getName());
+		sendTitles(ChatColor.RED + tagger.getName(), "");
 
 		// sound
 		getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.ENTITY_CHICKEN_EGG));
@@ -211,20 +209,17 @@ public class ItsMine extends SoloBattleMiniGame {
 		getTaskManager().runTaskTimer("glow-time-checker", 0, 10);
 
 		// notify finish sore
-		sendMessageToAllPlayers(ChatColor.GREEN + "Finish score: " + ChatColor.GOLD + this.finishScore);
+		sendMessages(ChatColor.GREEN + "Finish score: " + ChatColor.GOLD + this.finishScore);
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
-		List<String> tutorial = new ArrayList<>();
-		tutorial.add("Hit and steal item!");
-
-		return tutorial;
+	protected List<String> tutorial() {
+		return List.of("Steal item by hit and run away from the other players!");
 	}
 
 	@Override
-	protected void handleGameException(MiniGameExceptionEvent exception) {
-		super.handleGameException(exception);
+	protected void onException(MiniGameExceptionEvent exception) {
+		super.onException(exception);
 
 		// set a new tagger if tagger left the game
 		if (exception instanceof MiniGamePlayerExceptionEvent) {

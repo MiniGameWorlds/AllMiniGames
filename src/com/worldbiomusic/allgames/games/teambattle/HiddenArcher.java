@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -24,6 +26,8 @@ import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
+import com.wbm.plugin.util.SoundTool;
 
 public class HiddenArcher extends TeamBattleMiniGame {
 	/*
@@ -33,7 +37,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	private int reloadCoolDown;
 
 	public HiddenArcher() {
-		super("HiddenArcher", 2, 10, 60 * 3, 20);
+		super("HiddenArcher", 2, 20, 60 * 3, 20);
 
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14394);
@@ -43,19 +47,19 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
-		getCustomData().put("reloadCoolDown", 3);
+	protected void initCustomData() {
+		super.initCustomData();
+		getCustomData().put("reload-cooldown", 3);
 	}
 
 	@Override
 	public void loadCustomData() {
 		super.loadCustomData();
-		this.reloadCoolDown = (int) getCustomData().get("reloadCoolDown");
+		this.reloadCoolDown = (int) getCustomData().get("reload-cooldown");
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("After game starts, everyone will hide from others with snowballs");
 		tutorial.add("Hit by other: die");
@@ -111,12 +115,28 @@ public class HiddenArcher extends TeamBattleMiniGame {
 
 	private void shootPlayer(Player shooter, Player victim) {
 		// damager
-		this.sendTitle(shooter, "HIT", "");
+		this.sendTitle(shooter, ChatColor.GREEN + "HIT", "");
 		this.plusTeamScore(shooter, 1);
 
 		// victim
 		this.sendTitle(victim, ChatColor.RED + "DIE", "");
+
+		// message to all
+		sendMessages(
+				ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " hits " + ChatColor.RED + victim.getName());
+
+		// sound
+		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+
+		// particle
+		spawnHitParticles(victim);
+
+		// set live
 		this.setLive(victim, false);
+	}
+
+	private void spawnHitParticles(Entity e) {
+		ParticleTool.spawn(e.getLocation(), Particle.FLAME, 50, 0.1);
 	}
 
 	@Override

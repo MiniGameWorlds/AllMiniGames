@@ -50,15 +50,15 @@ public class MathGame extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		this.resetProblem();
 		this.stage = 1;
 		this.maxStage = (int) this.getCustomData().get("maxStage");
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 		Map<String, Object> customData = this.getCustomData();
 		customData.put("maxStage", 5);
 	}
@@ -71,8 +71,8 @@ public class MathGame extends SoloBattleMiniGame {
 
 	void printProblem() {
 		String problem = String.format("(%d) %s (%d) = ?", this.num1, Operator.toString(this.operator), this.num2);
-		this.sendMessageToAllPlayers(problem);
-		this.sendTitleToAllPlayers(problem, "", 20, 20 * 3, 20);
+		this.sendMessages(problem);
+		this.sendTitles(problem, "", 20, 20 * 3, 20);
 	}
 
 	int getAnswer() {
@@ -119,7 +119,7 @@ public class MathGame extends SoloBattleMiniGame {
 				e.setCancelled(true);
 
 				// notify
-				this.sendMessageToAllPlayers(p.getName() + " solved!");
+				this.sendMessages(p.getName() + " solved!");
 
 				// plus score
 				this.plusScore(p, 1);
@@ -142,7 +142,7 @@ public class MathGame extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> list = new ArrayList<String>();
 		list.add("Answer: +1");
 		list.add("Wrong: -1");

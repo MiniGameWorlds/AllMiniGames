@@ -1,6 +1,5 @@
 package com.worldbiomusic.allgames.games.solobattle;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -10,11 +9,11 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import com.wbm.plugin.util.PlayerTool;
+import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 /**
  * [Rules]<br>
@@ -30,7 +29,6 @@ public class Center extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14413);
 
-
 		getSetting().setIcon(Material.END_ROD);
 
 		getCustomOption().set(Option.PVP, false);
@@ -42,17 +40,20 @@ public class Center extends SoloBattleMiniGame {
 
 	private void registerTasks() {
 		getTaskManager().registerTask("check-sneaking-and-fallen", () -> {
+
 			// plus score
 			getLivePlayers().forEach(p -> {
 				plusScore(p, 1);
 			});
 
+			// check fallen and sneaking
 			getLivePlayers().forEach(p -> {
 				if (checkSneaking(p) || checkFallen(p)) {
-					// sound
-					getPlayers().forEach(all -> PlayerTool.playSound(all, Sound.BLOCK_BELL_USE));
+					// msg
+					sendMessages(p.getName() + ChatColor.RED + " died");
 
-					sendMessageToAllPlayers(p.getName() + ChatColor.RED + " died");
+					// sound
+					SoundTool.play(getPlayers(), Sound.BLOCK_BELL_USE);
 
 					// minus score
 					minusScore(p, 1);
@@ -66,7 +67,7 @@ public class Center extends SoloBattleMiniGame {
 	private boolean checkSneaking(Player p) {
 		if (p.isSneaking()) {
 			// notify
-			sendTitle(p, ChatColor.RED + "Die", "You sneaked");
+			sendTitle(p, ChatColor.RED + "Die", "You sneaked!");
 			return true;
 		}
 		return false;
@@ -76,7 +77,7 @@ public class Center extends SoloBattleMiniGame {
 		Location pLoc = p.getLocation();
 		if (pLoc.getY() < getLocation().getY() - 0.3) {
 			// notify
-			sendTitle(p, ChatColor.RED + "Die", "You are fallen");
+			sendTitle(p, ChatColor.RED + "Die", "You are fallen!");
 			return true;
 		}
 		return false;
@@ -89,7 +90,7 @@ public class Center extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -97,13 +98,8 @@ public class Center extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
-		List<String> tutorial = new ArrayList<>();
-
-		tutorial.add(ChatColor.RED + "Never Sneak!");
-		tutorial.add(ChatColor.RED + "Never FALL!");
-
-		return tutorial;
+	protected List<String> tutorial() {
+		return List.of(ChatColor.RED + "Never Sneak!", ChatColor.RED + "Never Fall!");
 	}
 
 }

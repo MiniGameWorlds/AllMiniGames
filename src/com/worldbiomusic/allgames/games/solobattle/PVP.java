@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -13,11 +15,13 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
+import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.PlayerTool;
+import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 public class PVP extends SoloBattleMiniGame {
 	/*
@@ -44,7 +48,7 @@ public class PVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
+	protected void initCustomData() {
 		Map<String, Object> customData = this.getCustomData();
 		customData.put("health", 30);
 		List<ItemStack> items = new ArrayList<>();
@@ -66,7 +70,7 @@ public class PVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -83,29 +87,42 @@ public class PVP extends SoloBattleMiniGame {
 			e.setRespawnLocation(this.getLocation());
 			this.initKitsAndHealth(e.getPlayer());
 		} else if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-			if (e.getEntity() instanceof Player) {
-				Player p = (Player) e.getEntity();
+			onPlayerDeath((EntityDamageByEntityEvent) event);
+		}
+	}
 
-				// if death
-				if (p.getHealth() <= e.getDamage()) {
+	private void onPlayerDeath(EntityDamageByEntityEvent e) {
+		if (!(e.getEntity() instanceof Player)) {
+			return;
+		}
+		Player victim = (Player) e.getEntity();
 
-					// check killer is playing the same minigame
-					if (e.getDamager() instanceof Player && this.containsPlayer((Player) e.getDamager())) {
-						// killer +1 score
-						Player killer = (Player) e.getDamager();
-						this.plusScore(killer, 1);
+		// if death
+		if (victim.getHealth() > e.getDamage()) {
+			return;
+		}
 
-						e.setDamage(0);
-						this.sendTitle(p, "Die", "");
-						sendMessageToAllPlayers(ChatColor.BOLD + p.getName() + ChatColor.RED + " Died");
+		// check killer is playing the same minigame
+		if (e.getDamager() instanceof Player && this.containsPlayer((Player) e.getDamager())) {
+			// killer +1 score
+			Player killer = (Player) e.getDamager();
+			this.plusScore(killer, 1);
 
-						// heal
-						PlayerTool.makePureState(p);
-					}
+			// cancel damage
+			e.setDamage(0);
+			
+			// msg
+			this.sendTitle(victim, "Die", "");
+			sendMessages(ChatColor.BOLD + victim.getName() + ChatColor.RED + " died");
 
-				}
-			}
+			// sound
+			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_BELL);
+
+			// particle
+			ParticleTool.spawn(victim.getLocation(), Particle.FLAME, 30, 0.1);
+
+			// heal
+			PlayerTool.makePureState(victim);
 		}
 	}
 
@@ -122,7 +139,7 @@ public class PVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("kill: +1");
 		return tutorial;

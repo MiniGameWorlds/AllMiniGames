@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
+import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
@@ -91,7 +92,7 @@ public class StandOnBlock extends SoloBattleMiniGame {
 
 		getTaskManager().registerTask("count-down", () -> {
 			String counterStr = "" + new DecimalFormat("#.#").format(this.counter);
-			sendTitleToAllPlayers(counterStr, ChatColor.GREEN + remainBlock.name(), 0, 3, 0);
+			sendTitles(counterStr, ChatColor.GREEN + remainBlock.name(), 0, 3, 0);
 			this.counter -= 0.1;
 
 			if (this.counter <= 0) {
@@ -101,8 +102,8 @@ public class StandOnBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = getCustomData();
 
@@ -144,7 +145,7 @@ public class StandOnBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		this.delay = this.disappearDelay;
 	}
 
@@ -156,7 +157,7 @@ public class StandOnBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 
 		tutorial.add("There are random blocks");
@@ -174,6 +175,9 @@ public class StandOnBlock extends SoloBattleMiniGame {
 			getLivePlayers().stream().filter(all -> !all.equals(p)).forEach(all -> plusScore(all, 1));
 
 			sendTitle(p, ChatColor.RED + "DIE", "", 10, 20, 10);
+			sendMessages(ChatColor.RED + p.getName() + ChatColor.RESET + " died");
+			SoundTool.play(getPlayers(), Sound.BLOCK_BELL_USE);
+
 			setLive(p, false);
 		}
 	}
@@ -235,32 +239,3 @@ public class StandOnBlock extends SoloBattleMiniGame {
 	}
 
 }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//

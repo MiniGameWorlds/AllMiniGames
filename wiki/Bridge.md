@@ -42,6 +42,7 @@ Bridge:
     - ==: org.bukkit.inventory.ItemStack
       v: 2865
       type: FISHING_ROD
+    skill-cooldown: 10
     chatting: true
     score-notifying: true
     block-break: false
@@ -56,7 +57,8 @@ Bridge:
     food-level-change: true
     player-hurt: true
 ```
-- `custom-data.items`: items given to players when the game starts
+- `items`: items given to players when the game starts
+- `skill-cooldown`: Skill cooldown per second
 
 # Warning
 - Player will die if fall down below the y of `location`

@@ -33,7 +33,7 @@ HiddenArcher:
   - After game starts, everyone will hide from others with snowballs
   - 'Hit by other: die'
   custom-data:
-    reloadCoolDown: 3
+    reload-cooldown: 3
     chatting: true
     score-notifying: true
     block-break: false
@@ -49,7 +49,7 @@ HiddenArcher:
     teamPvp: true
     teamRegisterMode: FAIR_FILL
 ```
-- `custom-data.reloadCoolDown`: snowball reload cooldown (sec)
+- `reload-cooldown`: snowball reload cooldown per sec
 
 # Warning
 - nothing

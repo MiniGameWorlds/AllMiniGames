@@ -65,8 +65,8 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> eventBlocks = new HashMap<String, Object>();
 		eventBlocks.put(EventBlockManager.FINISH, Material.GLOWSTONE.name());
@@ -94,7 +94,7 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<String>();
 		tutorial.add("Find and step on the finish block!");
 		tutorial.add("Many event blocks exist: FINISH, RESPAWN, UP-TP, DOWN-TP, FLICKER, HEAL, JUMP, DEBUFF");

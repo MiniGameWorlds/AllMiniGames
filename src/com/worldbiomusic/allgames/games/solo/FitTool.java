@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -17,6 +18,7 @@ import com.wbm.plugin.util.LocationTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.SoundTool;
 
 public class FitTool extends SoloMiniGame {
 	/*
@@ -36,14 +38,14 @@ public class FitTool extends SoloMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		// fill blocks
 		BlockTool.fillBlockWithRandomMaterial(this.pos1, this.pos2, this.blocks);
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = this.getCustomData();
 
@@ -102,6 +104,9 @@ public class FitTool extends SoloMiniGame {
 
 				// random block
 				b.setType(this.getRandomBlock());
+
+				// sound
+				SoundTool.play(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL);
 			}
 		}
 	}
@@ -119,7 +124,7 @@ public class FitTool extends SoloMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Break blocks with fit tools");
 		tutorial.add("Breaking block: +1");

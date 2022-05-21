@@ -1,11 +1,12 @@
 package com.worldbiomusic.allgames.games.team;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -18,11 +19,13 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
+import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.allgames.games.solo.Tiny;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 /**
  * - Similar to {@link Tiny} <br>
@@ -42,15 +45,14 @@ public class TeamTiny extends TeamMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14403);
 
-
 		getSetting().setIcon(Material.STONE_BUTTON);
 
 		getCustomOption().set(Option.COLOR, ChatColor.GRAY);
 	}
 
 	@Override
-	protected void registerCustomData() {
-		super.registerCustomData();
+	protected void initCustomData() {
+		super.initCustomData();
 
 		Map<String, Object> data = getCustomData();
 
@@ -89,7 +91,7 @@ public class TeamTiny extends TeamMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
@@ -101,6 +103,12 @@ public class TeamTiny extends TeamMiniGame {
 			if (hitEntity != null && hitEntity.equals(this.entity)) {
 				// event detector can detect shooter from ProjectileHitEvent
 				plusTeamScore(1);
+
+				// sound
+				SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+				
+				// particle
+				spawnHitParticles(hitEntity);
 			}
 
 		} else if (event instanceof ProjectileLaunchEvent) {
@@ -130,15 +138,17 @@ public class TeamTiny extends TeamMiniGame {
 		}
 	}
 
+	private void spawnHitParticles(Entity e) {
+		ParticleTool.spawn(e.getLocation(), Particle.FLAME, 50, 0.1);
+	}
+
 	private void summonEntity() {
 		this.entity = getLocation().getWorld().spawnEntity(getLocation(), this.entityType);
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
-		List<String> tutorial = new ArrayList<String>();
-		tutorial.add("Hit mob: " + ChatColor.GREEN + "+1");
-		return tutorial;
+	protected List<String> tutorial() {
+		return List.of("Hit mob: " + ChatColor.GREEN + "+1");
 	}
 
 }
