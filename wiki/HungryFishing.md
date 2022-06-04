@@ -64,7 +64,7 @@ HungryFishing:
     food-level-change: true
     player-hurt: false
 ```
-- `catch-items`: itme list when a player catch a fish
+- `catch-items`: itme list when a player catch a fish (format: **[item](https://minecraftitemids.com/types/material): chance**) (item name must be in uppercase) (sum of chance must be `100`)
 - `hunger`: player's starting hunger
 - `fail-hunger`: player's hunger decrease amount when fail to catch a fish
 
