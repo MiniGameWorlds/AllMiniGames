@@ -39,7 +39,7 @@
 - [DodgeBlock](wiki/DodgeBlock.md)
 - [Clock](wiki/Clock.md)
 - [Rebound](wiki/Rebound.md)
-
+- [HungryFishing](wiki/HungryFishing.md)
 
 ## Team
 - [BreedMob](wiki/BreedMob.md)

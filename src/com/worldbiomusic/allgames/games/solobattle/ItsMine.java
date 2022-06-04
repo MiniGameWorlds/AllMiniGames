@@ -84,13 +84,13 @@ public class ItsMine extends SoloBattleMiniGame {
 
 	private void checkGlowTime() {
 		// notify
-		if (Math.abs(getLeftFinishTime() - this.glowTime) < 1) {
+		if (Math.abs(getLeftPlayTime() - this.glowTime) < 1) {
 			sendTitles(ChatColor.GOLD + "Glow Time", "");
 			getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_BELL_USE));
 		}
 
 		// set tagger glowing
-		if (getLeftFinishTime() <= this.glowTime) {
+		if (getLeftPlayTime() <= this.glowTime) {
 			this.tagger.setGlowing(true);
 		}
 

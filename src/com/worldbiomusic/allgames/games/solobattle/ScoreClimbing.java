@@ -59,7 +59,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 			public void run() {
 				for (Player p : getPlayers()) {
 					if (!hasStopped(p)) {
-						if (getLeftFinishTime() > randomTime) {
+						if (getLeftPlayTime() > randomTime) {
 							plusScore(p, 1);
 						} else {
 							minusScore(p, 1);

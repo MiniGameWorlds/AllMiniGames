@@ -15,6 +15,7 @@ import com.worldbiomusic.allgames.games.solobattle.DodgeBlock;
 import com.worldbiomusic.allgames.games.solobattle.Dropper;
 import com.worldbiomusic.allgames.games.solobattle.FallingBlock;
 import com.worldbiomusic.allgames.games.solobattle.FallingItem;
+import com.worldbiomusic.allgames.games.solobattle.HungryFishing;
 import com.worldbiomusic.allgames.games.solobattle.ItsMine;
 import com.worldbiomusic.allgames.games.solobattle.LavaUp;
 import com.worldbiomusic.allgames.games.solobattle.OnePunch;
@@ -95,6 +96,7 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new DodgeBlock()); // 14723
 		mw.registerMiniGame(new Clock()); // 15129
 		mw.registerMiniGame(new Rebound()); // 15198
+		mw.registerMiniGame(new HungryFishing()); // 15375
 	}
 
 	private void printPluginName() {

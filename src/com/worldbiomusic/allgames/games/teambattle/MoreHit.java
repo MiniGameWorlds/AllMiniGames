@@ -43,7 +43,7 @@ public class MoreHit extends TeamBattleMiniGame {
 				Player damager = (Player) damagerEntity;
 
 				// if other team
-				if (!this.isSameTeam(victim, damager)) {
+				if (!isSameTeam(victim, damager)) {
 					plusTeamScore(damager, 1);
 				}
 			}
