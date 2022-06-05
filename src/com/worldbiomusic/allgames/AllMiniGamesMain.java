@@ -6,6 +6,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.Utils;
 import com.worldbiomusic.allgames.games.custom.Tutorial;
+import com.worldbiomusic.allgames.games.fake.Heal;
+import com.worldbiomusic.allgames.games.fake.Hub;
+import com.worldbiomusic.allgames.games.fake.Location1;
+import com.worldbiomusic.allgames.games.fake.Location2;
+import com.worldbiomusic.allgames.games.fake.Location3;
+import com.worldbiomusic.allgames.games.fake.Teller;
 import com.worldbiomusic.allgames.games.solo.FitTool;
 import com.worldbiomusic.allgames.games.solo.HitMob;
 import com.worldbiomusic.allgames.games.solo.Tiny;
@@ -97,6 +103,14 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerMiniGame(new Clock()); // 15129
 		mw.registerMiniGame(new Rebound()); // 15198
 		mw.registerMiniGame(new HungryFishing()); // 15375
+
+		// fake
+		mw.registerMiniGame(new Hub()); //
+		mw.registerMiniGame(new Location1()); //
+		mw.registerMiniGame(new Location2()); //
+		mw.registerMiniGame(new Location3()); //
+		mw.registerMiniGame(new Teller()); //
+		mw.registerMiniGame(new Heal()); //
 	}
 
 	private void printPluginName() {
