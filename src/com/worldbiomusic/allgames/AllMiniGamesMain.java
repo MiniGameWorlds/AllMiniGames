@@ -11,6 +11,8 @@ import com.worldbiomusic.allgames.games.fake.Hub;
 import com.worldbiomusic.allgames.games.fake.Location1;
 import com.worldbiomusic.allgames.games.fake.Location2;
 import com.worldbiomusic.allgames.games.fake.Location3;
+import com.worldbiomusic.allgames.games.fake.Location4;
+import com.worldbiomusic.allgames.games.fake.Macro;
 import com.worldbiomusic.allgames.games.fake.Teller;
 import com.worldbiomusic.allgames.games.solo.FitTool;
 import com.worldbiomusic.allgames.games.solo.HitMob;
@@ -107,10 +109,9 @@ public class AllMiniGamesMain extends JavaPlugin {
 		// fake
 		mw.registerMiniGame(new Hub()); //
 		mw.registerMiniGame(new Location1()); //
-		mw.registerMiniGame(new Location2()); //
-		mw.registerMiniGame(new Location3()); //
 		mw.registerMiniGame(new Teller()); //
 		mw.registerMiniGame(new Heal()); //
+		mw.registerMiniGame(new Macro()); //
 	}
 
 	private void printPluginName() {

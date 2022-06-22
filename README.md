@@ -53,5 +53,13 @@
 - [PassMob](wiki/PassMob.md)
 
 
+## Fake
+- [Hub](wiki/Hub.md)
+- [Location1](wiki/Location1.md)
+- [Teller](wiki/Teller.md)
+- [Heal](wiki/Heal.md)
+- [Macro](wiki/Macro.md)
+
+
 ## Custom
 - [Tutorial](wiki/Tutorial.md)
