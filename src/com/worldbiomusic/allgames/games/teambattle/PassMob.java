@@ -10,20 +10,19 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.TeamBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.worldbiomusic.minigameworld.util.Utils;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -95,7 +94,6 @@ public class PassMob extends TeamBattleMiniGame {
 
 		// settings
 		getSetting().setIcon(Material.OAK_FENCE);
-		getSetting().addCustomDetectableEvent(EntityExplodeEvent.class);
 
 		// options
 		setGroupChat(true);
@@ -140,41 +138,36 @@ public class PassMob extends TeamBattleMiniGame {
 		this.mobSpawnDelay = (int) this.getCustomData().get("mob-spawn-delay");
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		super.onEvent(event);
+	@GameEvent
+	protected void onEntityDeathEvent(EntityDeathEvent e) {
+		Entity entity = e.getEntity();
+		if (isPassMobEntity(entity)) {
+			Area area = this.getMobArea(entity);
+			area.passMobToOtherArea(entity, this.otherArea(area));
 
-		if (event instanceof EntityDeathEvent) {
-			EntityDeathEvent e = (EntityDeathEvent) event;
-			Entity entity = e.getEntity();
-			if (this.isPassMobEntity(entity)) {
-				Area area = this.getMobArea(entity);
-				area.passMobToOtherArea(entity, this.otherArea(area));
+			// remove drops
+			e.getDrops().clear();
+		}
+	}
 
-				// remove drops
-				e.getDrops().clear();
-			}
-		} else if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent e = (EntityDamageEvent) event;
-			if (e.getEntity() instanceof Player) {
-				Player p = (Player) e.getEntity();
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
+		Player p = (Player) e.getEntity();
 
-				// if death
-				if (p.getHealth() <= e.getDamage()) {
-					// cancel damage
-					e.setDamage(0);
+		// if death
+		if (p.getHealth() <= e.getDamage()) {
+			// cancel damage
+			e.setDamage(0);
 
-					// msg
-					sendTitle(p, ChatColor.RED + "DIE", "");
+			// msg
+			sendTitle(p, ChatColor.RED + "DIE", "");
 
-					// heal player
-					PlayerTool.heal(p);
+			// heal player
+			PlayerTool.heal(p);
 
-					Team team = this.getTeam(p);
-					Area area = this.getTeamArea(team);
-					p.teleport(area.loc);
-				}
-			}
+			Team team = this.getTeam(p);
+			Area area = this.getTeamArea(team);
+			p.teleport(area.loc);
 		}
 	}
 

@@ -12,11 +12,8 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
@@ -61,34 +58,12 @@ public class Board {
 		this.playPos2 = this.boardPos2.clone().add(0, 1, 0);
 	}
 
-	public void onEvent(Event event) {
-		if (event instanceof BlockPlaceEvent) {
-			playBlockPlaced((BlockPlaceEvent) event);
-		} else if (event instanceof PlayerDropItemEvent) {
-			// prevent item drop
-			PlayerDropItemEvent e = (PlayerDropItemEvent) event;
-			e.setCancelled(true);
-		} else if (event instanceof PlayerInteractEvent) {
-//			placePlayBlockUnderThePlayer((PlayerInteractEvent) event);
-		} else if (event instanceof AsyncPlayerChatEvent) {
-//			AsyncPlayerChatEvent e = (AsyncPlayerChatEvent) event;
-//			
-//			Player p = e.getPlayer();
-//			MNKPlayer mnkP = getMNKPlayer(p);
-//			
-//			Material playBlockMat = getColorPlayBlock(mnkP.getColor());
-//			e.setMessage(null);
-		}
+	public void onPlayerDropItemEvent(PlayerDropItemEvent e) {
+		// prevent item drop
+		e.setCancelled(true);
 	}
 
-//	private void placePlayBlockUnderThePlayer(PlayerInteractEvent e) {
-//		Player p = e.getPlayer();
-//		if (p.isSneaking()) {
-//
-//		}
-//	}
-
-	private void playBlockPlaced(BlockPlaceEvent e) {
+	public void playBlockPlaced(BlockPlaceEvent e) {
 		// cancel event
 		e.setCancelled(true);
 
@@ -140,7 +115,7 @@ public class Board {
 			Player currentTurnP = getCurrentTurnPlayer().getPlayer();
 
 			// give score
-			this.mnk.getPlayerData(currentTurnP).plusScore(1);
+			this.mnk.getGamePlayer(currentTurnP).plusScore(1);
 
 			this.players.forEach(all -> {
 				sendMsg(all.getPlayer(), currentTurnP.getName() + ChatColor.GREEN + " WIN");

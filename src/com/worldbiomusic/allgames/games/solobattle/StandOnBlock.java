@@ -11,17 +11,17 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 /*
  * [Rules]
@@ -124,7 +124,6 @@ public class StandOnBlock extends SoloBattleMiniGame {
 		data.put("disappear-delay", 5.0);
 		data.put("disappear-delay-decrease", 0.2);
 		data.put("void-time", 3.0);
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -149,21 +148,17 @@ public class StandOnBlock extends SoloBattleMiniGame {
 		this.delay = this.disappearDelay;
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof PlayerDropItemEvent) {
-			((PlayerDropItemEvent) event).setCancelled(true);
-		}
+	@GameEvent
+	protected void onPlayerDropItemEvent(PlayerDropItemEvent e) {
+		e.setCancelled(true);
 	}
 
 	@Override
 	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
-
 		tutorial.add("There are random blocks");
 		tutorial.add("Only one block will be remained while other blocks will be disappeared");
 		tutorial.add("Never fall from the block");
-
 		return tutorial;
 	}
 

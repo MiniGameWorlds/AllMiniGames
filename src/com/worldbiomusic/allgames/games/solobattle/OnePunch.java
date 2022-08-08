@@ -8,14 +8,14 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 /**
  * - All players can be dead with just one punch<br>
@@ -39,46 +39,38 @@ public class OnePunch extends SoloBattleMiniGame {
 		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
 	}
 
-	@Override
-	protected void initGame() {
+	@GameEvent
+	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+		Entity damagerEntity = e.getDamager();
 
-	}
-
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-			Entity damagerEntity = e.getDamager();
-
-			if (!(damagerEntity instanceof Player)) {
-				return;
-			}
-
-			Player victim = (Player) e.getEntity();
-			Player damager = (Player) damagerEntity;
-
-			// check damager is playing this minigame
-			if (!containsPlayer(damager)) {
-				return;
-			}
-
-			// add +1 score to damager
-			plusScore(damager, 1);
-
-			// notify
-			String victimStr = ChatColor.GRAY + victim.getName() + ChatColor.RESET;
-			String damagerStr = ChatColor.RED + damager.getName() + ChatColor.RESET;
-			sendMessages(victimStr + " punched " + damagerStr);
-
-			sendTitle(victim, ChatColor.RED + "DIE", "");
-			sendTitle(damager, ChatColor.GREEN + "+1", "");
-
-			// sound
-			getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_BELL_USE));
-
-			// set victim dead
-			setLive(victim, false);
+		if (!(damagerEntity instanceof Player)) {
+			return;
 		}
+
+		Player victim = (Player) e.getEntity();
+		Player damager = (Player) damagerEntity;
+
+		// check damager is playing this minigame
+		if (!containsPlayer(damager)) {
+			return;
+		}
+
+		// add +1 score to damager
+		plusScore(damager, 1);
+
+		// notify
+		String victimStr = ChatColor.GRAY + victim.getName() + ChatColor.RESET;
+		String damagerStr = ChatColor.RED + damager.getName() + ChatColor.RESET;
+		sendMessages(victimStr + " punched " + damagerStr);
+
+		sendTitle(victim, ChatColor.RED + "DIE", "");
+		sendTitle(damager, ChatColor.GREEN + "+1", "");
+
+		// sound
+		getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_BELL_USE));
+
+		// set victim dead
+		setLive(victim, false);
 	}
 
 	@Override
@@ -86,7 +78,6 @@ public class OnePunch extends SoloBattleMiniGame {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Hit other player: +1");
 		tutorial.add("Hit by other player: die");
-
 		return tutorial;
 	}
 

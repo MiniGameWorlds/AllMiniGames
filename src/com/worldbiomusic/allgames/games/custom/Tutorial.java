@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
-import org.bukkit.event.Event;
 
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -20,7 +19,6 @@ public class Tutorial extends MiniGame {
 
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14411);
-
 
 		getSetting().setIcon(Material.BOOK);
 
@@ -42,17 +40,13 @@ public class Tutorial extends MiniGame {
 	}
 
 	@Override
-	protected void onEvent(Event event) {
-	}
-
-	@Override
 	protected List<String> tutorial() {
-		List<String> tutoroial = new ArrayList<>();
-		tutoroial.add("Look around the tutorials of minigame system");
-		tutoroial.add(ChatColor.BOLD + "Wiki: " + ChatColor.UNDERLINE
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("Look around the tutorials of minigame system");
+		tutorial.add(ChatColor.BOLD + "Wiki: " + ChatColor.UNDERLINE
 				+ "https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/Home.md");
 
-		return tutoroial;
+		return tutorial;
 	}
 
 	@Override

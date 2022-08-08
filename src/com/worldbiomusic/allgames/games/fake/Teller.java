@@ -7,8 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import com.worldbiomusic.minigameworld.minigameframes.FakeMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.frames.FakeMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 
 public class Teller extends FakeMiniGame {
 

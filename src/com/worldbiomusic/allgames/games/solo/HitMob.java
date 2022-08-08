@@ -11,18 +11,17 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 /**
  * - Player will get score equal to damage dealt to mob<br>
@@ -101,52 +100,45 @@ public class HitMob extends SoloMiniGame implements Listener {
 		}
 	}
 
-	@Override
-	protected void initGame() {
-	}
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent damageEvent) {
+		Entity entity = damageEvent.getEntity();
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
-			Entity entity = damageEvent.getEntity();
+		// if player dead
+		if (entity instanceof Player) {
+			Player p = (Player) entity;
 
-			// if player dead
-			if (entity instanceof Player) {
-				Player p = (Player) entity;
-
-				if (p.getHealth() <= damageEvent.getDamage()) {
-					finishGame();
-				}
-			}
-
-			if (entity.equals(this.mob)) {
-				if (event instanceof EntityDamageByEntityEvent) {
-					EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-					int damage = (int) e.getDamage();
-
-					// event detector can detect EntityDamageByEntityEvent if damager is a player or
-					// a shooter of projectile
-					plusScore(damage);
-
-					// title
-					sendTitles("" + ChatColor.GREEN + damage, "damage");
-				}
-
-				// cancel damage dealt to the mob
-				damageEvent.setDamage(0);
-			}
-		} else if (event instanceof EntityDeathEvent) {
-			EntityDeathEvent e = (EntityDeathEvent) event;
-			if (this.mob.equals(e.getEntity())) {
-				spawnMob();
+			if (p.getHealth() <= damageEvent.getDamage()) {
+				finishGame();
 			}
 		}
 	}
 
-	@EventHandler
-	public void onEntityDeath(EntityDeathEvent e) {
-		passEvent(e);
+	@GameEvent
+	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+		Entity entity = e.getEntity();
+
+		if (entity.equals(this.mob)) {
+			return;
+		}
+		int damage = (int) e.getDamage();
+
+		// event detector can detect EntityDamageByEntityEvent if damager is a player or
+		// a shooter of projectile
+		plusScore(damage);
+
+		// title
+		sendTitles("" + ChatColor.GREEN + damage, "damage");
+
+		// cancel damage dealt to the mob
+		e.setDamage(0);
+	}
+
+	@GameEvent
+	protected void onEntityDeathEvent(EntityDeathEvent e) {
+		if (this.mob.equals(e.getEntity())) {
+			spawnMob();
+		}
 	}
 
 	private void spawnMob() {

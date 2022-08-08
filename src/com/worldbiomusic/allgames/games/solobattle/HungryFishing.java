@@ -12,17 +12,17 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class HungryFishing extends SoloBattleMiniGame {
 
@@ -76,6 +76,7 @@ public class HungryFishing extends SoloBattleMiniGame {
 
 		// catch-items
 		this.catchItems = new HashMap<>();
+		@SuppressWarnings("unchecked")
 		Map<String, Integer> itemList = (Map<String, Integer>) data.get("catch-items");
 		itemList.forEach((k, v) -> catchItems.put(Material.valueOf(k), v));
 
@@ -86,26 +87,14 @@ public class HungryFishing extends SoloBattleMiniGame {
 		this.failHunger = (int) data.get("fail-hunger");
 	}
 
-	@Override
-	protected void initGame() {
-	}
-
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof PlayerFishEvent) {
-			onFishEvent((PlayerFishEvent) event);
-		} else if (event instanceof FoodLevelChangeEvent) {
-			onFoodLevelChange((FoodLevelChangeEvent) event);
-		}
-	}
-
-	void onFishEvent(PlayerFishEvent event) {
-		State state = event.getState();
+	@GameEvent
+	protected void onPlayerFishEvent(PlayerFishEvent e) {
+		State state = e.getState();
 
 		if (state == State.CAUGHT_FISH) {
-			onCatch(event);
+			onCatch(e);
 		} else if (state == State.FAILED_ATTEMPT) {
-			onFail(event);
+			onFail(e);
 		}
 	}
 
@@ -164,9 +153,10 @@ public class HungryFishing extends SoloBattleMiniGame {
 		p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_DESTROY, 10.0F, 1.0F);
 	}
 
-	void onFoodLevelChange(FoodLevelChangeEvent event) {
-		Player p = (Player) event.getEntity();
-		int foodLevel = event.getFoodLevel();
+	@GameEvent
+	protected void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
+		Player p = (Player) e.getEntity();
+		int foodLevel = e.getFoodLevel();
 
 		// check food level is max
 		if (foodLevel >= 20) {

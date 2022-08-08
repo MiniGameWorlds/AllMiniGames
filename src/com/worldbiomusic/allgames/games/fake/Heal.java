@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.PlayerTool;
-import com.worldbiomusic.minigameworld.minigameframes.FakeMiniGame;
+import com.minigameworld.frames.FakeMiniGame;
 
 public class Heal extends FakeMiniGame {
 

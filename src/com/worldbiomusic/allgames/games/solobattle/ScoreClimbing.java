@@ -10,16 +10,16 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 @SuppressWarnings("deprecation")
 public class ScoreClimbing extends SoloBattleMiniGame {
@@ -46,25 +46,18 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		this.registerTasks();
 	}
 
-	@Override
-	protected void initGame() {
-		// set score limit
-		this.randomTime = (int) (Math.random() * this.getPlayTime());
-	}
-
 	protected void registerTasks() {
 		// register task
-		this.getTaskManager().registerTask("scoreTask", new Runnable() {
-			@Override
-			public void run() {
-				for (Player p : getPlayers()) {
-					if (!hasStopped(p)) {
-						if (getLeftPlayTime() > randomTime) {
-							plusScore(p, 1);
-						} else {
-							minusScore(p, 1);
-						}
-					}
+		getTaskManager().registerTask("scoreTask", () -> {
+			for (Player p : getPlayers()) {
+				if (hasStopped(p)) {
+					continue;
+				}
+
+				if (getLeftPlayTime() > randomTime) {
+					plusScore(p, 1);
+				} else {
+					minusScore(p, 1);
 				}
 			}
 		});
@@ -73,6 +66,9 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		// set score limit
+		this.randomTime = (int) (Math.random() * this.getPlayTime());
 
 		// 3 chances
 		this.chance.clear();
@@ -86,16 +82,8 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		return this.chance.get(p) == -1;
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof PlayerChatEvent) {
-			checkScore((PlayerChatEvent) event);
-		} else if (event instanceof PlayerToggleSneakEvent) {
-			fixScore((PlayerToggleSneakEvent) event);
-		}
-	}
-
-	private void checkScore(PlayerChatEvent e) {
+	@GameEvent
+	protected void checkScore(PlayerChatEvent e) {
 		Player p = e.getPlayer();
 		int leftChance = this.chance.get(p);
 		if (leftChance > 0) {
@@ -117,7 +105,8 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		}
 	}
 
-	private void fixScore(PlayerToggleSneakEvent e) {
+	@GameEvent
+	protected void fixScore(PlayerToggleSneakEvent e) {
 		// sneak: stop my score
 		Player p = e.getPlayer();
 

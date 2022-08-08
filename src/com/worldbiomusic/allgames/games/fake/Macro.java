@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import com.worldbiomusic.minigameworld.minigameframes.FakeMiniGame;
+import com.minigameworld.frames.FakeMiniGame;
 
 /**
  * Macro features<br>

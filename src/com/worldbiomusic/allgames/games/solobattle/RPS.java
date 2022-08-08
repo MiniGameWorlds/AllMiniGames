@@ -10,18 +10,18 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
-public class RockScissorPaper extends SoloBattleMiniGame {
+public class RPS extends SoloBattleMiniGame {
 	/*
-	 * Rock Scissor Paper game
+	 * Rock Paper Scissor game
 	 */
 
 	Map<Player, Selection> selections;
@@ -58,19 +58,14 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 
 	}
 
-	public RockScissorPaper() {
-		super("RSP", 2, 2, 30, 15);
+	public RPS() {
+		super("RPS", 2, 2, 30, 15);
 
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14391);
 
-		this.selections = new HashMap<Player, RockScissorPaper.Selection>();
+		this.selections = new HashMap<Player, RPS.Selection>();
 		this.getSetting().setIcon(Material.SHEARS);
-	}
-
-	@Override
-	protected void initGame() {
-		this.selections.clear();
 	}
 
 	@Override
@@ -82,26 +77,23 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 		}
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof AsyncPlayerChatEvent) {
-			AsyncPlayerChatEvent e = (AsyncPlayerChatEvent) event;
-			Player p = e.getPlayer();
-			String msg = e.getMessage();
-			Selection selection = Selection.getSelectionWithString(msg);
+	@GameEvent
+	protected void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
+		Player p = e.getPlayer();
+		String msg = e.getMessage();
+		Selection selection = Selection.getSelectionWithString(msg);
 
-			// put selection and cancel chat event
-			if (selection != null) {
-				this.selections.put(p, selection);
-				e.setMessage(ChatColor.MAGIC + "*");
-				this.sendMessage(p, "your choice: " + ChatColor.GREEN + selection.name());
+		// put selection and cancel chat event
+		if (selection != null) {
+			this.selections.put(p, selection);
+			e.setMessage(ChatColor.MAGIC + "*");
+			this.sendMessage(p, "your choice: " + ChatColor.GREEN + selection.name());
 
-				// sound
-				SoundTool.play(p, Sound.BLOCK_NOTE_BLOCK_BELL);
+			// sound
+			SoundTool.play(p, Sound.BLOCK_NOTE_BLOCK_BELL);
 
-				// particle
-				ParticleTool.spawn(p.getLocation(), Particle.FLAME, 30, 0.1);
-			}
+			// particle
+			ParticleTool.spawn(p.getLocation(), Particle.FLAME, 30, 0.1);
 		}
 	}
 
@@ -132,6 +124,8 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 
 	@Override
 	protected void onFinish() {
+		this.selections.clear();
+
 		if (!(this.getPlayerCount() == 2)) {
 			return;
 		}
@@ -164,31 +158,3 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 		return ChatColor.GREEN + msg + ChatColor.RESET;
 	}
 }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//

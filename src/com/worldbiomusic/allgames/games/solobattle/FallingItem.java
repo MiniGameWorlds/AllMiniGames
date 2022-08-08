@@ -14,20 +14,20 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.LocationTool;
+import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.Counter;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
-import com.wbm.plugin.util.ParticleTool;
 
 /**
  * Pickup items falling from the sky<br>
@@ -64,7 +64,6 @@ public class FallingItem extends SoloBattleMiniGame {
 
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14412);
-
 
 		getSetting().setIcon(Material.FEATHER);
 
@@ -143,16 +142,20 @@ public class FallingItem extends SoloBattleMiniGame {
 		this.spawnedEntities = new ArrayList<>();
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityPickupItemEvent) {
-			pickupItem((EntityPickupItemEvent) event);
-		} else if (event instanceof EntityDamageEvent) {
-			onPlayerDamage((EntityDamageEvent) event);
-		} else if (event instanceof PlayerDropItemEvent) {
-			// prevent item drop
-			((PlayerDropItemEvent) event).setCancelled(true);
-		}
+	@GameEvent
+	protected void onEntityPickupItemEvent(EntityPickupItemEvent e) {
+		pickupItem(e);
+	}
+
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
+		onPlayerDamage(e);
+	}
+
+	@GameEvent
+	protected void onPlayerDropItemEvent(PlayerDropItemEvent e) {
+		// prevent item drop
+		e.setCancelled(true);
 	}
 
 	@Override
@@ -188,10 +191,7 @@ public class FallingItem extends SoloBattleMiniGame {
 
 	@Override
 	protected List<String> tutorial() {
-		List<String> tutorial = new ArrayList<String>();
-		tutorial.add("Pick up items fallen from the sky!");
-
-		return tutorial;
+		return List.of("Pick up items fallen from the sky!");
 	}
 
 	private void pickupItem(EntityPickupItemEvent e) {
@@ -220,7 +220,7 @@ public class FallingItem extends SoloBattleMiniGame {
 	}
 
 	private boolean checkGameFinish() {
-		return !getPlayerDataList().stream().filter(pData -> pData.getScore() >= this.finishScore).toList().isEmpty();
+		return !getGamePlayers().stream().filter(pData -> pData.getScore() >= this.finishScore).toList().isEmpty();
 	}
 
 	private void onPlayerDamage(EntityDamageEvent e) {

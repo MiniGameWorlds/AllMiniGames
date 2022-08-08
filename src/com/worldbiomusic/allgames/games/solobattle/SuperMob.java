@@ -13,7 +13,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -21,13 +20,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class SuperMob extends SoloBattleMiniGame {
 
@@ -45,7 +45,6 @@ public class SuperMob extends SoloBattleMiniGame {
 
 		// settings
 		getSetting().setIcon(Material.ZOMBIE_HEAD);
-		getSetting().addCustomDetectableEvent(EntityDeathEvent.class);
 
 		// options
 		getCustomOption().set(Option.INVENTORY_SAVE, true);
@@ -125,21 +124,8 @@ public class SuperMob extends SoloBattleMiniGame {
 		this.killAllEntities();
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		// custom detectable event
-		if (event instanceof EntityDeathEvent) {
-			onMobDeath((EntityDeathEvent) event);
-		} else if (event instanceof EntityDamageEvent) {
-			if (((EntityDamageEvent) event).getEntity() instanceof Player) {
-				onPlayerDamaged((EntityDamageEvent) event);
-			} else if (event instanceof EntityDamageByEntityEvent) {
-				onSuperMobDamaged((EntityDamageByEntityEvent) event);
-			}
-		}
-	}
-
-	private void onMobDeath(EntityDeathEvent e) {
+	@GameEvent
+	protected void onMobDeath(EntityDeathEvent e) {
 		if (this.entities.contains(e.getEntity())) {
 			Entity killer = e.getEntity().getKiller();
 			if (killer == null) {
@@ -157,7 +143,8 @@ public class SuperMob extends SoloBattleMiniGame {
 		}
 	}
 
-	private void onPlayerDamaged(EntityDamageEvent e) {
+	@GameEvent
+	protected void onPlayerDamaged(EntityDamageEvent e) {
 		Player p = (Player) e.getEntity();
 
 		// if death
@@ -167,11 +154,12 @@ public class SuperMob extends SoloBattleMiniGame {
 
 			sendTitle(p, ChatColor.GREEN + "Respawn", "");
 			SoundTool.play(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL);
-			this.setLive(p, false);
+			setLive(p, false);
 		}
 	}
 
-	private void onSuperMobDamaged(EntityDamageByEntityEvent e) {
+	@GameEvent
+	protected void onSuperMobDamaged(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof Zombie)) {
 			return;
 		}

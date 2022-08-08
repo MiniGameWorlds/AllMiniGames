@@ -11,14 +11,14 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 /**
  * [Rules]<br>
@@ -101,27 +101,19 @@ public class Dropper extends SoloBattleMiniGame {
 		this.health = (int) data.get("health");
 	}
 
-	@Override
-	protected void initGame() {
-	}
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
+		Player p = (Player) e.getEntity();
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent e = (EntityDamageEvent) event;
+		boolean isDead = p.getHealth() <= e.getDamage();
+		if (isDead) {
+			e.setDamage(0);
 
-			Player p = (Player) e.getEntity();
+			PlayerTool.makePureState(p);
 
-			boolean isDead = p.getHealth() <= e.getDamage();
-			if (isDead) {
-				e.setDamage(0);
-
-				PlayerTool.makePureState(p);
-
-				if (!checkBelowBlock(p)) {
-					// respawn
-					p.teleport(getLocation());
-				}
+			if (!checkBelowBlock(p)) {
+				// respawn
+				p.teleport(getLocation());
 			}
 		}
 	}

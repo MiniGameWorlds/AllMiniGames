@@ -11,19 +11,19 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.LocationTool;
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 /**
  * Spleef <br>
@@ -117,26 +117,22 @@ public class Spleef extends SoloBattleMiniGame {
 		fillStage();
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof BlockBreakEvent) {
-			BlockBreakEvent e = (BlockBreakEvent) event;
+	@GameEvent
+	protected void onBlockBreakEvent(BlockBreakEvent e) {
+		Block block = e.getBlock();
 
-			Block block = e.getBlock();
-
-			if (!LocationTool.isIn(pos1, block.getLocation(), pos2)) {
-				return;
-			}
-
-			Material blockType = block.getType();
-			if (blockType != this.block) {
-				return;
-			}
-
-			Player p = e.getPlayer();
-			plusScore(p, 1);
-			block.setType(Material.AIR);
+		if (!LocationTool.isIn(pos1, block.getLocation(), pos2)) {
+			return;
 		}
+
+		Material blockType = block.getType();
+		if (blockType != this.block) {
+			return;
+		}
+
+		Player p = e.getPlayer();
+		plusScore(p, 1);
+		block.setType(Material.AIR);
 	}
 
 	@Override

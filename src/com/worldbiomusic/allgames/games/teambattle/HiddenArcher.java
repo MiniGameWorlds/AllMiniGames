@@ -13,7 +13,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -22,12 +21,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.TeamBattleMiniGame;
 import com.wbm.plugin.util.InventoryTool;
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 public class HiddenArcher extends TeamBattleMiniGame {
 	/*
@@ -66,51 +66,48 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		return tutorial;
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		super.onEvent(event);
-		if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
-			damageEvent.setCancelled(true);
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
+		e.setCancelled(true);
+	}
 
-			if (damageEvent instanceof EntityDamageByEntityEvent) {
-				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) damageEvent;
-
-				// check
-				Entity damager = e.getDamager();
-				Entity victimEntity = e.getEntity();
-				if (!(damager instanceof Snowball && victimEntity instanceof Player)) {
-					return;
-				}
-
-				Player victim = (Player) victimEntity;
-				Snowball snowball = (Snowball) damager;
-
-				if (snowball.getShooter() instanceof Player) {
-					Player shooter = ((Player) snowball.getShooter());
-					if (!this.isSameTeam(victim, shooter)) {
-						damageEvent.setCancelled(false);
-
-						// remove damage
-						e.setDamage(0);
-
-						this.shootPlayer(shooter, victim);
-					}
-				}
-			}
-		} else if (event instanceof ProjectileLaunchEvent) {
-			ProjectileLaunchEvent e = (ProjectileLaunchEvent) event;
-			Projectile proj = e.getEntity();
-			ProjectileSource shooter = proj.getShooter();
-
-			if (proj.getType() == EntityType.SNOWBALL) {
-				Player p = (Player) shooter;
-
-				p.getInventory().addItem(new ItemStack(Material.SNOWBALL));
-				p.setCooldown(Material.SNOWBALL, 20 * this.reloadCoolDown);
-			}
-
+	@GameEvent
+	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+		// check
+		Entity damager = e.getDamager();
+		Entity victimEntity = e.getEntity();
+		if (!(damager instanceof Snowball && victimEntity instanceof Player)) {
+			return;
 		}
+
+		Player victim = (Player) victimEntity;
+		Snowball snowball = (Snowball) damager;
+
+		if (snowball.getShooter() instanceof Player) {
+			Player shooter = ((Player) snowball.getShooter());
+			if (!isSameTeam(victim, shooter)) {
+				e.setCancelled(false);
+
+				// remove damage
+				e.setDamage(0);
+
+				shootPlayer(shooter, victim);
+			}
+		}
+	}
+
+	@GameEvent
+	protected void onProjectileLaunchEvent(ProjectileLaunchEvent e) {
+		Projectile proj = e.getEntity();
+		ProjectileSource shooter = proj.getShooter();
+
+		if (proj.getType() == EntityType.SNOWBALL) {
+			Player p = (Player) shooter;
+
+			p.getInventory().addItem(new ItemStack(Material.SNOWBALL));
+			p.setCooldown(Material.SNOWBALL, 20 * this.reloadCoolDown);
+		}
+
 	}
 
 	private void shootPlayer(Player shooter, Player victim) {

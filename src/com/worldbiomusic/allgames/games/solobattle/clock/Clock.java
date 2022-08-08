@@ -13,8 +13,8 @@ import org.bukkit.event.Event;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 
 public class Clock extends SoloBattleMiniGame {
 	private ClockMachine machine;
@@ -57,14 +57,6 @@ public class Clock extends SoloBattleMiniGame {
 		data.put("clockwise", true);
 		data.put("random-direction-mode", true);
 		data.put("particle", Particle.FLAME.name());
-	}
-
-	@Override
-	protected void initGame() {
-	}
-
-	@Override
-	protected void onEvent(Event event) {
 	}
 
 	@Override

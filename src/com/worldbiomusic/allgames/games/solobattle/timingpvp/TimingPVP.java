@@ -7,17 +7,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
+import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.wbm.plugin.util.Metrics;
 
 /**
  * - All players get random armor and weapons<br>
@@ -107,20 +107,13 @@ public class TimingPVP extends SoloBattleMiniGame {
 		this.randomGiver.setRandomItemList((List<ItemStack>) getCustomData().get("random-items"));
 	}
 
-	@Override
-	protected void initGame() {
+	@GameEvent
+	protected void onPlayerDropItemEvent(PlayerDropItemEvent e) {
+		e.setCancelled(true);
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof PlayerDropItemEvent) {
-			((PlayerDropItemEvent) event).setCancelled(true);
-		} else if (event instanceof EntityDamageEvent) {
-			onPlayerDeath((EntityDamageEvent) event);
-		}
-	}
-
-	private void onPlayerDeath(EntityDamageEvent e) {
+	@GameEvent
+	protected void onPlayerDeath(EntityDamageEvent e) {
 		if (!(e.getEntity() instanceof Player)) {
 			return;
 		}

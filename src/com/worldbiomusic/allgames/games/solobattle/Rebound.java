@@ -12,7 +12,6 @@ import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -22,13 +21,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.frames.helpers.MiniGamePlayer;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 
 public class Rebound extends SoloBattleMiniGame {
 
@@ -72,27 +72,23 @@ public class Rebound extends SoloBattleMiniGame {
 		this.projectileGravity = (boolean) data.get("projectile-gravity");
 	}
 
-	@Override
-	protected void initGame() {
+	@GameEvent
+	protected void onPlayerDropItemEvent(PlayerDropItemEvent e) {
+		e.setCancelled(true);
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityShootBowEvent) {
-			onPlayerShootBow((EntityShootBowEvent) event);
-		} else if (event instanceof ProjectileHitEvent) {
-			onPlayerHitByArrow((ProjectileHitEvent) event);
-		} else if (event instanceof PlayerDropItemEvent) {
-			((PlayerDropItemEvent) event).setCancelled(true);
-		} else if (event instanceof EntityPickupItemEvent) {
-			((EntityPickupItemEvent) event).setCancelled(true);
-		} else if (event instanceof PlayerToggleFlightEvent) {
-			((PlayerToggleFlightEvent) event).setCancelled(true);
-		}
-
+	@GameEvent
+	protected void onEntityPickupItemEvent(EntityPickupItemEvent e) {
+		e.setCancelled(true);
 	}
 
-	private void onPlayerHitByArrow(ProjectileHitEvent e) {
+	@GameEvent
+	protected void onPlayerToggleFlightEvent(PlayerToggleFlightEvent e) {
+		e.setCancelled(true);
+	}
+
+	@GameEvent
+	protected void onPlayerHitByArrow(ProjectileHitEvent e) {
 		if (!(e.getEntity().getShooter() instanceof Player)) {
 			return;
 		}
@@ -107,10 +103,10 @@ public class Rebound extends SoloBattleMiniGame {
 		glowHighestScorePlayer();
 
 		// msg
-		sendTitles(ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " -> " + ChatColor.RED
-				+ victim.getName() + ChatColor.RESET, "");
-		sendMessages(ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " -> " + ChatColor.RED
-				+ victim.getName() + ChatColor.RESET);
+		sendTitles(ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " -> " + ChatColor.RED + victim.getName()
+				+ ChatColor.RESET, "");
+		sendMessages(ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " -> " + ChatColor.RED + victim.getName()
+				+ ChatColor.RESET);
 
 		// sound
 		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
@@ -127,7 +123,8 @@ public class Rebound extends SoloBattleMiniGame {
 		}
 	}
 
-	private void onPlayerShootBow(EntityShootBowEvent e) {
+	@GameEvent
+	protected void onPlayerShootBow(EntityShootBowEvent e) {
 		Player p = (Player) e.getEntity();
 
 		Vector vector = p.getEyeLocation().getDirection();
@@ -162,8 +159,8 @@ public class Rebound extends SoloBattleMiniGame {
 		getPlayers().forEach(p -> p.setGlowing(false));
 
 		// glow top player on
-		Player topPlayer = getPlayerDataList().stream()
-				.sorted(Comparator.comparing(MiniGamePlayerData::getScore).reversed()).toList().get(0).getPlayer();
+		Player topPlayer = getGamePlayers().stream().sorted(Comparator.comparing(MiniGamePlayer::getScore).reversed())
+				.toList().get(0).getPlayer();
 		topPlayer.setGlowing(true);
 	}
 

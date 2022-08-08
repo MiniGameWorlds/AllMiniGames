@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
-import com.worldbiomusic.minigameworld.util.Utils;
+import com.minigameworld.util.Utils;
 
 /**
  * <h1>Start Point</h1><br>

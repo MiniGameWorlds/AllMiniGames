@@ -9,16 +9,16 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloMiniGame;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.SoundTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 public class FitTool extends SoloMiniGame {
 	/*
@@ -89,25 +89,21 @@ public class FitTool extends SoloMiniGame {
 		this.pos2 = (Location) this.getCustomData().get("pos2");
 	}
 
-	@Override
-	public void onEvent(Event event) {
-		if (event instanceof BlockBreakEvent) {
-			BlockBreakEvent e = (BlockBreakEvent) event;
-			Player p = e.getPlayer();
+	@GameEvent
+	protected void onBlockBreak(BlockBreakEvent e) {
+		Player p = e.getPlayer();
+		Block b = e.getBlock();
 
-			Block b = e.getBlock();
+		// plus score with specific block
+		if (LocationTool.isIn(pos1, b.getLocation(), pos2) && this.blocks.contains(b.getType())) {
+			e.setCancelled(true);
+			this.plusScore(p, 1);
 
-			// plus score with specific block
-			if (LocationTool.isIn(pos1, b.getLocation(), pos2) && this.blocks.contains(b.getType())) {
-				e.setCancelled(true);
-				this.plusScore(p, 1);
+			// random block
+			b.setType(this.getRandomBlock());
 
-				// random block
-				b.setType(this.getRandomBlock());
-
-				// sound
-				SoundTool.play(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL);
-			}
+			// sound
+			SoundTool.play(b.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL);
 		}
 	}
 

@@ -1,18 +1,16 @@
 package com.worldbiomusic.allgames.games.solobattle;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 
 public class MathGame extends SoloBattleMiniGame {
-
 	int num1, num2;
 	Operator operator;
 	int stage, maxStage;
@@ -100,53 +98,47 @@ public class MathGame extends SoloBattleMiniGame {
 		this.printProblem();
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof AsyncPlayerChatEvent) {
-			AsyncPlayerChatEvent e = (AsyncPlayerChatEvent) event;
-			Player p = e.getPlayer();
-			int answer = 0;
-			try {
-				answer = Integer.parseInt(e.getMessage());
-			} catch (NumberFormatException except) {
-				e.setCancelled(true);
-				this.sendMessage(p, "enter only Number");
-				return;
+	@GameEvent
+	protected void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
+		Player p = e.getPlayer();
+		int answer = 0;
+		try {
+			answer = Integer.parseInt(e.getMessage());
+		} catch (NumberFormatException except) {
+			e.setCancelled(true);
+			this.sendMessage(p, "enter only Number");
+			return;
+		}
+
+		if (answer == this.getAnswer()) {
+			// hide answer
+			e.setCancelled(true);
+
+			// notify
+			this.sendMessages(p.getName() + " solved!");
+
+			// plus score
+			this.plusScore(p, 1);
+
+			// plus stage
+			this.stage += 1;
+
+			// check game is end
+			if (this.checkGameEnd()) {
+				this.finishGame();
 			}
 
-			if (answer == this.getAnswer()) {
-				// hide answer
-				e.setCancelled(true);
-
-				// notify
-				this.sendMessages(p.getName() + " solved!");
-
-				// plus score
-				this.plusScore(p, 1);
-
-				// plus stage
-				this.stage += 1;
-
-				// check game is end
-				if (this.checkGameEnd()) {
-					this.finishGame();
-				}
-
-				// print problem
-				this.resetProblem();
-				this.printProblem();
-			} else {
-				this.minusScore(p, 1);
-			}
+			// print problem
+			this.resetProblem();
+			this.printProblem();
+		} else {
+			this.minusScore(p, 1);
 		}
 	}
 
 	@Override
 	protected List<String> tutorial() {
-		List<String> list = new ArrayList<String>();
-		list.add("Answer: +1");
-		list.add("Wrong: -1");
-		return list;
+		return List.of("Answer: +1", "Wrong: -1");
 	}
 
 }

@@ -7,13 +7,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 /**
  * [Rules]<br>
@@ -87,14 +86,6 @@ public class Center extends SoloBattleMiniGame {
 	protected void onStart() {
 		super.onStart();
 		getTaskManager().runTaskTimer("check-sneaking-and-fallen", 0, 5);
-	}
-
-	@Override
-	protected void initGame() {
-	}
-
-	@Override
-	protected void onEvent(Event event) {
 	}
 
 	@Override

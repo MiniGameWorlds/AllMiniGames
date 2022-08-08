@@ -10,17 +10,17 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 /**
  * [Rules]<br>
@@ -100,19 +100,9 @@ public class LavaUp extends SoloBattleMiniGame {
 		this.height = (int) pos1.getY();
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
-			checkPlayerIsDead(damageEvent);
-
-			if (damageEvent instanceof EntityDamageByEntityEvent) {
-				cancelPlayerHitDamage((EntityDamageByEntityEvent) damageEvent);
-			}
-		}
-	}
-
-	private void checkPlayerIsDead(EntityDamageEvent e) {
+	// check player is dead
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
 		Entity entity = e.getEntity();
 
 		if (!(entity instanceof Player)) {
@@ -143,7 +133,9 @@ public class LavaUp extends SoloBattleMiniGame {
 		}
 	}
 
-	private void cancelPlayerHitDamage(EntityDamageByEntityEvent e) {
+	// cancel player hit damage
+	@GameEvent
+	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
 		Entity victimEntity = e.getEntity();
 		Entity damagerEntity = e.getDamager();
 

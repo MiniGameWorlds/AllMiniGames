@@ -8,17 +8,17 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.TeamMiniGame;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.LocationTool;
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.SoundTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 public class RemoveBlock extends TeamMiniGame {
 
@@ -87,25 +87,18 @@ public class RemoveBlock extends TeamMiniGame {
 		}
 	}
 
-	@Override
-	protected void initGame() {
-	}
+	@GameEvent
+	protected void onBlockBreakEvent(BlockBreakEvent e) {
+		Block block = e.getBlock();
+		if (LocationTool.isIn(pos1, block.getLocation(), pos2) && this.isTargetBlock(block)) {
+			// remove block
+			e.getBlock().setType(Material.AIR);
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof BlockBreakEvent) {
-			BlockBreakEvent e = (BlockBreakEvent) event;
-			Block block = e.getBlock();
-			if (LocationTool.isIn(pos1, block.getLocation(), pos2) && this.isTargetBlock(block)) {
-				// remove block
-				e.getBlock().setType(Material.AIR);
+			// sound
+			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
-				// sound
-				SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
-
-				if (this.checkAllBlocksRemoved()) {
-					this.finishGame();
-				}
+			if (this.checkAllBlocksRemoved()) {
+				this.finishGame();
 			}
 		}
 	}

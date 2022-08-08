@@ -6,11 +6,13 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.Metrics;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 public class MNK extends SoloBattleMiniGame {
 
@@ -22,19 +24,15 @@ public class MNK extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14404);
 
-
 		getSetting().setIcon(Material.CRAFTING_TABLE);
 
 		registerTasks();
 	}
 
 	private void registerTasks() {
-		getTaskManager().registerTask("flowTurnTime", new Runnable() {
-			@Override
-			public void run() {
-				if (board.decreaseLeftTurnTime()) {
-					board.changeTurn();
-				}
+		getTaskManager().registerTask("flowTurnTime", () -> {
+			if (board.decreaseLeftTurnTime()) {
+				board.changeTurn();
 			}
 		});
 
@@ -91,9 +89,14 @@ public class MNK extends SoloBattleMiniGame {
 		this.board.flowTurnTime();
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		this.board.onEvent(event);
+	@GameEvent
+	protected void onPlayerDropItemEvent(PlayerDropItemEvent e) {
+		this.board.onPlayerDropItemEvent(e);
+	}
+
+	@GameEvent
+	protected void playBlockPlaced(BlockPlaceEvent e) {
+		this.board.playBlockPlaced(e);
 	}
 
 	@Override

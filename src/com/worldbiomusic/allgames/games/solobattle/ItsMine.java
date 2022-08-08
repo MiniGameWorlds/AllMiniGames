@@ -12,21 +12,20 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import com.minigameworld.events.minigame.MiniGameExceptionEvent;
+import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
-import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 /**
  * [Rules]<br>
@@ -118,49 +117,36 @@ public class ItsMine extends SoloBattleMiniGame {
 		this.finishScore = (int) data.get("finish-score");
 	}
 
-	@Override
-	protected void initGame() {
+	@GameEvent
+	protected void onEntityPickupItemEvent(EntityPickupItemEvent e) {
+		e.setCancelled(true);
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityPickupItemEvent) {
-			((EntityPickupItemEvent) event).setCancelled(true);
-		} else if (event instanceof PlayerDropItemEvent) {
-			((PlayerDropItemEvent) event).setCancelled(true);
-		} else if (event instanceof EntityDamageEvent) {
-			hitPlayer((EntityDamageEvent) event);
-		}
+	@GameEvent
+	protected void onPlayerDropItemEvent(PlayerDropItemEvent e) {
+		e.setCancelled(true);
 	}
 
-	private void hitPlayer(EntityDamageEvent damageEvent) {
+	@GameEvent
+	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
 		// cancel damage
-		damageEvent.setDamage(0);
+		e.setDamage(0);
 
 		// check event
-		if (damageEvent instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) damageEvent;
+		Entity victimEntity = e.getEntity();
+		Entity damagerEntity = e.getDamager();
 
-			Entity victimEntity = e.getEntity();
-			Entity damagerEntity = e.getDamager();
-
-			if (!(victimEntity instanceof Player && damagerEntity instanceof Player)) {
-				return;
-			}
-
-			Player victim = (Player) victimEntity;
-			Player damager = (Player) damagerEntity;
-
-			if (!(containsPlayer(victim) && containsPlayer(damager))) {
-				return;
-			}
-
-			// check item is stolen
-			if (victim.equals(this.tagger)) {
-				stealItem(damager, victim);
-			}
+		if (!(damagerEntity instanceof Player && containsPlayer((Player) damagerEntity))) {
+			return;
 		}
 
+		Player victim = (Player) victimEntity;
+		Player damager = (Player) damagerEntity;
+
+		// check item is stolen
+		if (victim.equals(this.tagger)) {
+			stealItem(damager, victim);
+		}
 	}
 
 	private void stealItem(Player newTagger, Player oldTagger) {

@@ -11,7 +11,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -19,13 +18,14 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.TeamMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 import com.worldbiomusic.allgames.games.solo.Tiny;
-import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 /**
  * - Similar to {@link Tiny} <br>
@@ -34,7 +34,6 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOpti
  * - Player can get score with only projectile <br>
  */
 public class TeamTiny extends TeamMiniGame {
-
 	private EntityType entityType;
 	private double shootDelay;
 	private Entity entity;
@@ -90,51 +89,49 @@ public class TeamTiny extends TeamMiniGame {
 		}
 	}
 
-	@Override
-	protected void initGame() {
+	@GameEvent
+	protected void onProjectileHitEvent(ProjectileHitEvent e) {
+		Entity hitEntity = e.getHitEntity();
+
+		if (hitEntity != null && hitEntity.equals(this.entity)) {
+			// event detector can detect shooter from ProjectileHitEvent
+			plusTeamScore(1);
+
+			// sound
+			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+
+			// particle
+			spawnHitParticles(hitEntity);
+		}
+
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof ProjectileHitEvent) {
-			ProjectileHitEvent e = (ProjectileHitEvent) event;
-			Entity hitEntity = e.getHitEntity();
+	@GameEvent
+	protected void onProjectileLaunchEvent(ProjectileLaunchEvent e) {
+		Projectile proj = e.getEntity();
+		ProjectileSource shooterEntity = proj.getShooter();
 
-			if (hitEntity != null && hitEntity.equals(this.entity)) {
-				// event detector can detect shooter from ProjectileHitEvent
-				plusTeamScore(1);
+		// event detector can detect player from ProjectileLaunchEvent
+		Player shooter = (Player) shooterEntity;
 
-				// sound
-				SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
-				
-				// particle
-				spawnHitParticles(hitEntity);
-			}
+		// don't change amount of snowball
+		shooter.getInventory().addItem(new ItemStack(Material.SNOWBALL));
 
-		} else if (event instanceof ProjectileLaunchEvent) {
-			ProjectileLaunchEvent e = (ProjectileLaunchEvent) event;
-			Projectile proj = e.getEntity();
-			ProjectileSource shooterEntity = proj.getShooter();
+		// give cooldown
+		shooter.setCooldown(Material.SNOWBALL, (int) (20 * this.shootDelay));
+	}
 
-			// event detector can detect player from ProjectileLaunchEvent
-			Player shooter = (Player) shooterEntity;
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
+		if (e.getEntity().equals(this.entity)) {
+			e.setDamage(0);
+		}
+	}
 
-			// don't change amount of snowball
-			shooter.getInventory().addItem(new ItemStack(Material.SNOWBALL));
-
-			// give cooldown
-			shooter.setCooldown(Material.SNOWBALL, (int) (20 * this.shootDelay));
-		} else if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent e = (EntityDamageEvent) event;
-
-			if (e.getEntity().equals(this.entity)) {
-				e.setDamage(0);
-			}
-		} else if (event instanceof EntityDeathEvent) {
-			EntityDeathEvent e = (EntityDeathEvent) event;
-			if (e.getEntity().equals(this.entity)) {
-				summonEntity();
-			}
+	@GameEvent
+	protected void onEntityDeathEvent(EntityDeathEvent e) {
+		if (e.getEntity().equals(this.entity)) {
+			summonEntity();
 		}
 	}
 

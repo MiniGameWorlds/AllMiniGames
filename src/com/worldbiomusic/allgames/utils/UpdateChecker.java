@@ -9,8 +9,8 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
 import com.google.common.io.Files;
-import com.wbm.plugin.util.Utils;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
+import com.minigameworld.util.Utils;
 
 public class UpdateChecker {
 	/*

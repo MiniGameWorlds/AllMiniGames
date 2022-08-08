@@ -5,14 +5,14 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.TeamBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class MoreHit extends TeamBattleMiniGame {
 	public MoreHit() {
@@ -28,30 +28,28 @@ public class MoreHit extends TeamBattleMiniGame {
 		this.setGroupChat(true);
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		super.onEvent(event);
-		if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+	@GameEvent
+	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+		Entity victimEntity = e.getEntity();
+		Entity damagerEntity = e.getDamager();
+		if (damagerEntity instanceof Player && containsPlayer((Player) damagerEntity)) {
+			Player victim = (Player) victimEntity;
+			Player damager = (Player) damagerEntity;
+			
 			// set damage 0
 			e.setDamage(0);
-
-			Entity victimEntity = e.getEntity();
-			Entity damagerEntity = e.getDamager();
-			if (damagerEntity instanceof Player && containsPlayer((Player) damagerEntity)) {
-				Player victim = (Player) victimEntity;
-				Player damager = (Player) damagerEntity;
-
-				// if other team
-				if (!isSameTeam(victim, damager)) {
-					plusTeamScore(damager, 1);
-				}
+			
+			// if other team
+			if (!isSameTeam(victim, damager)) {
+				plusTeamScore(damager, 1);
 			}
-		} else if (event instanceof PlayerRespawnEvent) {
-			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
-			e.setRespawnLocation(this.getLocation());
-			this.sendMessage(e.getPlayer(), "respawn!");
 		}
+	}
+
+	@GameEvent
+	protected void onPlayerRespawnEvent(PlayerRespawnEvent e) {
+		e.setRespawnLocation(this.getLocation());
+		this.sendMessage(e.getPlayer(), "respawn!");
 	}
 
 	@Override

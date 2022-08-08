@@ -9,17 +9,17 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.minigameworld.MiniGameWorldMain;
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
 import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.MiniGameWorldMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class FallingBlock extends SoloBattleMiniGame {
 	private Location pos1, pos2;
@@ -42,9 +42,6 @@ public class FallingBlock extends SoloBattleMiniGame {
 
 		// task
 		this.removeBelowBlockTask();
-
-		// custom event
-		getSetting().addCustomDetectableEvent(EntityChangeBlockEvent.class);
 	}
 
 	private void removeBelowBlockTask() {
@@ -139,7 +136,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 	}
 
 	private void onPlayerFall(Player p) {
-		this.setLive(p, false);
+		setLive(p, false);
 	}
 
 	@Override
@@ -160,11 +157,9 @@ public class FallingBlock extends SoloBattleMiniGame {
 		return tutorial;
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityChangeBlockEvent) {
-			removeFallenBlock((EntityChangeBlockEvent) event);
-		}
+	@GameEvent
+	protected void onEntityChangeBlockEvent(EntityChangeBlockEvent e) {
+		removeFallenBlock(e);
 	}
 
 	private void removeFallenBlock(EntityChangeBlockEvent e) {

@@ -9,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,13 +17,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.ItemStackTool;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class Bridge extends SoloBattleMiniGame {
 
@@ -127,18 +127,15 @@ public class Bridge extends SoloBattleMiniGame {
 		this.skillCooldown = (int) customData.get("skill-cooldown");
 	}
 
-	@Override
-	protected void initGame() {
+
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
+		e.setDamage(0);
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent e = (EntityDamageEvent) event;
-			e.setDamage(0);
-		} else if (event instanceof PlayerInteractEvent) {
-			useSkill((PlayerInteractEvent) event);
-		}
+	@GameEvent
+	protected void onPlayerInteractEvent(PlayerInteractEvent e) {
+		useSkill(e);
 	}
 
 	private void useSkill(PlayerInteractEvent e) {

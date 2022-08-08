@@ -12,18 +12,18 @@ import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.TeamMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.InventoryTool;
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.SoundTool;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 public class BreedMob extends TeamMiniGame {
 
@@ -40,11 +40,6 @@ public class BreedMob extends TeamMiniGame {
 
 		// settings
 		this.getSetting().setIcon(Material.ZOMBIE_SPAWN_EGG);
-
-		// need when mob die by other reason (e.g. falling, killed by other mob)
-		getSetting().addCustomDetectableEvent(EntityExplodeEvent.class);
-		getSetting().addCustomDetectableEvent(EntityDeathEvent.class);
-
 		this.getCustomOption().set(Option.COLOR, ChatColor.RED);
 
 		// register task
@@ -71,58 +66,54 @@ public class BreedMob extends TeamMiniGame {
 		this.mobs = new ArrayList<>();
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityDeathEvent) {
-			EntityDeathEvent e = (EntityDeathEvent) event;
-
-			if (!(e.getEntity() instanceof Mob)) {
-				return;
-			}
-
-			Mob entity = (Mob) e.getEntity();
-
-			// check mob
-			if (this.mobs.contains(entity)) {
-				layTwoMobs(entity.getLocation());
-
-				// clear drops
-				e.getDrops().clear();
-			}
-
-		} else if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent e = (EntityDamageEvent) event;
-			if (e.getEntity() instanceof Player) {
-				Player p = (Player) e.getEntity();
-
-				// if death
-				if (p.getHealth() <= e.getDamage()) {
-					e.setCancelled(true);
-
-					// title
-					sendTitle(p, ChatColor.RED + "DIE", "");
-
-					// set live: false
-					this.setLive(p, false);
-				}
-			}
-		} else if (event instanceof EntityExplodeEvent) {
-			// prevent block breaking by explosion of creeper
-			EntityExplodeEvent e = (EntityExplodeEvent) event;
-
-			if (!this.mobs.contains(e.getEntity())) {
-				return;
-			}
-
-			// prevent breaking
-			e.blockList().clear();
-
-			// lay
-			layTwoMobs(e.getEntity().getLocation());
-
-			// sound
-			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+	@GameEvent
+	protected void onEntityDeathEvent(EntityDeathEvent e) {
+		if (!(e.getEntity() instanceof Mob)) {
+			return;
 		}
+
+		Mob entity = (Mob) e.getEntity();
+
+		// check mob
+		if (this.mobs.contains(entity)) {
+			layTwoMobs(entity.getLocation());
+
+			// clear drops
+			e.getDrops().clear();
+		}
+	}
+
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
+		Player p = (Player) e.getEntity();
+
+		// if death
+		if (p.getHealth() <= e.getDamage()) {
+			e.setCancelled(true);
+
+			// title
+			sendTitle(p, ChatColor.RED + "DIE", "");
+
+			// set live: false
+			this.setLive(p, false);
+		}
+	}
+
+	@GameEvent
+	protected void onEntityExplodeEvent(EntityExplodeEvent e) {
+		// prevent block breaking by explosion of creeper
+		if (!this.mobs.contains(e.getEntity())) {
+			return;
+		}
+
+		// prevent breaking
+		e.blockList().clear();
+
+		// lay
+		layTwoMobs(e.getEntity().getLocation());
+
+		// sound
+		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 	}
 
 	private void layTwoMobs(Location deathLoc) {

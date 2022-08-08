@@ -8,13 +8,12 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
-import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.Metrics;
+import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 /**
  * - Before die, teleport to spawn<br>
@@ -46,13 +45,12 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14408);
 
-
 		Bukkit.getServer().getPluginManager().registerEvents(this, AllMiniGamesMain.getInstance());
 
 		this.eventBlockManager = new EventBlockManager(this);
 
 		getSetting().setIcon(Material.LILY_PAD);
-		
+
 		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
 
 		registerTask();
@@ -94,10 +92,6 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 	}
 
 	@Override
-	protected void initGame() {
-	}
-
-	@Override
 	protected void onStart() {
 		super.onStart();
 
@@ -118,9 +112,5 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 	@Override
 	public void plusScore(Player p, int amount) {
 		super.plusScore(p, amount);
-	}
-
-	@Override
-	protected void onEvent(Event arg0) {
 	}
 }

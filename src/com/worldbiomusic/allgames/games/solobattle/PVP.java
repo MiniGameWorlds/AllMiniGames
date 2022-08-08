@@ -9,19 +9,19 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class PVP extends SoloBattleMiniGame {
 	/*
@@ -70,28 +70,22 @@ public class PVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGame() {
-	}
-
-	@Override
 	protected void onStart() {
 		super.onStart();
+		
 		// set health scale, give kit items
 		this.getPlayers().forEach(p -> initKitsAndHealth(p));
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof PlayerRespawnEvent) {
-			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
-			e.setRespawnLocation(this.getLocation());
-			this.initKitsAndHealth(e.getPlayer());
-		} else if (event instanceof EntityDamageByEntityEvent) {
-			onPlayerDeath((EntityDamageByEntityEvent) event);
-		}
+	@GameEvent
+	protected void onPlayerRespawnEvent(PlayerRespawnEvent e) {
+		e.setRespawnLocation(getLocation());
+		initKitsAndHealth(e.getPlayer());
 	}
 
-	private void onPlayerDeath(EntityDamageByEntityEvent e) {
+	// on player death
+	@GameEvent
+	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof Player)) {
 			return;
 		}
@@ -110,7 +104,7 @@ public class PVP extends SoloBattleMiniGame {
 
 			// cancel damage
 			e.setDamage(0);
-			
+
 			// msg
 			this.sendTitle(victim, "Die", "");
 			sendMessages(ChatColor.BOLD + victim.getName() + ChatColor.RED + " died");
@@ -140,9 +134,7 @@ public class PVP extends SoloBattleMiniGame {
 
 	@Override
 	protected List<String> tutorial() {
-		List<String> tutorial = new ArrayList<>();
-		tutorial.add("kill: +1");
-		return tutorial;
+		return List.of("kill: +1");
 	}
 
 }

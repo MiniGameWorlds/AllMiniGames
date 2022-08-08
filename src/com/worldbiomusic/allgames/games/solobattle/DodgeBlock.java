@@ -12,7 +12,6 @@ import org.bukkit.Sound;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
@@ -20,12 +19,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.frames.SoloBattleMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.LocationTool;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
-import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 
@@ -73,16 +73,10 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 		});
 
 	}
-
-	@Override
-	protected void initGame() {
-	}
-
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityDamageEvent) {
-			killPlayer((EntityDamageEvent) event);
-		}
+	
+	@GameEvent
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
+		killPlayer(e);
 	}
 
 	@Override
