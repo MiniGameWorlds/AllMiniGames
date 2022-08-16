@@ -6,11 +6,12 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.frames.TeamBattleMiniGame;
 import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 
@@ -29,16 +30,18 @@ public class MoreHit extends TeamBattleMiniGame {
 	}
 
 	@GameEvent
+	protected void onPlayerHurt(EntityDamageEvent e) {
+		// set damage 0
+		e.setDamage(0);
+	}
+
+	@GameEvent
 	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
-		Entity victimEntity = e.getEntity();
 		Entity damagerEntity = e.getDamager();
 		if (damagerEntity instanceof Player && containsPlayer((Player) damagerEntity)) {
-			Player victim = (Player) victimEntity;
+			Player victim = (Player) e.getEntity();
 			Player damager = (Player) damagerEntity;
-			
-			// set damage 0
-			e.setDamage(0);
-			
+
 			// if other team
 			if (!isSameTeam(victim, damager)) {
 				plusTeamScore(damager, 1);

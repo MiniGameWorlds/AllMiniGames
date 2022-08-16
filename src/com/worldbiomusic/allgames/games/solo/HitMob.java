@@ -17,9 +17,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.frames.SoloMiniGame;
 import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.Metrics;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 
@@ -34,7 +34,6 @@ import com.worldbiomusic.allgames.AllMiniGamesMain;
  * - If mob died in any situation, will respawn in spawn location<br>
  */
 public class HitMob extends SoloMiniGame implements Listener {
-
 	private List<ItemStack> tools;
 	private EntityType mobType;
 	private Mob mob;
@@ -101,26 +100,25 @@ public class HitMob extends SoloMiniGame implements Listener {
 	}
 
 	@GameEvent
-	protected void onEntityDamageEvent(EntityDamageEvent damageEvent) {
-		Entity entity = damageEvent.getEntity();
+	public void onPlayerDamaged(EntityDamageEvent e) {
+		if (!(e.getEntity() instanceof Player)) {
+			return;
+		}
+		System.out.println("");
+		Player p = (Player) e.getEntity();
 
-		// if player dead
-		if (entity instanceof Player) {
-			Player p = (Player) entity;
-
-			if (p.getHealth() <= damageEvent.getDamage()) {
-				finishGame();
-			}
+		if (p.getHealth() <= e.getDamage()) {
+			finishGame();
 		}
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
-		Entity entity = e.getEntity();
-
-		if (entity.equals(this.mob)) {
+		Entity victim = e.getEntity();
+		if (!victim.equals(this.mob)) {
 			return;
 		}
+
 		int damage = (int) e.getDamage();
 
 		// event detector can detect EntityDamageByEntityEvent if damager is a player or
@@ -132,9 +130,10 @@ public class HitMob extends SoloMiniGame implements Listener {
 
 		// cancel damage dealt to the mob
 		e.setDamage(0);
+
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onEntityDeathEvent(EntityDeathEvent e) {
 		if (this.mob.equals(e.getEntity())) {
 			spawnMob();
@@ -150,7 +149,6 @@ public class HitMob extends SoloMiniGame implements Listener {
 		List<String> tutorial = new ArrayList<String>();
 		tutorial.add("Hit mob: " + ChatColor.GREEN + "+1");
 		tutorial.add("Die: finish");
-
 		return tutorial;
 	}
 

@@ -9,7 +9,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -17,9 +16,9 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
-import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.frames.SoloMiniGame;
 import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
@@ -64,26 +63,29 @@ public class Tiny extends SoloMiniGame {
 		this.bat.remove();
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onProjectileHitEvent(ProjectileHitEvent e) {
-		Entity hitEntity = e.getHitEntity();
+		// check shooter
+		ProjectileSource shooter = e.getEntity().getShooter();
+		if (!(shooter instanceof Player && containsPlayer((Player) shooter))) {
+			return;
+		}
 
-		if (hitEntity != null && hitEntity.equals(this.bat)) {
-			// event detector can detect shooter from ProjectileHitEvent
+		Entity hitEntity = e.getHitEntity();
+		if (this.bat.equals(hitEntity)) {
 			plusScore(1);
 
-			// sound
 			SoundTool.play(hitEntity.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL);
-
-			// particle
 			spawnHitParticles(hitEntity);
 		}
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onProjectileLaunchEvent(ProjectileLaunchEvent e) {
-		Projectile proj = e.getEntity();
-		ProjectileSource shooterEntity = proj.getShooter();
+		ProjectileSource shooterEntity = e.getEntity().getShooter();
+		if (!(shooterEntity instanceof Player && containsPlayer((Player) shooterEntity))) {
+			return;
+		}
 
 		// event detector can detect player from ProjectileLaunchEvent
 		Player shooter = (Player) shooterEntity;
@@ -102,7 +104,7 @@ public class Tiny extends SoloMiniGame {
 		}
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onEntityDeathEvent(EntityDeathEvent e) {
 		if (e.getEntity().equals(this.bat)) {
 			summonBat();

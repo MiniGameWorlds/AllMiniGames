@@ -75,32 +75,26 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
 		// check
 		Entity damager = e.getDamager();
-		Entity victimEntity = e.getEntity();
-		if (!(damager instanceof Snowball && victimEntity instanceof Player)) {
+		if (!(damager instanceof Snowball && ((Snowball) damager).getShooter() instanceof Player)) {
 			return;
 		}
 
-		Player victim = (Player) victimEntity;
-		Snowball snowball = (Snowball) damager;
-
-		if (snowball.getShooter() instanceof Player) {
-			Player shooter = ((Player) snowball.getShooter());
-			if (!isSameTeam(victim, shooter)) {
-				e.setCancelled(false);
-
-				// remove damage
-				e.setDamage(0);
-
-				shootPlayer(shooter, victim);
-			}
+		Player victim = (Player) e.getEntity();
+		Player shooter = (Player) ((Snowball) damager).getShooter();
+		if (!isSameTeam(victim, shooter)) {
+			shootPlayer(shooter, victim);
 		}
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onProjectileLaunchEvent(ProjectileLaunchEvent e) {
 		Projectile proj = e.getEntity();
-		ProjectileSource shooter = proj.getShooter();
+		ProjectileSource shooterEntity = proj.getShooter();
+		if (!(shooterEntity instanceof Player && containsPlayer((Player) shooterEntity))) {
+			return;
+		}
 
+		ProjectileSource shooter = shooterEntity;
 		if (proj.getType() == EntityType.SNOWBALL) {
 			Player p = (Player) shooter;
 
@@ -129,7 +123,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		spawnHitParticles(victim);
 
 		// set live
-		this.setLive(victim, false);
+		setLive(victim, false);
 	}
 
 	private void spawnHitParticles(Entity e) {

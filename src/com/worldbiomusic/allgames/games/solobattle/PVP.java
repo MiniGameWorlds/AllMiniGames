@@ -72,7 +72,7 @@ public class PVP extends SoloBattleMiniGame {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		
+
 		// set health scale, give kit items
 		this.getPlayers().forEach(p -> initKitsAndHealth(p));
 	}
@@ -83,41 +83,42 @@ public class PVP extends SoloBattleMiniGame {
 		initKitsAndHealth(e.getPlayer());
 	}
 
-	// on player death
 	@GameEvent
-	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
-		if (!(e.getEntity() instanceof Player)) {
+	protected void onPlayerDeath(EntityDamageByEntityEvent e) {
+		// check killer is playing the same minigame
+		if (!(e.getDamager() instanceof Player && this.containsPlayer((Player) e.getDamager()))) {
 			return;
 		}
+
 		Player victim = (Player) e.getEntity();
+		Player killer = (Player) e.getDamager();
 
 		// if death
 		if (victim.getHealth() > e.getDamage()) {
 			return;
 		}
 
-		// check killer is playing the same minigame
-		if (e.getDamager() instanceof Player && this.containsPlayer((Player) e.getDamager())) {
-			// killer +1 score
-			Player killer = (Player) e.getDamager();
-			this.plusScore(killer, 1);
+		// killer +1 score
+		this.plusScore(killer, 1);
 
-			// cancel damage
-			e.setDamage(0);
+		// cancel damage
+		e.setDamage(0);
 
-			// msg
-			this.sendTitle(victim, "Die", "");
-			sendMessages(ChatColor.BOLD + victim.getName() + ChatColor.RED + " died");
+		// msg
+		sendTitle(victim, "Die", "");
+		sendMessages(ChatColor.BOLD + victim.getName() + ChatColor.RED + " died");
 
-			// sound
-			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_BELL);
+		// sound
+		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_BELL);
 
-			// particle
-			ParticleTool.spawn(victim.getLocation(), Particle.FLAME, 30, 0.1);
+		// particle
+		ParticleTool.spawn(victim.getLocation(), Particle.FLAME, 30, 0.1);
 
-			// heal
-			PlayerTool.makePureState(victim);
-		}
+		// heal
+		PlayerTool.makePureState(victim);
+
+		// tp to the location
+		victim.teleport(getLocation());
 	}
 
 	private void initKitsAndHealth(Player p) {
@@ -134,7 +135,7 @@ public class PVP extends SoloBattleMiniGame {
 
 	@Override
 	protected List<String> tutorial() {
-		return List.of("kill: +1");
+		return List.of("kill: +1", "Teleport to the spawn on death");
 	}
 
 }

@@ -138,7 +138,7 @@ public class PassMob extends TeamBattleMiniGame {
 		this.mobSpawnDelay = (int) this.getCustomData().get("mob-spawn-delay");
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onEntityDeathEvent(EntityDeathEvent e) {
 		Entity entity = e.getEntity();
 		if (isPassMobEntity(entity)) {
@@ -184,8 +184,8 @@ public class PassMob extends TeamBattleMiniGame {
 		super.initGame();
 
 		// set area with team
-		this.redArea.setTeam(this.getTeamList().get(0));
-		this.blueArea.setTeam(this.getTeamList().get(1));
+		this.redArea.setTeam(this.getTeams().get(0));
+		this.blueArea.setTeam(this.getTeams().get(1));
 	}
 
 	@Override

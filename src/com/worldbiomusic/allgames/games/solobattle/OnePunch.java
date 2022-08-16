@@ -42,18 +42,12 @@ public class OnePunch extends SoloBattleMiniGame {
 	@GameEvent
 	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
 		Entity damagerEntity = e.getDamager();
-
-		if (!(damagerEntity instanceof Player)) {
+		if (!(damagerEntity instanceof Player && containsPlayer((Player) damagerEntity))) {
 			return;
 		}
 
 		Player victim = (Player) e.getEntity();
 		Player damager = (Player) damagerEntity;
-
-		// check damager is playing this minigame
-		if (!containsPlayer(damager)) {
-			return;
-		}
 
 		// add +1 score to damager
 		plusScore(damager, 1);

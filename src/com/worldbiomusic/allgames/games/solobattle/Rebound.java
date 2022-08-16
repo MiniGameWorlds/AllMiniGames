@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
 
 import com.minigameworld.managers.event.GameEvent;
@@ -87,13 +88,19 @@ public class Rebound extends SoloBattleMiniGame {
 		e.setCancelled(true);
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onPlayerHitByArrow(ProjectileHitEvent e) {
-		if (!(e.getEntity().getShooter() instanceof Player)) {
+		// check shooter
+		ProjectileSource shooterEntity = e.getEntity().getShooter();
+		if (!(shooterEntity instanceof Player && containsPlayer((Player) shooterEntity))) {
 			return;
 		}
 
-		Player shooter = (Player) e.getEntity().getShooter();
+		if (!(e.getHitEntity() instanceof Player)) {
+			return;
+		}
+
+		Player shooter = (Player) shooterEntity;
 		Player victim = (Player) e.getHitEntity();
 
 		// score

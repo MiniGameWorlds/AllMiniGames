@@ -133,23 +133,14 @@ public class LavaUp extends SoloBattleMiniGame {
 		}
 	}
 
-	// cancel player hit damage
+	// set player hit damage to 0
 	@GameEvent
 	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
-		Entity victimEntity = e.getEntity();
-		Entity damagerEntity = e.getDamager();
-
-		if (!(victimEntity instanceof Player && damagerEntity instanceof Player)) {
+		Entity damager = e.getDamager();
+		if (!(damager instanceof Player && containsPlayer((Player) damager))) {
 			return;
 		}
-
-		Player victim = (Player) victimEntity;
-		Player damager = (Player) damagerEntity;
-
-		if (!(containsPlayer(victim) && containsPlayer(damager))) {
-			return;
-		}
-
+		
 		// cancel damage
 		e.setDamage(0);
 	}

@@ -75,8 +75,30 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 	}
 	
 	@GameEvent
-	protected void onEntityDamageEvent(EntityDamageEvent e) {
-		killPlayer(e);
+	protected void onPlayerDamage(EntityDamageEvent e) {
+		// cancel other damage types except for falling block damage
+		if (e.getCause() != DamageCause.FALLING_BLOCK) {
+			e.setCancelled(true);
+		}
+	}
+
+	@GameEvent
+	protected void onPlayerDamagedByFallingBlock(EntityDamageByEntityEvent e) {
+		Entity fallingBlock = e.getDamager();
+		if (this.fallingBlocks.contains(fallingBlock)) {
+			Player p = (Player) e.getEntity();
+
+			// give score to others
+			getLivePlayers().stream().filter(all -> !all.equals(p)).forEach(all -> plusScore(all, 1));
+
+			// message, sound
+			sendMessages(p.getName() + ChatColor.RED + " died");
+			sendTitle(p, ChatColor.RED + "DIE", "");
+			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+
+			// live false
+			setLive(p, false);
+		}
 	}
 
 	@Override
@@ -144,33 +166,7 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 		this.fallingBlocks.add(block);
 	}
 
-	private void killPlayer(EntityDamageEvent e) {
-
-		if (e.getCause() == DamageCause.FALLING_BLOCK) {
-			if (!(e instanceof EntityDamageByEntityEvent)) {
-				return;
-			}
-			EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
-
-			Entity fallingBlock = event.getDamager();
-			if (this.fallingBlocks.contains(fallingBlock)) {
-				Player p = (Player) e.getEntity();
-
-				// give score to others
-				getLivePlayers().stream().filter(all -> !all.equals(p)).forEach(all -> plusScore(all, 1));
-
-				// message, sound
-				sendMessages(p.getName() + ChatColor.RED + " died");
-				sendTitle(p, ChatColor.RED + "DIE", "");
-				SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
-
-				// live false
-				setLive(p, false);
-			}
-		} else {
-			e.setDamage(0);
-		}
-	}
+	
 
 	@Override
 	protected void onStart() {

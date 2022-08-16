@@ -133,14 +133,13 @@ public class ItsMine extends SoloBattleMiniGame {
 		e.setDamage(0);
 
 		// check event
-		Entity victimEntity = e.getEntity();
 		Entity damagerEntity = e.getDamager();
 
 		if (!(damagerEntity instanceof Player && containsPlayer((Player) damagerEntity))) {
 			return;
 		}
 
-		Player victim = (Player) victimEntity;
+		Player victim = (Player) e.getEntity();
 		Player damager = (Player) damagerEntity;
 
 		// check item is stolen

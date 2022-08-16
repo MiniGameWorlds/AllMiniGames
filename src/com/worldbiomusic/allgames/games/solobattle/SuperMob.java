@@ -8,10 +8,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -19,10 +19,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.projectiles.ProjectileSource;
 
-import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.frames.SoloBattleMiniGame;
 import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
@@ -124,7 +125,7 @@ public class SuperMob extends SoloBattleMiniGame {
 		this.killAllEntities();
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onMobDeath(EntityDeathEvent e) {
 		if (this.entities.contains(e.getEntity())) {
 			Entity killer = e.getEntity().getKiller();
@@ -132,12 +133,11 @@ public class SuperMob extends SoloBattleMiniGame {
 				return;
 			}
 
-			Player killerPlayer = null;
 			if (!(killer instanceof Player)) {
 				return;
 			}
 
-			killerPlayer = (Player) killer;
+			Player killerPlayer = (Player) killer;
 			this.plusScore(killerPlayer, 5);
 			e.getDrops().clear();
 		}
@@ -158,7 +158,7 @@ public class SuperMob extends SoloBattleMiniGame {
 		}
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onSuperMobDamaged(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof Zombie)) {
 			return;
@@ -170,23 +170,19 @@ public class SuperMob extends SoloBattleMiniGame {
 		}
 
 		// direct damage
-		if (e.getDamager() instanceof Player) {
-			this.whenSuperMobDamagedByPlayer(e, (Player) e.getDamager());
+		if (e.getDamager() instanceof Player && this.containsPlayer((Player) e.getDamager())) {
+			whenSuperMobDamagedByPlayer(e, (Player) e.getDamager());
 		}
 
 		// projectile damage
-		else if (e.getDamager() instanceof Arrow) {
-			Arrow proj = (Arrow) e.getDamager();
-			if (!(proj.getShooter() instanceof Player)) {
+		else if (e.getDamager() instanceof Projectile) {
+			Projectile proj = (Projectile) e.getDamager();
+			ProjectileSource shooter = proj.getShooter();
+			if (!(shooter instanceof Player && containsPlayer((Player) shooter))) {
 				return;
 			}
 
-			Player shooter = (Player) proj.getShooter();
-			if (!this.containsPlayer(shooter)) {
-				return;
-			}
-
-			this.whenSuperMobDamagedByPlayer(e, shooter);
+			whenSuperMobDamagedByPlayer(e, (Player) shooter);
 		}
 	}
 

@@ -66,7 +66,7 @@ public class BreedMob extends TeamMiniGame {
 		this.mobs = new ArrayList<>();
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onEntityDeathEvent(EntityDeathEvent e) {
 		if (!(e.getEntity() instanceof Mob)) {
 			return;

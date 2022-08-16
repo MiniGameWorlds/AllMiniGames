@@ -10,7 +10,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -18,9 +17,9 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
-import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.frames.TeamMiniGame;
 import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.Metrics;
 import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
@@ -89,11 +88,16 @@ public class TeamTiny extends TeamMiniGame {
 		}
 	}
 
-	@GameEvent
-	protected void onProjectileHitEvent(ProjectileHitEvent e) {
-		Entity hitEntity = e.getHitEntity();
+	@GameEvent(forced = true)
+	protected void onHitEntity(ProjectileHitEvent e) {
+		// check shooter
+		ProjectileSource shooter = e.getEntity().getShooter();
+		if (!(shooter instanceof Player && containsPlayer((Player) shooter))) {
+			return;
+		}
 
-		if (hitEntity != null && hitEntity.equals(this.entity)) {
+		Entity hitEntity = e.getHitEntity();
+		if (this.entity.equals(hitEntity)) {
 			// event detector can detect shooter from ProjectileHitEvent
 			plusTeamScore(1);
 
@@ -103,13 +107,14 @@ public class TeamTiny extends TeamMiniGame {
 			// particle
 			spawnHitParticles(hitEntity);
 		}
-
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onProjectileLaunchEvent(ProjectileLaunchEvent e) {
-		Projectile proj = e.getEntity();
-		ProjectileSource shooterEntity = proj.getShooter();
+		ProjectileSource shooterEntity = e.getEntity().getShooter();
+		if (!(shooterEntity instanceof Player && containsPlayer((Player) shooterEntity))) {
+			return;
+		}
 
 		// event detector can detect player from ProjectileLaunchEvent
 		Player shooter = (Player) shooterEntity;
@@ -121,14 +126,14 @@ public class TeamTiny extends TeamMiniGame {
 		shooter.setCooldown(Material.SNOWBALL, (int) (20 * this.shootDelay));
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onEntityDamageEvent(EntityDamageEvent e) {
 		if (e.getEntity().equals(this.entity)) {
 			e.setDamage(0);
 		}
 	}
 
-	@GameEvent
+	@GameEvent(forced = true)
 	protected void onEntityDeathEvent(EntityDeathEvent e) {
 		if (e.getEntity().equals(this.entity)) {
 			summonEntity();
