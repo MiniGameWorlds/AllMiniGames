@@ -46,7 +46,7 @@ public class AllMiniGamesMain extends JavaPlugin {
 //		mw.registerGame(new PVP()); // 14409
 //		mw.registerGame(new RemoveBlock()); // 14393
 //		mw.registerGame(new HiddenArcher()); // 14394
-		mw.registerGame(new BreedMob()); // 14395
+//		mw.registerGame(new BreedMob()); // 14395
 //		mw.registerGame(new SuperMob()); // 14396
 //		mw.registerGame(new PassMob()); // 14397
 //		mw.registerGame(new FallingBlock()); // 14398
@@ -63,7 +63,7 @@ public class AllMiniGamesMain extends JavaPlugin {
 //		mw.registerGame(new FallingItem()); // 14412
 //		mw.registerGame(new Center()); // 14413
 //		mw.registerGame(new ItsMine()); // 14414
-		mw.registerGame(new LavaUp()); // 14415
+//		mw.registerGame(new LavaUp()); // 14415
 //		mw.registerGame(new Dropper()); // 14478
 //		mw.registerGame(new StandOnBlock()); // 14573
 //		mw.registerGame(new DodgeBlock()); // 14723
@@ -73,10 +73,10 @@ public class AllMiniGamesMain extends JavaPlugin {
 		mw.registerGame(new SoloBridging());
 //
 //		// fake
-		mw.registerGame(new Hub()); //
+//		mw.registerGame(new Hub()); //
 //		mw.registerGame(new Location1()); //
 //		mw.registerGame(new Teller()); //
-		mw.registerGame(new Heal()); //
+//		mw.registerGame(new Heal()); //
 //		mw.registerGame(new Macro()); //
 	}
 
