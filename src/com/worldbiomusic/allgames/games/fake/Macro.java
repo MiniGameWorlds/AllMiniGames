@@ -22,12 +22,12 @@ public class Macro extends FakeMiniGame {
 	public Macro() {
 		super("Macro");
 
-		getSetting().setIcon(Material.BOOKSHELF);
+		setting().setIcon(Material.BOOKSHELF);
 	}
 
 	@Override
 	protected void onFakeJoin(Player p) {
-		getTutorial().forEach(cmd -> {
+		tutorials().forEach(cmd -> {
 			cmd = replacePlaceHolders(cmd, p);
 
 			// bukkit cmd

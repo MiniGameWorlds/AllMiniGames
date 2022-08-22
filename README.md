@@ -1,5 +1,7 @@
 # AllMiniGames
-- Demo minigames of `MiniGameWorld`
+Demo minigames of `MiniGameWorld`. 
+
+※ Not released games are not stable.
 
 # Download
 - [Download](download)

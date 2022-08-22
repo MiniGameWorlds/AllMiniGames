@@ -65,17 +65,17 @@ public class FallingItem extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14412);
 
-		getSetting().setIcon(Material.FEATHER);
+		setting().setIcon(Material.FEATHER);
 
-		getCustomOption().set(Option.PVP, true);
-		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
-		getCustomOption().set(Option.COLOR, ChatColor.BLUE);
+		customOption().set(Option.PVP, true);
+		customOption().set(Option.FOOD_LEVEL_CHANGE, false);
+		customOption().set(Option.COLOR, ChatColor.BLUE);
 
 		registerTasks();
 	}
 
 	private void registerTasks() {
-		getTaskManager().registerTask("spawn-item", () -> {
+		taskManager().registerTask("spawn-item", () -> {
 			spawnRandomItem();
 		});
 	}
@@ -84,7 +84,7 @@ public class FallingItem extends SoloBattleMiniGame {
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		// items
 		Map<String, Integer> itemList = new HashMap<>();
@@ -99,8 +99,8 @@ public class FallingItem extends SoloBattleMiniGame {
 		data.put("spawn-delay", 1.0);
 
 		// spawn positions
-		data.put("spawn-pos1", getLocation());
-		data.put("spawn-pos2", getLocation());
+		data.put("spawn-pos1", location());
+		data.put("spawn-pos2", location());
 
 		// finish score
 		data.put("finish-score", 50);
@@ -115,7 +115,7 @@ public class FallingItem extends SoloBattleMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		// items: parse String to Material
 		this.items = new HashMap<>();
@@ -163,7 +163,7 @@ public class FallingItem extends SoloBattleMiniGame {
 		super.onStart();
 
 		// start to fall random items between pos1 and pos2
-		getTaskManager().runTaskTimer("spawn-item", 0, (long) (20 * this.spawnDelay));
+		taskManager().runTaskTimer("spawn-item", 0, (long) (20 * this.spawnDelay));
 
 		// nofity information
 		// scores of items
@@ -220,7 +220,7 @@ public class FallingItem extends SoloBattleMiniGame {
 	}
 
 	private boolean checkGameFinish() {
-		return !getGamePlayers().stream().filter(pData -> pData.getScore() >= this.finishScore).toList().isEmpty();
+		return !gamePlayers().stream().filter(pData -> pData.getScore() >= this.finishScore).toList().isEmpty();
 	}
 
 	private void onPlayerDamage(EntityDamageEvent e) {
@@ -249,7 +249,7 @@ public class FallingItem extends SoloBattleMiniGame {
 		removeItemAfterLiveTime(item);
 
 		// play sound
-		getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.ENTITY_CHICKEN_EGG));
+		players().forEach(p -> PlayerTool.playSound(p, Sound.ENTITY_CHICKEN_EGG));
 
 	}
 

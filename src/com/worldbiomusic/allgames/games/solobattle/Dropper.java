@@ -47,16 +47,16 @@ public class Dropper extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14478);
 
-		getSetting().setIcon(Material.OAK_TRAPDOOR);
+		setting().setIcon(Material.OAK_TRAPDOOR);
 
-		getCustomOption().set(Option.PVP, false);
+		customOption().set(Option.PVP, false);
 
 		registerTasks();
 	}
 
 	private void registerTasks() {
-		getTaskManager().registerTask("check-below-block", () -> {
-			getLivePlayers().forEach(p -> {
+		taskManager().registerTask("check-below-block", () -> {
+			livePlayers().forEach(p -> {
 				checkBelowBlock(p);
 			});
 		});
@@ -66,7 +66,7 @@ public class Dropper extends SoloBattleMiniGame {
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		// score blocks
 		Map<String, Integer> scoreBlockData = new LinkedHashMap<>();
@@ -91,7 +91,7 @@ public class Dropper extends SoloBattleMiniGame {
 		super.loadCustomData();
 
 		this.scoreBlocks = new HashMap<>();
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 		((Map<String, Integer>) data.get("score-blocks")).forEach((k, v) -> {
 			this.scoreBlocks.put(Material.valueOf(k), v);
 		});
@@ -113,7 +113,7 @@ public class Dropper extends SoloBattleMiniGame {
 
 			if (!checkBelowBlock(p)) {
 				// respawn
-				p.teleport(getLocation());
+				p.teleport(location());
 			}
 		}
 	}
@@ -135,7 +135,7 @@ public class Dropper extends SoloBattleMiniGame {
 
 	private void respawnBlock(Player p) {
 		// teleport
-		p.teleport(getLocation());
+		p.teleport(location());
 
 		// title
 		sendTitle(p, "Respawn", "");
@@ -164,7 +164,7 @@ public class Dropper extends SoloBattleMiniGame {
 		PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_BELL);
 
 		// respawn
-		p.teleport(getLocation());
+		p.teleport(location());
 	}
 
 	@Override
@@ -183,13 +183,13 @@ public class Dropper extends SoloBattleMiniGame {
 		sendMessages(this.respawnBlock.name());
 
 		// init players
-		getPlayers().forEach(p -> {
-			p.teleport(getLocation());
+		players().forEach(p -> {
+			p.teleport(location());
 			p.setHealthScale(this.health);
 		});
 
 		// start task
-		getTaskManager().runTaskTimer("check-below-block", 0, 5);
+		taskManager().runTaskTimer("check-below-block", 0, 5);
 	}
 
 	@Override

@@ -49,19 +49,19 @@ public class Spleef extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14410);
 
-		getSetting().setIcon(Material.STONE_SHOVEL);
+		setting().setIcon(Material.STONE_SHOVEL);
 
-		getCustomOption().set(Option.COLOR, ChatColor.WHITE);
-		getCustomOption().set(Option.PVP, false);
-		getCustomOption().set(Option.PVE, false);
-		getCustomOption().set(Option.PLAYER_HURT, false);
+		customOption().set(Option.COLOR, ChatColor.WHITE);
+		customOption().set(Option.PVP, false);
+		customOption().set(Option.PVE, false);
+		customOption().set(Option.PLAYER_HURT, false);
 
 		registerTask();
 	}
 
 	private void registerTask() {
-		getTaskManager().registerTask("check-fallen", () -> {
-			getLivePlayers().forEach(p -> checkFallenFromFloor(p));
+		taskManager().registerTask("check-fallen", () -> {
+			livePlayers().forEach(p -> checkFallenFromFloor(p));
 		});
 	}
 
@@ -69,18 +69,18 @@ public class Spleef extends SoloBattleMiniGame {
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 		data.put("block", Material.SNOW_BLOCK.name());
 		data.put("tool", Material.STONE_SHOVEL.name());
-		data.put("pos1", getLocation());
-		data.put("pos2", getLocation());
+		data.put("pos1", location());
+		data.put("pos2", location());
 	}
 
 	@Override
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 		this.block = Material.valueOf((String) data.get("block"));
 		this.tool = Material.valueOf((String) data.get("tool"));
 		this.pos1 = (Location) data.get("pos1");
@@ -91,8 +91,8 @@ public class Spleef extends SoloBattleMiniGame {
 	protected void onStart() {
 		super.onStart();
 
-		getTaskManager().runTaskTimer("check-fallen", 0, 10);
-		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(this.tool));
+		taskManager().runTaskTimer("check-fallen", 0, 10);
+		InventoryTool.addItemToPlayers(players(), new ItemStack(this.tool));
 	}
 
 	private void fillStage() {
@@ -106,7 +106,7 @@ public class Spleef extends SoloBattleMiniGame {
 		if (playerY <= bottomY) {
 			sendTitle(p, ChatColor.RED + "DIE", "");
 			sendMessages(ChatColor.RED + p.getName() + ChatColor.RESET + " died");
-			SoundTool.play(getPlayers(), Sound.BLOCK_BELL_USE);
+			SoundTool.play(players(), Sound.BLOCK_BELL_USE);
 			ParticleTool.spawn(p.getLocation(), Particle.FLAME, 30, 0.1);
 			setLive(p, false);
 		}

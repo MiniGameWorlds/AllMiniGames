@@ -15,14 +15,14 @@ public class Teller extends FakeMiniGame {
 	public Teller() {
 		super("Teller");
 
-		getSetting().setIcon(Material.BOOK);
-		getCustomOption().set(Option.COLOR, ChatColor.AQUA);
+		setting().setIcon(Material.BOOK);
+		customOption().set(Option.COLOR, ChatColor.AQUA);
 	}
 
 	@Override
 	protected void onFakeJoin(Player p) {
 		// print tutorial
-		getTutorial().forEach(t -> sendMessage(p, t));
+		tutorials().forEach(t -> sendMessage(p, t));
 
 		// sound
 		playSound(p, Sound.ENTITY_ARROW_HIT_PLAYER);

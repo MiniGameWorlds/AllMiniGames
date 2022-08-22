@@ -37,21 +37,21 @@ public class HungryFishing extends SoloBattleMiniGame {
 		new Metrics(AllMiniGamesMain.getInstance(), 15375);
 
 		// settings
-		getSetting().setIcon(Material.FISHING_ROD);
-		getSetting().setGameFinishConditionPlayerCount(1);
+		setting().setIcon(Material.FISHING_ROD);
+		setting().setGameFinishConditionPlayerCount(1);
 
 		// options
-		getCustomOption().set(Option.COLOR, ChatColor.AQUA);
-		getCustomOption().set(Option.PLAYER_HURT, false);
-		getCustomOption().set(Option.PVP, false);
-		getCustomOption().set(Option.PVE, false);
+		customOption().set(Option.COLOR, ChatColor.AQUA);
+		customOption().set(Option.PLAYER_HURT, false);
+		customOption().set(Option.PVP, false);
+		customOption().set(Option.PVE, false);
 	}
 
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		// catch-items
 		Map<String, Integer> itemList = new HashMap<>();
@@ -72,7 +72,7 @@ public class HungryFishing extends SoloBattleMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		// catch-items
 		this.catchItems = new HashMap<>();
@@ -161,7 +161,7 @@ public class HungryFishing extends SoloBattleMiniGame {
 		// check food level is max
 		if (foodLevel >= 20) {
 			// give score
-			plusScore(p, getLeftPlayTime());
+			plusScore(p, leftPlayTime());
 
 			// msg, sound
 			sendMessages(ChatColor.GREEN + p.getName() + " filled all hunger!");
@@ -176,7 +176,7 @@ public class HungryFishing extends SoloBattleMiniGame {
 	protected void onStart() {
 		super.onStart();
 
-		getPlayers().forEach(p -> {
+		players().forEach(p -> {
 			// set start hungry level
 			p.setFoodLevel(this.hunger);
 

@@ -28,31 +28,31 @@ public class Center extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14413);
 
-		getSetting().setIcon(Material.END_ROD);
+		setting().setIcon(Material.END_ROD);
 
-		getCustomOption().set(Option.PVP, false);
-		getCustomOption().set(Option.COLOR, ChatColor.BLUE);
-		getCustomOption().set(Option.SCORE_NOTIFYING, false);
+		customOption().set(Option.PVP, false);
+		customOption().set(Option.COLOR, ChatColor.BLUE);
+		customOption().set(Option.SCORE_NOTIFYING, false);
 
 		registerTasks();
 	}
 
 	private void registerTasks() {
-		getTaskManager().registerTask("check-sneaking-and-fallen", () -> {
+		taskManager().registerTask("check-sneaking-and-fallen", () -> {
 
 			// plus score
-			getLivePlayers().forEach(p -> {
+			livePlayers().forEach(p -> {
 				plusScore(p, 1);
 			});
 
 			// check fallen and sneaking
-			getLivePlayers().forEach(p -> {
+			livePlayers().forEach(p -> {
 				if (checkSneaking(p) || checkFallen(p)) {
 					// msg
 					sendMessages(p.getName() + ChatColor.RED + " died");
 
 					// sound
-					SoundTool.play(getPlayers(), Sound.BLOCK_BELL_USE);
+					SoundTool.play(players(), Sound.BLOCK_BELL_USE);
 
 					// minus score
 					minusScore(p, 1);
@@ -74,7 +74,7 @@ public class Center extends SoloBattleMiniGame {
 
 	private boolean checkFallen(Player p) {
 		Location pLoc = p.getLocation();
-		if (pLoc.getY() < getLocation().getY() - 0.3) {
+		if (pLoc.getY() < location().getY() - 0.3) {
 			// notify
 			sendTitle(p, ChatColor.RED + "Die", "You are fallen!");
 			return true;
@@ -85,7 +85,7 @@ public class Center extends SoloBattleMiniGame {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		getTaskManager().runTaskTimer("check-sneaking-and-fallen", 0, 5);
+		taskManager().runTaskTimer("check-sneaking-and-fallen", 0, 5);
 	}
 
 	@Override

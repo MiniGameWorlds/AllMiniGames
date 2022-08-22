@@ -27,30 +27,30 @@ public class Clock extends SoloBattleMiniGame {
 
 		this.machine = new ClockMachine(this);
 
-		getSetting().setIcon(Material.CLOCK);
+		setting().setIcon(Material.CLOCK);
 
-		getCustomOption().set(Option.PLAYER_HURT, false);
-		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
-		getCustomOption().set(Option.SCORE_NOTIFYING, false);
+		customOption().set(Option.PLAYER_HURT, false);
+		customOption().set(Option.FOOD_LEVEL_CHANGE, false);
+		customOption().set(Option.SCORE_NOTIFYING, false);
 
 		registerTask();
 	}
 
 	private void registerTask() {
-		getTaskManager().registerTask("update-hand", () -> {
+		taskManager().registerTask("update-hand", () -> {
 			this.machine.updateHand();
 
 		});
-		getTaskManager().registerTask("plus-score", () -> {
-			getLivePlayers().forEach(p -> plusScore(p, 1));
+		taskManager().registerTask("plus-score", () -> {
+			livePlayers().forEach(p -> plusScore(p, 1));
 		});
 
 	}
 
 	@Override
 	protected void initCustomData() {
-		Map<String, Object> data = getCustomData();
-		data.put("center", getLocation());
+		Map<String, Object> data = customData();
+		data.put("center", location());
 		data.put("hand-length", 5.0);
 		data.put("hand-speed", 0.0);
 		data.put("hand-speed-increment", 0.01);
@@ -69,20 +69,20 @@ public class Clock extends SoloBattleMiniGame {
 		super.onStart();
 
 		this.machine.init();
-		getTaskManager().runTaskTimer("update-hand", 0, ClockMachine.TICK_RATE);
-		getTaskManager().runTaskTimer("plus-score", 20, 20);
+		taskManager().runTaskTimer("update-hand", 0, ClockMachine.TICK_RATE);
+		taskManager().runTaskTimer("plus-score", 20, 20);
 	}
 
 	public void onPlayerCollide(Player player) {
 		if (isLive(player)) {
-			if (getLivePlayersCount() == 2) {
+			if (livePlayersCount() == 2) {
 				// plus 1 score to the last player
-				getLivePlayers().stream().filter(p -> !p.equals(player)).forEach(p -> plusScore(p, 1));
+				livePlayers().stream().filter(p -> !p.equals(player)).forEach(p -> plusScore(p, 1));
 			}
 
 			sendTitle(player, ChatColor.RED + "DIE", "");
 			sendMessages(ChatColor.RED + player.getName() + ChatColor.RESET + " died");
-			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+			SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 			
 
 

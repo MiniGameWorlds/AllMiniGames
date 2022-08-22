@@ -42,20 +42,20 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14394);
 
-		this.getSetting().setIcon(Material.BOW);
+		this.setting().setIcon(Material.BOW);
 		this.setGroupChat(false);
 	}
 
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
-		getCustomData().put("reload-cooldown", 3);
+		customData().put("reload-cooldown", 3);
 	}
 
 	@Override
 	public void loadCustomData() {
 		super.loadCustomData();
-		this.reloadCoolDown = (int) getCustomData().get("reload-cooldown");
+		this.reloadCoolDown = (int) customData().get("reload-cooldown");
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 				ChatColor.GREEN + shooter.getName() + ChatColor.RESET + " hits " + ChatColor.RED + victim.getName());
 
 		// sound
-		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+		SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
 		// particle
 		spawnHitParticles(victim);
@@ -135,14 +135,14 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		super.onStart();
 
 		// hide player from other teams
-		for (Player p : this.getPlayers()) {
+		for (Player p : this.players()) {
 			p.addPotionEffect(
-					new PotionEffect(PotionEffectType.INVISIBILITY, 20 * this.getPlayTime(), 1, false, false));
+					new PotionEffect(PotionEffectType.INVISIBILITY, 20 * this.playTime(), 1, false, false));
 		}
 
 		// give tools
-		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.SNOWBALL));
-		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.GOLDEN_APPLE));
+		InventoryTool.addItemToPlayers(players(), new ItemStack(Material.SNOWBALL));
+		InventoryTool.addItemToPlayers(players(), new ItemStack(Material.GOLDEN_APPLE));
 
 	}
 

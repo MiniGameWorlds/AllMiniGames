@@ -39,22 +39,22 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 
 		this.chance = new HashMap<Player, Integer>();
 
-		this.getSetting().setIcon(Material.OAK_STAIRS);
+		this.setting().setIcon(Material.OAK_STAIRS);
 
-		this.getCustomOption().set(Option.SCORE_NOTIFYING, false);
+		this.customOption().set(Option.SCORE_NOTIFYING, false);
 
 		this.registerTasks();
 	}
 
 	protected void registerTasks() {
 		// register task
-		getTaskManager().registerTask("scoreTask", () -> {
-			for (Player p : getPlayers()) {
+		taskManager().registerTask("scoreTask", () -> {
+			for (Player p : players()) {
 				if (hasStopped(p)) {
 					continue;
 				}
 
-				if (getLeftPlayTime() > randomTime) {
+				if (leftPlayTime() > randomTime) {
 					plusScore(p, 1);
 				} else {
 					minusScore(p, 1);
@@ -68,14 +68,14 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		super.onStart();
 
 		// set score limit
-		this.randomTime = (int) (Math.random() * this.getPlayTime());
+		this.randomTime = (int) (Math.random() * playTime());
 
 		// 3 chances
 		this.chance.clear();
-		this.getPlayers().forEach(p -> chance.put(p, 3));
+		this.players().forEach(p -> chance.put(p, 3));
 
 		// timer task
-		this.getTaskManager().runTaskTimer("scoreTask", 0, 20);
+		this.taskManager().runTaskTimer("scoreTask", 0, 20);
 	}
 
 	private boolean hasStopped(Player p) {
@@ -87,7 +87,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		Player p = e.getPlayer();
 		int leftChance = this.chance.get(p);
 		if (leftChance > 0) {
-			int score = this.getScore(p);
+			int score = this.score(p);
 			this.sendMessage(p, ChatColor.BOLD + "Current Score: " + ChatColor.GREEN + score);
 
 			// chance -1

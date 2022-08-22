@@ -31,8 +31,8 @@ public class RandomScore extends SoloBattleMiniGame {
 		new Metrics(AllMiniGamesMain.getInstance(), 14388);
 
 		this.randomScores = new ArrayList<Integer>();
-		this.getSetting().setIcon(Material.DISPENSER);
-		getSetting().setScoreboard(false);
+		this.setting().setIcon(Material.DISPENSER);
+		setting().setScoreboard(false);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class RandomScore extends SoloBattleMiniGame {
 	protected void onPlayerToggleSneakEvent(PlayerToggleSneakEvent e) {
 		Player p = e.getPlayer();
 		// first sneaking
-		if (this.getScore(p) == 0) {
+		if (this.score(p) == 0) {
 			int randomIndex = (int) (Math.random() * this.randomScores.size());
 			int randomScore = this.randomScores.remove(randomIndex);
 			this.plusScore(p, randomScore);

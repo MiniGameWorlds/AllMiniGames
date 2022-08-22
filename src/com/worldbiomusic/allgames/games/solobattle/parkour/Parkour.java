@@ -49,16 +49,16 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 
 		this.eventBlockManager = new EventBlockManager(this);
 
-		getSetting().setIcon(Material.LILY_PAD);
+		setting().setIcon(Material.LILY_PAD);
 
-		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
+		customOption().set(Option.FOOD_LEVEL_CHANGE, false);
 
 		registerTask();
 	}
 
 	private void registerTask() {
-		getTaskManager().registerTask("check-move", () -> {
-			getPlayers().forEach(p -> eventBlockManager.processPlayerMove(p));
+		taskManager().registerTask("check-move", () -> {
+			players().forEach(p -> eventBlockManager.processPlayerMove(p));
 		});
 	}
 
@@ -76,7 +76,7 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 		eventBlocks.put(EventBlockManager.JUMP, Material.WHITE_STAINED_GLASS.name());
 		eventBlocks.put(EventBlockManager.DEBUFF, Material.MAGENTA_STAINED_GLASS.name());
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 		// endless
 		data.put("endless", false);
 		// event blocks
@@ -88,16 +88,16 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 		super.loadCustomData();
 
 		// pass custom data to event block manager
-		this.eventBlockManager.setCustomData(getCustomData());
+		this.eventBlockManager.setCustomData(customData());
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 
-		getPlayers().forEach(p -> p.teleport(getLocation()));
+		players().forEach(p -> p.teleport(location()));
 
-		getTaskManager().runTaskTimer("check-move", 0, 4);
+		taskManager().runTaskTimer("check-move", 0, 4);
 	}
 
 	@Override

@@ -39,9 +39,9 @@ public class Tiny extends SoloMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14401);
 
-		getSetting().setIcon(Material.OAK_BUTTON);
+		setting().setIcon(Material.OAK_BUTTON);
 
-		getCustomOption().set(Option.COLOR, ChatColor.YELLOW);
+		customOption().set(Option.COLOR, ChatColor.YELLOW);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class Tiny extends SoloMiniGame {
 	}
 
 	private void summonBat() {
-		this.bat = getLocation().getWorld().spawnEntity(getLocation(), EntityType.BAT);
+		this.bat = location().getWorld().spawnEntity(location(), EntityType.BAT);
 	}
 
 	@Override

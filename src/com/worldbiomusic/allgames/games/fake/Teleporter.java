@@ -12,18 +12,18 @@ public abstract class Teleporter extends FakeMiniGame {
 	public Teleporter(String title) {
 		super(title);
 
-		getSetting().setIcon(Material.EMERALD_BLOCK);
-		getCustomOption().set(Option.COLOR, ChatColor.GREEN);
+		setting().setIcon(Material.EMERALD_BLOCK);
+		customOption().set(Option.COLOR, ChatColor.GREEN);
 	}
 
 	@Override
 	protected void onFakeJoin(Player p) {
 		// teleport
-		p.teleport(getLocation());
+		p.teleport(location());
 
 		// info
-		sendTitle(p, getTitle(), "");
-		sendMessage(p, "Moved to " + getCustomOption().get(Option.COLOR) + ChatColor.BOLD + getTitle());
+		sendTitle(p, title(), "");
+		sendMessage(p, "Moved to " + customOption().get(Option.COLOR) + ChatColor.BOLD + title());
 
 		// sound
 		playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);

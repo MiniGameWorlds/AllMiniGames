@@ -22,10 +22,10 @@ public class MoreHit extends TeamBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14389);
 
-		this.getSetting().setIcon(Material.STICK);
+		this.setting().setIcon(Material.STICK);
 
-		this.getCustomOption().set(Option.PVP, true);
-		this.getCustomOption().set(Option.PVE, false);
+		this.customOption().set(Option.PVP, true);
+		this.customOption().set(Option.PVE, false);
 		this.setGroupChat(true);
 	}
 
@@ -51,7 +51,7 @@ public class MoreHit extends TeamBattleMiniGame {
 
 	@GameEvent
 	protected void onPlayerRespawnEvent(PlayerRespawnEvent e) {
-		e.setRespawnLocation(this.getLocation());
+		e.setRespawnLocation(this.location());
 		this.sendMessage(e.getPlayer(), "respawn!");
 	}
 

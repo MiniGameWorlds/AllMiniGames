@@ -15,7 +15,7 @@ public class Heal extends FakeMiniGame {
 	public Heal() {
 		super("Heal");
 
-		getSetting().setIcon(Material.CAKE);
+		setting().setIcon(Material.CAKE);
 	}
 
 	@Override

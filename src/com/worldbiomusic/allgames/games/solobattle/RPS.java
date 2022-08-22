@@ -65,14 +65,14 @@ public class RPS extends SoloBattleMiniGame {
 		new Metrics(AllMiniGamesMain.getInstance(), 14391);
 
 		this.selections = new HashMap<Player, RPS.Selection>();
-		this.getSetting().setIcon(Material.SHEARS);
+		this.setting().setIcon(Material.SHEARS);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		// input random selection
-		for (Player p : this.getPlayers()) {
+		for (Player p : this.players()) {
 			this.selections.put(p, Selection.random());
 		}
 	}
@@ -126,12 +126,12 @@ public class RPS extends SoloBattleMiniGame {
 	protected void onFinish() {
 		this.selections.clear();
 
-		if (!(this.getPlayerCount() == 2)) {
+		if (!(playerCount() == 2)) {
 			return;
 		}
 
-		Player p1 = this.getPlayers().get(0);
-		Player p2 = this.getPlayers().get(1);
+		Player p1 = this.players().get(0);
+		Player p2 = this.players().get(1);
 		Player winner = this.getWinner(p1, p2);
 
 		// result

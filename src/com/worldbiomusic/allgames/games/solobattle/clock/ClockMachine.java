@@ -40,7 +40,7 @@ public class ClockMachine {
 	public void init() {
 		this.degree = 0;
 
-		Map<String, Object> data = clock.getCustomData();
+		Map<String, Object> data = clock.customData();
 		this.center = (Location) data.get("center");
 		this.handLength = (double) data.get("hand-length");
 		this.speed = (double) data.get("hand-speed");

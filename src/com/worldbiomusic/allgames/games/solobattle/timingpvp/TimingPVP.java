@@ -41,29 +41,29 @@ public class TimingPVP extends SoloBattleMiniGame {
 		new Metrics(AllMiniGamesMain.getInstance(), 14407);
 
 		this.randomGiver = new RandomItemGiver();
-		getSetting().setIcon(Material.CHORUS_FRUIT);
+		setting().setIcon(Material.CHORUS_FRUIT);
 
-		getCustomOption().set(Option.PVP, true);
+		customOption().set(Option.PVP, true);
 
 		registerTask();
 	}
 
 	private void registerTask() {
-		getTaskManager().registerTask("random-items", () -> {
-			getPlayers().forEach(p -> p.getInventory().clear());
-			randomGiver.giveRandomItemsToPlayers(getPlayers());
+		taskManager().registerTask("random-items", () -> {
+			players().forEach(p -> p.getInventory().clear());
+			randomGiver.giveRandomItemsToPlayers(players());
 
 			// title
 			sendTitles(ChatColor.GREEN + "Reset", "items");
 
 			// sound
-			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_BELL);
+			SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_BELL);
 		});
 	}
 
 	protected void onStart() {
 		// start random item task
-		getTaskManager().runTaskTimer("random-items", 0, 20 * this.timingDelay);
+		taskManager().runTaskTimer("random-items", 0, 20 * this.timingDelay);
 
 		// give 100 scores
 		plusEveryoneScore(100);
@@ -74,7 +74,7 @@ public class TimingPVP extends SoloBattleMiniGame {
 		super.initCustomData();
 
 		// timinig delay
-		getCustomData().put("timing-delay", 10);
+		customData().put("timing-delay", 10);
 
 		// random items
 		List<ItemStack> randomItems = new ArrayList<ItemStack>();
@@ -94,7 +94,7 @@ public class TimingPVP extends SoloBattleMiniGame {
 		randomItems.add(new ItemStack(Material.CROSSBOW));
 
 		randomItems.add(new ItemStack(Material.TRIDENT));
-		getCustomData().put("random-items", randomItems);
+		customData().put("random-items", randomItems);
 
 	}
 
@@ -103,8 +103,8 @@ public class TimingPVP extends SoloBattleMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		this.timingDelay = (int) getCustomData().get("timing-delay");
-		this.randomGiver.setRandomItemList((List<ItemStack>) getCustomData().get("random-items"));
+		this.timingDelay = (int) customData().get("timing-delay");
+		this.randomGiver.setRandomItemList((List<ItemStack>) customData().get("random-items"));
 	}
 
 	@GameEvent
@@ -128,7 +128,7 @@ public class TimingPVP extends SoloBattleMiniGame {
 		// title, msg, sound
 		sendTitle(victim, ChatColor.RED + "Die", "");
 		sendMessages(ChatColor.BOLD + victim.getName() + ChatColor.RED + " died");
-		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+		SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
 		// minus score
 		minusScore(victim, 1);

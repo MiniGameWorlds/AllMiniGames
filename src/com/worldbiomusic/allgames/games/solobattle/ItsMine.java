@@ -56,52 +56,52 @@ public class ItsMine extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14414);
 
-		getSetting().setIcon(Material.DIAMOND);
+		setting().setIcon(Material.DIAMOND);
 
-		getCustomOption().set(Option.PVP, true);
-		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
-		getCustomOption().set(Option.COLOR, ChatColor.RED);
-		getCustomOption().set(Option.SCORE_NOTIFYING, false);
+		customOption().set(Option.PVP, true);
+		customOption().set(Option.FOOD_LEVEL_CHANGE, false);
+		customOption().set(Option.COLOR, ChatColor.RED);
+		customOption().set(Option.SCORE_NOTIFYING, false);
 
 		registerTasks();
 	}
 
 	private void registerTasks() {
-		getTaskManager().registerTask("plus-tagger-score", () -> {
+		taskManager().registerTask("plus-tagger-score", () -> {
 			plusScore(tagger, 1);
 
 			// check tagger score with finish score
-			if (getScore(tagger) >= finishScore) {
+			if (score(tagger) >= finishScore) {
 				finishGame();
 			}
 		});
 
-		getTaskManager().registerTask("glow-time-checker", () -> {
+		taskManager().registerTask("glow-time-checker", () -> {
 			checkGlowTime();
 		});
 	}
 
 	private void checkGlowTime() {
 		// notify
-		if (Math.abs(getLeftPlayTime() - this.glowTime) < 1) {
+		if (Math.abs(leftPlayTime() - this.glowTime) < 1) {
 			sendTitles(ChatColor.GOLD + "Glow Time", "");
-			getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_BELL_USE));
+			players().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_BELL_USE));
 		}
 
 		// set tagger glowing
-		if (getLeftPlayTime() <= this.glowTime) {
+		if (leftPlayTime() <= this.glowTime) {
 			this.tagger.setGlowing(true);
 		}
 
 		// cancel glowing other players
-		getPlayers().stream().filter(p -> p.isGlowing() && !tagger.equals(p)).forEach(p -> p.setGlowing(false));
+		players().stream().filter(p -> p.isGlowing() && !tagger.equals(p)).forEach(p -> p.setGlowing(false));
 	}
 
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 		data.put("item", Material.DIAMOND.name());
 		data.put("glow-time", 30);
 		data.put("finish-score", 100);
@@ -111,7 +111,7 @@ public class ItsMine extends SoloBattleMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 		this.item = Material.valueOf((String) data.get("item"));
 		this.glowTime = (int) data.get("glow-time");
 		this.finishScore = (int) data.get("finish-score");
@@ -177,7 +177,7 @@ public class ItsMine extends SoloBattleMiniGame {
 		sendTitles(ChatColor.RED + tagger.getName(), "");
 
 		// sound
-		getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.ENTITY_CHICKEN_EGG));
+		players().forEach(p -> PlayerTool.playSound(p, Sound.ENTITY_CHICKEN_EGG));
 
 		// firework
 		spawnFirework(tagger.getLocation());
@@ -190,8 +190,8 @@ public class ItsMine extends SoloBattleMiniGame {
 		setNewTagger(randomPlayer());
 
 		// tasks
-		getTaskManager().runTaskTimer("plus-tagger-score", 0, 20);
-		getTaskManager().runTaskTimer("glow-time-checker", 0, 10);
+		taskManager().runTaskTimer("plus-tagger-score", 0, 20);
+		taskManager().runTaskTimer("glow-time-checker", 0, 10);
 
 		// notify finish sore
 		sendMessages(ChatColor.GREEN + "Finish score: " + ChatColor.GOLD + this.finishScore);

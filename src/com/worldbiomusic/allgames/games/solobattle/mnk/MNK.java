@@ -24,20 +24,20 @@ public class MNK extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14404);
 
-		getSetting().setIcon(Material.CRAFTING_TABLE);
+		setting().setIcon(Material.CRAFTING_TABLE);
 
 		registerTasks();
 	}
 
 	private void registerTasks() {
-		getTaskManager().registerTask("flowTurnTime", () -> {
+		taskManager().registerTask("flowTurnTime", () -> {
 			if (board.decreaseLeftTurnTime()) {
 				board.changeTurn();
 			}
 		});
 
 		// for delayed finish
-		getTaskManager().registerTask("finishGame", () -> {
+		taskManager().registerTask("finishGame", () -> {
 			finishGame();
 		});
 	}
@@ -46,9 +46,9 @@ public class MNK extends SoloBattleMiniGame {
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
-		data.put("board-pos1", getLocation());
-		data.put("board-pos2", getLocation());
+		Map<String, Object> data = customData();
+		data.put("board-pos1", location());
+		data.put("board-pos2", location());
 		data.put("board-block", Material.OAK_WOOD.name());
 		data.put("white-play-block", Material.WHITE_WOOL.name());
 		data.put("black-play-block", Material.BLACK_WOOL.name());
@@ -65,7 +65,7 @@ public class MNK extends SoloBattleMiniGame {
 
 	@Override
 	protected void initGame() {
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 		Location boardPos1 = (Location) data.get("board-pos1");
 		Location boardPos2 = (Location) data.get("board-pos2");
 		Material boardBlock = Material.valueOf((String) data.get("board-block"));
@@ -76,7 +76,7 @@ public class MNK extends SoloBattleMiniGame {
 		int length = (int) data.get("length");
 		int finishDelay = (int) data.get("finish-delay");
 
-		this.board = new Board(this, getTaskManager(), boardPos1, boardPos2, boardBlock, whitePlayBlock, blackPlayBlock,
+		this.board = new Board(this, taskManager(), boardPos1, boardPos2, boardBlock, whitePlayBlock, blackPlayBlock,
 				turnTime, fly, length, finishDelay);
 	}
 
@@ -85,7 +85,7 @@ public class MNK extends SoloBattleMiniGame {
 		super.onStart();
 
 		this.board.init();
-		this.board.registerPlayers(getPlayers().get(0), getPlayers().get(1));
+		this.board.registerPlayers(players().get(0), players().get(1));
 		this.board.flowTurnTime();
 	}
 

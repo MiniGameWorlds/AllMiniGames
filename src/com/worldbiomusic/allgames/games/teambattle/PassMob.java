@@ -93,12 +93,12 @@ public class PassMob extends TeamBattleMiniGame {
 		new Metrics(AllMiniGamesMain.getInstance(), 14397);
 
 		// settings
-		getSetting().setIcon(Material.OAK_FENCE);
+		setting().setIcon(Material.OAK_FENCE);
 
 		// options
 		setGroupChat(true);
-		getCustomOption().set(Option.MINIGAME_RESPAWN, false);
-		setTeamSize(getMaxPlayers() / 2);
+		customOption().set(Option.MINIGAME_RESPAWN, false);
+		setTeamSize(maxPlayers() / 2);
 		setTeamRegisterMode(TeamRegisterMode.NONE);
 
 		// areas
@@ -110,7 +110,7 @@ public class PassMob extends TeamBattleMiniGame {
 	}
 
 	private void registerTask() {
-		this.getTaskManager().registerTask("spawnMob", () -> {
+		this.taskManager().registerTask("spawnMob", () -> {
 			// spawn random mob
 			redArea.spawnRandomMob();
 			blueArea.spawnRandomMob();
@@ -120,10 +120,10 @@ public class PassMob extends TeamBattleMiniGame {
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
-		this.getCustomData().put("red-location", new Location(this.getLocation().getWorld(), 0, 0, 0));
-		this.getCustomData().put("blue-location", new Location(this.getLocation().getWorld(), 0, 0, 0));
+		this.customData().put("red-location", new Location(this.location().getWorld(), 0, 0, 0));
+		this.customData().put("blue-location", new Location(this.location().getWorld(), 0, 0, 0));
 
-		this.getCustomData().put("mob-spawn-delay", 15);
+		this.customData().put("mob-spawn-delay", 15);
 	}
 
 	@Override
@@ -131,11 +131,11 @@ public class PassMob extends TeamBattleMiniGame {
 		super.loadCustomData();
 
 		// create areas
-		this.redArea.loc = (Location) this.getCustomData().get("red-location");
-		this.blueArea.loc = (Location) this.getCustomData().get("blue-location");
+		this.redArea.loc = (Location) this.customData().get("red-location");
+		this.blueArea.loc = (Location) this.customData().get("blue-location");
 
 		// mob spawn delay
-		this.mobSpawnDelay = (int) this.getCustomData().get("mob-spawn-delay");
+		this.mobSpawnDelay = (int) this.customData().get("mob-spawn-delay");
 	}
 
 	@GameEvent(forced = true)
@@ -193,7 +193,7 @@ public class PassMob extends TeamBattleMiniGame {
 		super.onStart();
 
 		// give kits
-		for (Player p : this.getPlayers()) {
+		for (Player p : this.players()) {
 			InventoryTool.addItemToPlayer(p, new ItemStack(Material.IRON_SWORD));
 			InventoryTool.addItemToPlayer(p, new ItemStack(Material.COOKED_PORKCHOP, 64));
 			InventoryTool.addItemToPlayer(p, new ItemStack(Material.BOW));
@@ -216,7 +216,7 @@ public class PassMob extends TeamBattleMiniGame {
 		this.blueArea.tpTeam();
 
 		// start random mob spawn task
-		this.getTaskManager().runTaskTimer("spawnMob", this.mobSpawnDelay * 20, this.mobSpawnDelay * 20);
+		this.taskManager().runTaskTimer("spawnMob", this.mobSpawnDelay * 20, this.mobSpawnDelay * 20);
 	}
 
 	public void processTeamScore() {

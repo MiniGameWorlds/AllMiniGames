@@ -67,25 +67,25 @@ public class Bridge extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14399);
 
-		getSetting().setIcon(Material.REPEATER);
+		setting().setIcon(Material.REPEATER);
 
-		getCustomOption().set(Option.PVP, true);
+		customOption().set(Option.PVP, true);
 
 		registerTask();
 	}
 
 	private void registerTask() {
-		this.getTaskManager().registerTask("check-fallen", () -> {
+		this.taskManager().registerTask("check-fallen", () -> {
 			// check only live players
-			getLivePlayers().forEach(p -> {
-				if (p.getLocation().getY() <= getLocation().subtract(0, 0.5, 0).getY()) {
+			livePlayers().forEach(p -> {
+				if (p.getLocation().getY() <= location().subtract(0, 0.5, 0).getY()) {
 					// msg
 					sendTitle(p, "DIE", "");
 					sendMessages(p.getName() + ChatColor.RED + " died");
-					minusScore(p, getLivePlayersCount());
+					minusScore(p, livePlayersCount());
 
 					// sound
-					SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_BELL);
+					SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_BELL);
 
 					setLive(p, false);
 				}
@@ -98,18 +98,18 @@ public class Bridge extends SoloBattleMiniGame {
 		super.onStart();
 
 		// start fallen check task
-		getTaskManager().runTaskTimer("check-fallen", 0, 5);
+		taskManager().runTaskTimer("check-fallen", 0, 5);
 
 		// give items
-		InventoryTool.addItemsToPlayers(getPlayers(), this.items);
-		InventoryTool.addItemsToPlayers(getLivePlayers(), SkillItem.items());
+		InventoryTool.addItemsToPlayers(players(), this.items);
+		InventoryTool.addItemsToPlayers(livePlayers(), SkillItem.items());
 	}
 
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> customData = getCustomData();
+		Map<String, Object> customData = customData();
 		List<ItemStack> itemList = new ArrayList<>();
 		itemList.add(new ItemStack(Material.FISHING_ROD));
 		customData.put("items", itemList);
@@ -122,7 +122,7 @@ public class Bridge extends SoloBattleMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> customData = getCustomData();
+		Map<String, Object> customData = customData();
 		this.items = (List<ItemStack>) customData.get("items");
 		this.skillCooldown = (int) customData.get("skill-cooldown");
 	}

@@ -46,17 +46,17 @@ public class Rebound extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 15198);
 
-		getSetting().setIcon(Material.DISPENSER);
+		setting().setIcon(Material.DISPENSER);
 
-		getCustomOption().set(Option.COLOR, ChatColor.AQUA);
-		getCustomOption().set(Option.PLAYER_HURT, false);
-		getCustomOption().set(Option.PVE, false);
+		customOption().set(Option.COLOR, ChatColor.AQUA);
+		customOption().set(Option.PLAYER_HURT, false);
+		customOption().set(Option.PVE, false);
 	}
 
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 		data.put("shoot-cooldown", 1.0);
 		data.put("shoot-power", 1.0);
 		data.put("reverse-mode", false);
@@ -66,7 +66,7 @@ public class Rebound extends SoloBattleMiniGame {
 	@Override
 	public void loadCustomData() {
 		super.loadCustomData();
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 		this.shootCooldown = (double) data.get("shoot-cooldown");
 		this.shootPower = (double) data.get("shoot-power");
 		this.reverseMode = (boolean) data.get("reverse-mode");
@@ -116,7 +116,7 @@ public class Rebound extends SoloBattleMiniGame {
 				+ ChatColor.RESET);
 
 		// sound
-		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+		SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
 		// particle
 		spawnHitParticles(victim);
@@ -163,10 +163,10 @@ public class Rebound extends SoloBattleMiniGame {
 
 	private void glowHighestScorePlayer() {
 		// glow off all players
-		getPlayers().forEach(p -> p.setGlowing(false));
+		players().forEach(p -> p.setGlowing(false));
 
 		// glow top player on
-		Player topPlayer = getGamePlayers().stream().sorted(Comparator.comparing(MiniGamePlayer::getScore).reversed())
+		Player topPlayer = gamePlayers().stream().sorted(Comparator.comparing(MiniGamePlayer::getScore).reversed())
 				.toList().get(0).getPlayer();
 		topPlayer.setGlowing(true);
 	}
@@ -184,7 +184,7 @@ public class Rebound extends SoloBattleMiniGame {
 	protected void onStart() {
 		super.onStart();
 
-		getPlayers().forEach(p -> {
+		players().forEach(p -> {
 			// remove gravity
 			p.setGravity(false);
 

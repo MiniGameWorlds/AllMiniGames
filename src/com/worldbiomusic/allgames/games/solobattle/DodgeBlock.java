@@ -46,11 +46,11 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 		AllMiniGamesMain.getInstance().getServer().getPluginManager().registerEvents(this,
 				AllMiniGamesMain.getInstance());
 
-		getSetting().setIcon(Material.GLOWSTONE);
+		setting().setIcon(Material.GLOWSTONE);
 
-		getCustomOption().set(Option.COLOR, ChatColor.GRAY);
-		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
-		getCustomOption().set(Option.PVP, false);
+		customOption().set(Option.COLOR, ChatColor.GRAY);
+		customOption().set(Option.FOOD_LEVEL_CHANGE, false);
+		customOption().set(Option.PVP, false);
 
 		this.fallingBlocks = new ArrayList<>();
 
@@ -58,17 +58,17 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 	}
 
 	private void registerTasks() {
-		getTaskManager().registerTask("every-sec", () -> {
+		taskManager().registerTask("every-sec", () -> {
 			double spawnRateTime = 1.0 / spawnRate * 20.0;
 
 			for (int i = 0; i < spawnRate; i++) {
-				getTaskManager().runTaskLater("spawn-block", (int) (spawnRateTime * i));
+				taskManager().runTaskLater("spawn-block", (int) (spawnRateTime * i));
 			}
 
 			spawnRate += spawnRateIncrease;
 		});
 
-		getTaskManager().registerTask("spawn-block", () -> {
+		taskManager().registerTask("spawn-block", () -> {
 			spawnFallingBlock();
 		});
 
@@ -89,12 +89,12 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 			Player p = (Player) e.getEntity();
 
 			// give score to others
-			getLivePlayers().stream().filter(all -> !all.equals(p)).forEach(all -> plusScore(all, 1));
+			livePlayers().stream().filter(all -> !all.equals(p)).forEach(all -> plusScore(all, 1));
 
 			// message, sound
 			sendMessages(p.getName() + ChatColor.RED + " died");
 			sendTitle(p, ChatColor.RED + "DIE", "");
-			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+			SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
 			// live false
 			setLive(p, false);
@@ -110,7 +110,7 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		List<String> blocks = new ArrayList<>();
 		blocks.add(Material.GLOWSTONE.name());
@@ -122,8 +122,8 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 		data.put("spawn-rate", 1);
 		data.put("spawn-rate-increase", 1);
 
-		data.put("pos1", getLocation());
-		data.put("pos2", getLocation());
+		data.put("pos1", location());
+		data.put("pos2", location());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -131,7 +131,7 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		this.blocks = new ArrayList<>();
 		((List<String>) data.get("blocks")).forEach(b -> {
@@ -175,10 +175,10 @@ public class DodgeBlock extends SoloBattleMiniGame implements Listener {
 		this.fallingBlocks.clear();
 
 		// init spawn rate
-		this.spawnRate = (int) getCustomData().get("spawn-rate");
+		this.spawnRate = (int) customData().get("spawn-rate");
 
 		// start to spawn blocks
-		getTaskManager().runTaskTimer("every-sec", 0, 20);
+		taskManager().runTaskTimer("every-sec", 0, 20);
 
 	}
 

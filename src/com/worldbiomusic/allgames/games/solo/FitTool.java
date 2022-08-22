@@ -34,7 +34,7 @@ public class FitTool extends SoloMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14387);
 
-		this.getSetting().setIcon(Material.STONE_PICKAXE);
+		this.setting().setIcon(Material.STONE_PICKAXE);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class FitTool extends SoloMiniGame {
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = this.getCustomData();
+		Map<String, Object> data = this.customData();
 
 		// Blocks
 		// save with String (Material doesn't implement ConfigurationSerialization)
@@ -64,8 +64,8 @@ public class FitTool extends SoloMiniGame {
 		data.put("blocks", blocksData);
 
 		// blocks location
-		data.put("pos1", this.getLocation());
-		data.put("pos2", this.getLocation());
+		data.put("pos1", this.location());
+		data.put("pos2", this.location());
 	}
 
 	private Material getRandomBlock() {
@@ -78,15 +78,15 @@ public class FitTool extends SoloMiniGame {
 		this.blocks = new ArrayList<>();
 		// blocks
 		@SuppressWarnings("unchecked")
-		List<String> blocksStr = (List<String>) this.getCustomData().get("blocks");
+		List<String> blocksStr = (List<String>) this.customData().get("blocks");
 
 		for (String block : blocksStr) {
 			this.blocks.add(Material.valueOf(block));
 		}
 
 		// blocks location
-		this.pos1 = (Location) this.getCustomData().get("pos1");
-		this.pos2 = (Location) this.getCustomData().get("pos2");
+		this.pos1 = (Location) this.customData().get("pos1");
+		this.pos2 = (Location) this.customData().get("pos2");
 	}
 
 	@GameEvent
@@ -110,7 +110,7 @@ public class FitTool extends SoloMiniGame {
 	@Override
 	protected void onStart() {
 		// give tools
-		for (Player p : this.getPlayers()) {
+		for (Player p : players()) {
 			p.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
 			p.getInventory().addItem(new ItemStack(Material.IRON_PICKAXE));
 			p.getInventory().addItem(new ItemStack(Material.IRON_AXE));

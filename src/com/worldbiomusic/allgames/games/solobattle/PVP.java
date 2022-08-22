@@ -41,15 +41,15 @@ public class PVP extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14409);
 
-		this.getSetting().setIcon(Material.STONE_SWORD);
-		this.getCustomOption().set(Option.PVP, true);
+		this.setting().setIcon(Material.STONE_SWORD);
+		this.customOption().set(Option.PVP, true);
 
-		this.getCustomOption().set(Option.COLOR, ChatColor.RED);
+		this.customOption().set(Option.COLOR, ChatColor.RED);
 	}
 
 	@Override
 	protected void initCustomData() {
-		Map<String, Object> customData = this.getCustomData();
+		Map<String, Object> customData = this.customData();
 		customData.put("health", 30);
 		List<ItemStack> items = new ArrayList<>();
 		items.add(new ItemStack(Material.STONE_SWORD));
@@ -65,8 +65,8 @@ public class PVP extends SoloBattleMiniGame {
 	@Override
 	public void loadCustomData() {
 		super.loadCustomData();
-		this.health = (int) this.getCustomData().get("health");
-		this.items = (List<ItemStack>) this.getCustomData().get("items");
+		this.health = (int) this.customData().get("health");
+		this.items = (List<ItemStack>) this.customData().get("items");
 	}
 
 	@Override
@@ -74,12 +74,12 @@ public class PVP extends SoloBattleMiniGame {
 		super.onStart();
 
 		// set health scale, give kit items
-		this.getPlayers().forEach(p -> initKitsAndHealth(p));
+		this.players().forEach(p -> initKitsAndHealth(p));
 	}
 
 	@GameEvent
 	protected void onPlayerRespawnEvent(PlayerRespawnEvent e) {
-		e.setRespawnLocation(getLocation());
+		e.setRespawnLocation(location());
 		initKitsAndHealth(e.getPlayer());
 	}
 
@@ -109,7 +109,7 @@ public class PVP extends SoloBattleMiniGame {
 		sendMessages(ChatColor.BOLD + victim.getName() + ChatColor.RED + " died");
 
 		// sound
-		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_BELL);
+		SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_BELL);
 
 		// particle
 		ParticleTool.spawn(victim.getLocation(), Particle.FLAME, 30, 0.1);
@@ -118,7 +118,7 @@ public class PVP extends SoloBattleMiniGame {
 		PlayerTool.makePureState(victim);
 
 		// tp to the location
-		victim.teleport(getLocation());
+		victim.teleport(location());
 	}
 
 	private void initKitsAndHealth(Player p) {

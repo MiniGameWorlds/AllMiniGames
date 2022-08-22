@@ -35,19 +35,19 @@ public class FallingBlock extends SoloBattleMiniGame {
 		new Metrics(AllMiniGamesMain.getInstance(), 14398);
 
 		// settings
-		this.getSetting().setIcon(Material.SAND);
+		this.setting().setIcon(Material.SAND);
 
 		// options
-		this.getCustomOption().set(Option.PVP, true);
+		this.customOption().set(Option.PVP, true);
 
 		// task
 		this.removeBelowBlockTask();
 	}
 
 	private void removeBelowBlockTask() {
-		this.getTaskManager().registerTask("remove-below-block", () -> {
+		this.taskManager().registerTask("remove-below-block", () -> {
 
-			for (Player p : getLivePlayers()) {
+			for (Player p : livePlayers()) {
 				Location pLoc = p.getLocation();
 
 				// check removingBlock
@@ -78,9 +78,9 @@ public class FallingBlock extends SoloBattleMiniGame {
 			}
 		});
 
-		getTaskManager().registerTask("check-fallen", () -> {
+		taskManager().registerTask("check-fallen", () -> {
 			// only check live players
-			getLivePlayers().stream().filter(p -> isFallen(p)).forEach(p -> onPlayerFall(p));
+			livePlayers().stream().filter(p -> isFallen(p)).forEach(p -> onPlayerFall(p));
 		});
 
 	}
@@ -111,20 +111,20 @@ public class FallingBlock extends SoloBattleMiniGame {
 	protected void initCustomData() {
 		super.initCustomData();
 
-		this.getCustomData().put("pos1", this.getLocation());
-		this.getCustomData().put("pos2", this.getLocation());
+		this.customData().put("pos1", this.location());
+		this.customData().put("pos2", this.location());
 
-		this.getCustomData().put("removing-block", Material.STONE.name());
+		this.customData().put("removing-block", Material.STONE.name());
 	}
 
 	@Override
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		this.pos1 = (Location) getCustomData().get("pos1");
-		this.pos2 = (Location) getCustomData().get("pos2");
+		this.pos1 = (Location) customData().get("pos1");
+		this.pos2 = (Location) customData().get("pos2");
 
-		this.removingBlock = Material.valueOf((String) this.getCustomData().get("removing-block"));
+		this.removingBlock = Material.valueOf((String) this.customData().get("removing-block"));
 	}
 
 	@Override
@@ -143,9 +143,9 @@ public class FallingBlock extends SoloBattleMiniGame {
 	protected void onStart() {
 		super.onStart();
 		// start remove block task
-		getTaskManager().runTaskTimer("remove-below-block", 0, 3);
+		taskManager().runTaskTimer("remove-below-block", 0, 3);
 
-		getTaskManager().runTaskTimer("check-fallen", 0, 10);
+		taskManager().runTaskTimer("check-fallen", 0, 10);
 	}
 
 	@Override

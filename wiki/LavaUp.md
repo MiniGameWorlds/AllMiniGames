@@ -10,7 +10,7 @@
 # How to play
 - Lava will come up to the ceiling!
 - Players have to run away from the lava
-
+- All players have only one chance to get fire resistance when they fall into the lava for a second
 
 
 
@@ -58,8 +58,10 @@ LavaUp:
       z: 0.0
       pitch: 0.0
       yaw: 0.0
+    start-delay: 10
     up-speed: 3.0
     up-scale: 1
+    fire-resistance-duration: 5
     chat: true
     score-notifying: false
     block-break: false
@@ -76,8 +78,10 @@ LavaUp:
 ```
 - `pos1`: First position of area which will be filled up with lava
 - `pos2`: Second position of area which will be filled up with lava
+- `start-delay`: delay for players' escaping 
 - `up-speed`: lava up speed (sec) (decimals)
 - `up-scale`: lava up scale
+- `fire-resistance-duration`: fire resistance duration(only once) when a player falls into the lava 
 
 
 

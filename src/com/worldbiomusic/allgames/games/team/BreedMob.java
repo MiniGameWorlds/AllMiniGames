@@ -17,15 +17,22 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.frames.TeamMiniGame;
 import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.managers.event.GameEvent.State;
 import com.wbm.plugin.util.InventoryTool;
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.Msgs;
 import com.wbm.plugin.util.SoundTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class BreedMob extends TeamMiniGame {
+
+	private int maxHealth;
 
 	private List<Mob> mobs;
 	private List<EntityType> mobList;
@@ -39,31 +46,39 @@ public class BreedMob extends TeamMiniGame {
 		this.mobList = new ArrayList<>();
 
 		// settings
-		this.getSetting().setIcon(Material.ZOMBIE_SPAWN_EGG);
-		this.getCustomOption().set(Option.COLOR, ChatColor.RED);
+		setting().setIcon(Material.ZOMBIE_SPAWN_EGG);
+		customOption().set(Option.COLOR, ChatColor.RED);
+		customOption().set(Option.SCORE_NOTIFYING, false);
 
 		// register task
 		registerMobRetargetingTask();
 	}
 
 	void registerMobRetargetingTask() {
-		this.getTaskManager().registerTask("retarget", new Runnable() {
+		taskManager().registerTask("retarget", () -> {
+			mobs.forEach(m -> {
+				// if has no target, retarget a random player
+				if (m.getTarget() == null || !players().contains(m.getTarget())) {
+					m.setTarget(randomPlayer());
+				}
+			});
+		});
 
-			@Override
-			public void run() {
-				BreedMob.this.mobs.forEach(m -> {
-					// if has no target, retarget a random player
-					if (m.getTarget() == null || !getPlayers().contains(m.getTarget())) {
-						m.setTarget(randomPlayer());
-					}
-				});
-			}
+		taskManager().registerTask("update-actionbar", () -> {
+			updateActionBar();
 		});
 	}
 
 	@Override
 	protected void initGame() {
 		this.mobs = new ArrayList<>();
+	}
+
+	@GameEvent(forced = true, state = State.WAIT)
+	protected void onMobDamaged(EntityDamageEvent e) {
+		if (this.mobs.contains(e.getEntity())) {
+			e.setCancelled(true);
+		}
 	}
 
 	@GameEvent(forced = true)
@@ -80,27 +95,28 @@ public class BreedMob extends TeamMiniGame {
 
 			// clear drops
 			e.getDrops().clear();
+			e.setDroppedExp(0);
 		}
 	}
 
 	@GameEvent
-	protected void onEntityDamageEvent(EntityDamageEvent e) {
+	protected void onPlayerHurt(EntityDamageEvent e) {
 		Player p = (Player) e.getEntity();
 
 		// if death
 		if (p.getHealth() <= e.getDamage()) {
-			e.setCancelled(true);
+			e.setDamage(0);
 
 			// title
 			sendTitle(p, ChatColor.RED + "DIE", "");
 
 			// set live: false
-			this.setLive(p, false);
+			setLive(p, false);
 		}
 	}
 
-	@GameEvent
-	protected void onEntityExplodeEvent(EntityExplodeEvent e) {
+	@GameEvent(forced = true)
+	protected void onEntityExplode(EntityExplodeEvent e) {
 		// prevent block breaking by explosion of creeper
 		if (!this.mobs.contains(e.getEntity())) {
 			return;
@@ -113,7 +129,7 @@ public class BreedMob extends TeamMiniGame {
 		layTwoMobs(e.getEntity().getLocation());
 
 		// sound
-		SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+		SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 	}
 
 	private void layTwoMobs(Location deathLoc) {
@@ -122,14 +138,23 @@ public class BreedMob extends TeamMiniGame {
 		spawnRandomMob(deathLoc);
 
 		// plus score
-		this.plusTeamScore(1);
+		plusTeamScore(1);
+
+		sendTitles(ChatColor.GREEN + "+" + ChatColor.RESET + " 1", "");
+
+		// sound
+		playSounds(Sound.BLOCK_NOTE_BLOCK_BELL);
+	}
+
+	private List<Mob> liveMobs() {
+		return this.mobs.stream().filter(m -> m != null && !m.isDead()).toList();
 	}
 
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = this.getCustomData();
+		Map<String, Object> data = this.customData();
 
 		// mob list
 		List<String> randomMobList = new ArrayList<>();
@@ -144,13 +169,13 @@ public class BreedMob extends TeamMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> data = this.getCustomData();
+		Map<String, Object> data = this.customData();
 
 		// mob list
 		@SuppressWarnings("unchecked")
 		List<String> mobsList = (List<String>) data.get("mobs");
 		mobsList.forEach(m -> {
-			this.mobList.add(EntityType.valueOf(m));
+			mobList.add(EntityType.valueOf(m));
 		});
 	}
 
@@ -159,10 +184,7 @@ public class BreedMob extends TeamMiniGame {
 		super.onStart();
 
 		// spawn random mob
-		spawnRandomMob(getLocation());
-
-		// start task
-		this.getTaskManager().runTaskTimer("retarget", 0, 20 * 5);
+		spawnRandomMob(location());
 
 		// give kits to players
 		List<ItemStack> items = new ArrayList<>();
@@ -172,10 +194,10 @@ public class BreedMob extends TeamMiniGame {
 		items.add(new ItemStack(Material.COOKED_BEEF, 10));
 		items.add(new ItemStack(Material.GOLDEN_APPLE, 3));
 
-		InventoryTool.addItemsToPlayers(getPlayers(), items);
+		InventoryTool.addItemsToPlayers(players(), items);
 
 		// set armors
-		for (Player p : this.getPlayers()) {
+		for (Player p : this.players()) {
 			p.setHealthScale(40);
 			p.getEquipment().setHelmet(new ItemStack(Material.IRON_HELMET));
 			p.getEquipment().setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
@@ -183,6 +205,16 @@ public class BreedMob extends TeamMiniGame {
 			p.getEquipment().setBoots(new ItemStack(Material.IRON_BOOTS));
 			p.getEquipment().setItemInOffHand(new ItemStack(Material.SHIELD));
 		}
+
+		// start task
+		taskManager().runTaskTimer("retarget", 0, 20);
+		taskManager().runTaskTimer("update-actionbar", 0, 10);
+	}
+
+	private void updateActionBar() {
+		String msg = ChatColor.RED + "Mobs: " + ChatColor.WHITE + ChatColor.BOLD + liveMobs().size();
+		msg += ", " + ChatColor.GREEN + "Live players: " + ChatColor.WHITE + ChatColor.BOLD + livePlayersCount();
+		Msgs.msg(players(), ChatMessageType.ACTION_BAR, new TextComponent(msg));
 	}
 
 	@Override
@@ -190,7 +222,7 @@ public class BreedMob extends TeamMiniGame {
 		super.onFinish();
 
 		// remove mobs
-		this.mobs.forEach(e -> e.remove());
+		liveMobs().forEach(e -> e.remove());
 	}
 
 	@Override

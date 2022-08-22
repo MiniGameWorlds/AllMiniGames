@@ -7,12 +7,13 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +22,7 @@ import com.minigameworld.frames.SoloMiniGame;
 import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.minigameworld.managers.event.GameEvent;
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ParticleTool;
 import com.worldbiomusic.allgames.AllMiniGamesMain;
 
 /**
@@ -44,9 +46,9 @@ public class HitMob extends SoloMiniGame implements Listener {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14402);
 
-		getSetting().setIcon(Material.WOODEN_SWORD);
+		setting().setIcon(Material.WOODEN_SWORD);
 
-		getCustomOption().set(Option.COLOR, ChatColor.RED);
+		customOption().set(Option.COLOR, ChatColor.RED);
 
 		// register as a listener
 		Bukkit.getPluginManager().registerEvents(this, AllMiniGamesMain.getInstance());
@@ -56,10 +58,11 @@ public class HitMob extends SoloMiniGame implements Listener {
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		List<ItemStack> playerTools = new ArrayList<ItemStack>();
 		playerTools.add(new ItemStack(Material.WOODEN_SWORD));
+		playerTools.add(new ItemStack(Material.WOODEN_AXE));
 		playerTools.add(new ItemStack(Material.BOW));
 		playerTools.add(new ItemStack(Material.ARROW, 10));
 
@@ -72,7 +75,7 @@ public class HitMob extends SoloMiniGame implements Listener {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		this.tools = (List<ItemStack>) data.get("tools");
 		this.mobType = EntityType.valueOf((String) data.get("mob"));
@@ -99,30 +102,26 @@ public class HitMob extends SoloMiniGame implements Listener {
 		}
 	}
 
-	@GameEvent
-	public void onPlayerDamaged(EntityDamageEvent e) {
-		if (!(e.getEntity() instanceof Player)) {
-			return;
+	@GameEvent(forced = true)
+	public void onEntityDamaged(EntityDamageEvent e) {
+		Entity entity = e.getEntity();
+		if (entity instanceof Player) {
+			onPlayerHurt(e);
+		} else if (entity.equals(this.mob)) {
+			onMobHurt(e);
 		}
-		System.out.println("");
-		Player p = (Player) e.getEntity();
+	}
 
+	private void onPlayerHurt(EntityDamageEvent e) {
+		Player p = (Player) e.getEntity();
 		if (p.getHealth() <= e.getDamage()) {
 			finishGame();
 		}
 	}
 
-	@GameEvent(forced = true)
-	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
-		Entity victim = e.getEntity();
-		if (!victim.equals(this.mob)) {
-			return;
-		}
-
+	private void onMobHurt(EntityDamageEvent e) {
 		int damage = (int) e.getDamage();
 
-		// event detector can detect EntityDamageByEntityEvent if damager is a player or
-		// a shooter of projectile
 		plusScore(damage);
 
 		// title
@@ -130,25 +129,27 @@ public class HitMob extends SoloMiniGame implements Listener {
 
 		// cancel damage dealt to the mob
 		e.setDamage(0);
-
+		playSound(getSoloPlayer(), Sound.BLOCK_NOTE_BLOCK_COW_BELL);
 	}
 
 	@GameEvent(forced = true)
 	protected void onEntityDeathEvent(EntityDeathEvent e) {
-		if (this.mob.equals(e.getEntity())) {
+		if (e.getEntity().equals(this.mob)) {
 			spawnMob();
 		}
 	}
 
 	private void spawnMob() {
-		this.mob = (Mob) getLocation().getWorld().spawnEntity(getLocation(), this.mobType);
+		this.mob = (Mob) location().getWorld().spawnEntity(location(), this.mobType);
+		sendTitles(ChatColor.RED + mob.getName() + ChatColor.RESET + " has spawned!", "", 10, 20, 10);
+		ParticleTool.spawn(this.mob.getLocation(), Particle.CAMPFIRE_COSY_SMOKE, 500, 0.01);
 	}
 
 	@Override
 	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<String>();
-		tutorial.add("Hit mob: " + ChatColor.GREEN + "+1");
-		tutorial.add("Die: finish");
+		tutorial.add("Hit mob: " + ChatColor.GREEN + "+" + ChatColor.RESET + " damage");
+		tutorial.add("Die: game will be finished");
 		return tutorial;
 	}
 

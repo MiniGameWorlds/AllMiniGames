@@ -44,20 +44,20 @@ public class MathGame extends SoloBattleMiniGame {
 		this.maxStage = 5;
 
 		// settings
-		this.getCustomOption().set(Option.SCORE_NOTIFYING, true);
+		this.customOption().set(Option.SCORE_NOTIFYING, true);
 	}
 
 	@Override
 	protected void initGame() {
 		this.resetProblem();
 		this.stage = 1;
-		this.maxStage = (int) this.getCustomData().get("maxStage");
+		this.maxStage = (int) this.customData().get("maxStage");
 	}
 
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
-		Map<String, Object> customData = this.getCustomData();
+		Map<String, Object> customData = this.customData();
 		customData.put("maxStage", 5);
 	}
 

@@ -32,11 +32,11 @@ public class OnePunch extends SoloBattleMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14405);
 
-		getSetting().setIcon(Material.GRASS);
+		setting().setIcon(Material.GRASS);
 
 		// cancel damage from everything
-		getCustomOption().set(Option.PVP, true);
-		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
+		customOption().set(Option.PVP, true);
+		customOption().set(Option.FOOD_LEVEL_CHANGE, false);
 	}
 
 	@GameEvent
@@ -61,7 +61,7 @@ public class OnePunch extends SoloBattleMiniGame {
 		sendTitle(damager, ChatColor.GREEN + "+1", "");
 
 		// sound
-		getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_BELL_USE));
+		players().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_BELL_USE));
 
 		// set victim dead
 		setLive(victim, false);

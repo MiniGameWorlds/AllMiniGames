@@ -112,7 +112,7 @@ public class EventBlockManager {
 
 	private void respawn(Player p) {
 
-		p.teleport(this.parkour.getLocation());
+		p.teleport(this.parkour.location());
 	}
 
 	private void upTeleport(Player p) {

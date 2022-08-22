@@ -45,24 +45,24 @@ public class SuperMob extends SoloBattleMiniGame {
 		this.entities = new ArrayList<>();
 
 		// settings
-		getSetting().setIcon(Material.ZOMBIE_HEAD);
+		setting().setIcon(Material.ZOMBIE_HEAD);
 
 		// options
-		getCustomOption().set(Option.INVENTORY_SAVE, true);
-		getCustomOption().set(Option.PVP, false);
-		getCustomOption().set(Option.COLOR, ChatColor.RED);
+		customOption().set(Option.INVENTORY_SAVE, true);
+		customOption().set(Option.PVP, false);
+		customOption().set(Option.COLOR, ChatColor.RED);
 
 		registerTask();
 	}
 
 	private void registerTask() {
 		// random targeting task
-		getTaskManager().registerTask("changeTarget", new Runnable() {
+		taskManager().registerTask("changeTarget", new Runnable() {
 
 			@Override
 			public void run() {
-				int r = (int) (Math.random() * getPlayerCount());
-				superMob.setTarget(getPlayers().get(r));
+				int r = (int) (Math.random() * playerCount());
+				superMob.setTarget(players().get(r));
 			}
 		});
 	}
@@ -84,7 +84,7 @@ public class SuperMob extends SoloBattleMiniGame {
 		super.onStart();
 
 		// give kits
-		for (Player p : this.getPlayers()) {
+		for (Player p : this.players()) {
 			InventoryTool.addItemToPlayer(p, new ItemStack(Material.IRON_SWORD));
 			InventoryTool.addItemToPlayer(p, new ItemStack(Material.COOKED_PORKCHOP, 20));
 			InventoryTool.addItemToPlayer(p, new ItemStack(Material.BOW));
@@ -99,7 +99,7 @@ public class SuperMob extends SoloBattleMiniGame {
 		}
 
 		// spawn super mob
-		this.superMob = (Zombie) this.getLocation().getWorld().spawnEntity(this.getLocation(), EntityType.ZOMBIE);
+		this.superMob = (Zombie) this.location().getWorld().spawnEntity(this.location(), EntityType.ZOMBIE);
 		this.superMob.setMaxHealth(100_000_000);
 		this.superMob.setHealth(this.superMob.getMaxHealth());
 		this.superMob.getEquipment().setItemInMainHand(new ItemStack(Material.STONE_SWORD));
@@ -116,7 +116,7 @@ public class SuperMob extends SoloBattleMiniGame {
 		this.entities.add(this.superMob);
 
 		// run random targeting task
-		this.getTaskManager().runTaskTimer("changeTarget", 0, 20 * 60);
+		this.taskManager().runTaskTimer("changeTarget", 0, 20 * 60);
 	}
 
 	@Override
@@ -230,12 +230,12 @@ public class SuperMob extends SoloBattleMiniGame {
 		}
 
 		// etc
-		SoundTool.play(getPlayers(), Sound.BLOCK_BELL_USE);
+		SoundTool.play(players(), Sound.BLOCK_BELL_USE);
 		ParticleTool.spawn(this.superMob.getLocation(), Particle.FLAME, 50, 0.2);
 	}
 
 	private void spawnFriends() {
-		int amount = this.getPlayerCount();
+		int amount = this.playerCount();
 		Location loc = this.superMob.getLocation();
 		for (int i = 0; i < amount; i++) {
 			this.spawnMob(loc, EntityType.ZOMBIE);

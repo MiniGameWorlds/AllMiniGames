@@ -35,11 +35,11 @@ public class RemoveBlock extends TeamMiniGame {
 		new Metrics(AllMiniGamesMain.getInstance(), 14393);
 
 		this.registerTasks();
-		this.getSetting().setIcon(Material.STONE_PICKAXE);
+		this.setting().setIcon(Material.STONE_PICKAXE);
 	}
 
 	protected void registerTasks() {
-		this.getTaskManager().registerTask("every5", new Runnable() {
+		this.taskManager().registerTask("every5", new Runnable() {
 			@Override
 			public void run() {
 				minusEveryoneScore(1);
@@ -49,11 +49,11 @@ public class RemoveBlock extends TeamMiniGame {
 
 	@Override
 	protected void initCustomData() {
-		Map<String, Object> data = this.getCustomData();
+		Map<String, Object> data = this.customData();
 
 		// block positions
-		data.put("pos1", this.getLocation());
-		data.put("pos2", this.getLocation());
+		data.put("pos1", this.location());
+		data.put("pos2", this.location());
 
 		// Blocks
 		// save with String (Material doesn't implement ConfigurationSerialization)
@@ -75,11 +75,11 @@ public class RemoveBlock extends TeamMiniGame {
 	@Override
 	public void loadCustomData() {
 		// set positoins
-		this.pos1 = (Location) this.getCustomData().get("pos1");
-		this.pos2 = (Location) this.getCustomData().get("pos2");
+		this.pos1 = (Location) this.customData().get("pos1");
+		this.pos2 = (Location) this.customData().get("pos2");
 
 		@SuppressWarnings("unchecked")
-		List<String> blocksStr = (List<String>) this.getCustomData().get("blocks");
+		List<String> blocksStr = (List<String>) this.customData().get("blocks");
 
 		this.blocks = new ArrayList<>();
 		for (String block : blocksStr) {
@@ -95,7 +95,7 @@ public class RemoveBlock extends TeamMiniGame {
 			e.getBlock().setType(Material.AIR);
 
 			// sound
-			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+			SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
 			if (this.checkAllBlocksRemoved()) {
 				this.finishGame();
@@ -126,13 +126,13 @@ public class RemoveBlock extends TeamMiniGame {
 		items.add(new ItemStack(Material.IRON_SHOVEL));
 		items.add(new ItemStack(Material.IRON_SWORD));
 		items.add(new ItemStack(Material.IRON_HOE));
-		InventoryTool.addItemsToPlayers(this.getPlayers(), items);
+		InventoryTool.addItemsToPlayers(this.players(), items);
 
 		// add default score
-		this.plusEveryoneScore(this.getPlayTime());
+		this.plusEveryoneScore(this.playTime());
 
 		// start minus score timer every 5 sec
-		this.getTaskManager().runTaskTimer("every5", 0, 20 * 5);
+		this.taskManager().runTaskTimer("every5", 0, 20 * 5);
 
 		// refill blocks
 		this.refillAllBlocks();
@@ -141,7 +141,7 @@ public class RemoveBlock extends TeamMiniGame {
 	@Override
 	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
-		tutorial.add("Game Start: +" + this.getPlayTime());
+		tutorial.add("Game Start: +" + this.playTime());
 		tutorial.add("every 5 second: -1");
 		tutorial.add("Remove ALL Blocks: Game End");
 		return tutorial;

@@ -20,23 +20,23 @@ public class Tutorial extends MiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14411);
 
-		getSetting().setIcon(Material.BOOK);
+		setting().setIcon(Material.BOOK);
 
-		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, ChatColor.BOLD);
-		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
-		getCustomOption().set(Option.PLAYER_HURT, false);
-		getCustomOption().set(Option.PVE, false);
+		customOption().set(Option.FOOD_LEVEL_CHANGE, ChatColor.BOLD);
+		customOption().set(Option.FOOD_LEVEL_CHANGE, false);
+		customOption().set(Option.PLAYER_HURT, false);
+		customOption().set(Option.PVE, false);
 
 		// register task (for cancel waitingTimer title)
-		getTaskManager().registerTask("cancelAllTask", () -> getTaskManager().cancelAllTasks());
+		taskManager().registerTask("cancelAllTask", () -> taskManager().cancelAllTasks());
 	}
 
 	@Override
 	protected void initGame() {
 		// remove system tasks (_waiting-timer, _finish-timer)
 		// game will not finish until the player leave the game
-		getTaskManager().runTaskLater("cancelAllTask", 20);
-		getTaskManager().runTaskTimer("cancelAllTask", 0, 20 * 5);
+		taskManager().runTaskLater("cancelAllTask", 20);
+		taskManager().runTaskTimer("cancelAllTask", 0, 20 * 5);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class Tutorial extends MiniGame {
 	}
 
 	@Override
-	public String getFrameType() {
+	public String frameType() {
 		return "Custom";
 	}
 }

@@ -1,10 +1,12 @@
 package com.worldbiomusic.allgames.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.kohsuke.github.GHContent;
+import org.kohsuke.github.GHFileNotFoundException;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
@@ -23,7 +25,6 @@ public class UpdateChecker {
 
 		String latestVersion = getLatestVersion(pluginName);
 		if (latestVersion == null) {
-			Utils.warning(pluginName + " is not exist in the download directory");
 			return false;
 		}
 
@@ -56,7 +57,12 @@ public class UpdateChecker {
 			GitHub github = GitHub.connectAnonymously();
 			GHRepository repo = github.getRepositoryById(429867428);
 
-			List<GHContent> files = repo.getDirectoryContent("download");
+			List<GHContent> files = new ArrayList<>();
+			try {
+				files = repo.getDirectoryContent("download");
+			} catch (GHFileNotFoundException e) {
+				Utils.warning("Can not check " + pluginName + " latest version.");
+			}
 
 			for (GHContent file : files) {
 				String fileName = file.getName();

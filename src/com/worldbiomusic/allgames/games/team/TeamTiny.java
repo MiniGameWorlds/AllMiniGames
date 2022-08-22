@@ -43,16 +43,16 @@ public class TeamTiny extends TeamMiniGame {
 		// bstats
 		new Metrics(AllMiniGamesMain.getInstance(), 14403);
 
-		getSetting().setIcon(Material.STONE_BUTTON);
+		setting().setIcon(Material.STONE_BUTTON);
 
-		getCustomOption().set(Option.COLOR, ChatColor.GRAY);
+		customOption().set(Option.COLOR, ChatColor.GRAY);
 	}
 
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		data.put("mob", EntityType.BAT.name());
 		data.put("shootDelay", 1);
@@ -62,7 +62,7 @@ public class TeamTiny extends TeamMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		this.entityType = EntityType.valueOf((String) data.get("mob"));
 		this.shootDelay = (int) data.get("shootDelay");
@@ -76,7 +76,7 @@ public class TeamTiny extends TeamMiniGame {
 		summonEntity();
 
 		// give tools to player
-		getPlayers().forEach(p -> p.getInventory().addItem(new ItemStack(Material.SNOWBALL)));
+		players().forEach(p -> p.getInventory().addItem(new ItemStack(Material.SNOWBALL)));
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class TeamTiny extends TeamMiniGame {
 			plusTeamScore(1);
 
 			// sound
-			SoundTool.play(getPlayers(), Sound.BLOCK_NOTE_BLOCK_CHIME);
+			SoundTool.play(players(), Sound.BLOCK_NOTE_BLOCK_CHIME);
 
 			// particle
 			spawnHitParticles(hitEntity);
@@ -135,6 +135,9 @@ public class TeamTiny extends TeamMiniGame {
 
 	@GameEvent(forced = true)
 	protected void onEntityDeathEvent(EntityDeathEvent e) {
+		if(e.getEntity() == null) {
+			return;
+		}
 		if (e.getEntity().equals(this.entity)) {
 			summonEntity();
 		}
@@ -145,7 +148,7 @@ public class TeamTiny extends TeamMiniGame {
 	}
 
 	private void summonEntity() {
-		this.entity = getLocation().getWorld().spawnEntity(getLocation(), this.entityType);
+		this.entity = location().getWorld().spawnEntity(location(), this.entityType);
 	}
 
 	@Override

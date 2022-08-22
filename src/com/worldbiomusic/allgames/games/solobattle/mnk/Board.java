@@ -115,7 +115,7 @@ public class Board {
 			Player currentTurnP = getCurrentTurnPlayer().getPlayer();
 
 			// give score
-			this.mnk.getGamePlayer(currentTurnP).plusScore(1);
+			this.mnk.gamePlayer(currentTurnP).plusScore(1);
 
 			this.players.forEach(all -> {
 				sendMsg(all.getPlayer(), currentTurnP.getName() + ChatColor.GREEN + " WIN");
@@ -159,8 +159,8 @@ public class Board {
 		// placed count
 		this.mnk.sendMessages("\n================================");
 		this.mnk.sendMessages("" + ChatColor.GOLD + ChatColor.BOLD + "[Placed Count]");
-		MNKPlayer p1 = getPlayers().get(0);
-		MNKPlayer p2 = getPlayers().get(1);
+		MNKPlayer p1 = players().get(0);
+		MNKPlayer p2 = players().get(1);
 
 		this.mnk.sendMessages(String.format("%s(%d) : %s(%d)", p1.getPlayer().getName(), p1.getPlacedCount(),
 				p2.getPlayer().getName(), p2.getPlacedCount()));
@@ -291,7 +291,7 @@ public class Board {
 		return boardChecker;
 	}
 
-	public List<MNKPlayer> getPlayers() {
+	public List<MNKPlayer> players() {
 		return players;
 	}
 
